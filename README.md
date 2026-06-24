@@ -1,0 +1,1 @@
+# LINGO_LEGACY_HQ
