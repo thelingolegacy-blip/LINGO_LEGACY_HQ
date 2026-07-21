@@ -17,3 +17,6 @@ How to use:
 2. Copy or submodule project-specific repos into the appropriate folders, or use this repo as the single source-of-truth.
 
 Contact: dlingo@thelingolegacy (placeholder)
+
+## Blueprints
+- Lingo Legacy Phase 5 Product and Platform Specification: `07_DOCS/Lingo_Legacy_Phase_5_Product_Platform_Spec.md`
