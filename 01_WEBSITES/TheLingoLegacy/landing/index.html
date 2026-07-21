@@ -3,31 +3,40 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>The Lingo Legacy — Landing</title>
-  <style>body{font-family:Arial,Helvetica,sans-serif;background:#0b0f13;color:#e6eef6;padding:24px}a{color:#7aa2ff}</style>
+  <title>The Lingo Legacy — Master Landing Universe</title>
+  <style>
+    :root{color-scheme:dark;--ink:#050816;--panel:rgba(8,13,31,.78);--line:rgba(255,255,255,.16);--gold:#f7c948;--cyan:#62f7ff;--pink:#ff4fd8;--green:#5dff9f;--text:#eaf6ff;--muted:#a9bbd0}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 12% 18%,rgba(98,247,255,.18),transparent 34rem),radial-gradient(circle at 86% 18%,rgba(255,79,216,.18),transparent 30rem),linear-gradient(135deg,#050816,#071017 48%,#14091e);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;line-height:1.6;overflow-x:hidden}body::before{content:"";position:fixed;inset:0;pointer-events:none;background-image:radial-gradient(circle,rgba(255,255,255,.65) 0 1px,transparent 1.5px);background-size:96px 96px;opacity:.14;animation:stars 40s linear infinite}main{position:relative;width:min(1120px,calc(100% - 32px));margin:auto;padding:36px 0 84px}.hero{min-height:70vh;display:grid;align-items:center;grid-template-columns:minmax(0,1fr) minmax(300px,.8fr);gap:28px}.eyebrow{letter-spacing:.18em;text-transform:uppercase;color:var(--cyan);font-weight:900}.hero h1{font-size:clamp(3rem,9vw,7.5rem);line-height:.9;margin:.08em 0 .22em;letter-spacing:-.07em}.hero p{color:var(--muted);font-size:clamp(1.05rem,2vw,1.3rem)}.actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:28px}.cta{display:inline-flex;border-radius:999px;padding:13px 18px;background:var(--gold);color:#111;text-decoration:none;font-weight:950}.cta.secondary{background:rgba(255,255,255,.08);border:1px solid var(--line);color:var(--text)}.portal{position:relative;min-height:420px;border:1px solid var(--line);border-radius:34px;background:conic-gradient(from 180deg,rgba(98,247,255,.18),rgba(255,79,216,.18),rgba(247,201,72,.18),rgba(93,255,159,.15),rgba(98,247,255,.18));box-shadow:0 30px 90px rgba(0,0,0,.34);overflow:hidden}.portal::before{content:"";position:absolute;inset:13%;border-radius:50%;border:2px solid rgba(255,255,255,.22);box-shadow:0 0 80px rgba(98,247,255,.24),inset 0 0 90px rgba(255,79,216,.2);animation:spin 24s linear infinite}.orb{position:absolute;border-radius:999px;display:grid;place-items:center;font-weight:1000;color:#071017}.games{width:128px;height:128px;left:9%;top:14%;background:linear-gradient(135deg,var(--green),var(--cyan))}.music{width:118px;height:118px;right:10%;top:18%;background:linear-gradient(135deg,var(--pink),#ffd1f6)}.shop{width:140px;height:140px;left:19%;bottom:13%;background:linear-gradient(135deg,var(--gold),#ff8b3d)}.crew{width:126px;height:126px;right:16%;bottom:14%;background:linear-gradient(135deg,#8b5cf6,var(--cyan))}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;margin-top:40px}.card{border:1px solid var(--line);border-radius:24px;padding:22px;background:var(--panel);box-shadow:0 22px 70px rgba(0,0,0,.28);transition:transform .3s ease}.card:hover{transform:translateY(-6px)}.icon{width:52px;height:52px;border-radius:18px;display:grid;place-items:center;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16);color:var(--gold);font-weight:1000;margin-bottom:14px}.card h2,.card h3{margin:0 0 8px}.card p{margin:0;color:var(--muted)}.sound{position:fixed;left:18px;bottom:18px;border:1px solid var(--line);background:rgba(5,8,22,.8);color:white;border-radius:999px;padding:12px 16px;font-weight:900;cursor:pointer}.reveal{opacity:0;transform:translateY(26px);transition:opacity .65s ease,transform .65s ease}.reveal.visible{opacity:1;transform:none}@keyframes stars{to{transform:translate(-96px,96px)}}@keyframes spin{to{transform:rotate(360deg)}}@media(max-width:840px){.hero{grid-template-columns:1fr}.portal{min-height:380px}}
+  </style>
 </head>
 <body>
-  <header>
-    <h1>The Lingo Legacy</h1>
-    <p>Hub for games, music, apparel, and community.</p>
-    <nav>
-      <a href="/02_GAMES/">Games</a> • <a href="/03_MUSIC_DIVISION/">Music</a> • <a href="/04_MEDIA/">Media</a>
-    </nav>
-  </header>
-
   <main>
-    <section>
-      <h2>Projects</h2>
-      <ul>
-        <li><a href="/02_GAMES/KottonsCode/">KottonsCode (Game)</a></li>
-        <li><a href="/03_MUSIC_DIVISION/ZAVIONE/">ZAVIONE (Music)</a></li>
-        <li><a href="/02_GAMES/GrandPhillyLingoCity/">GrandPhilly: Lingo City (Game)</a></li>
-      </ul>
+    <section class="hero reveal">
+      <div>
+        <p class="eyebrow">HQ master landing page</p>
+        <h1>One legacy. Many universes.</h1>
+        <p>This master website skeleton now documents the richer direction for every child site: animated backgrounds, identity icons, optional background music, and sections that feel like different worlds.</p>
+        <div class="actions"><a class="cta" href="/02_GAMES/">Games</a><a class="cta secondary" href="/03_MUSIC_DIVISION/">Music</a><a class="cta secondary" href="/04_MEDIA/">Media</a></div>
+      </div>
+      <div class="portal" aria-label="Lingo Legacy identity portal"><div class="orb games">Games</div><div class="orb music">Music</div><div class="orb shop">Shop</div><div class="orb crew">Crew</div></div>
+    </section>
+
+    <section class="grid" aria-label="Identity icons">
+      <article class="card reveal"><div class="icon">G</div><h2>Game Identity</h2><p>KottonsCode, GrandPhilly: Lingo City, Spades, educational worlds, and character-first launch pages.</p></article>
+      <article class="card reveal"><div class="icon">M</div><h2>Music Identity</h2><p>ZAVIONE, theme songs, media drops, background tracks, and artist portals.</p></article>
+      <article class="card reveal"><div class="icon">S</div><h2>Store Identity</h2><p>Apparel, books, payments, sponsors, partner offers, and merchandise universes.</p></article>
+      <article class="card reveal"><div class="icon">C</div><h2>Community Identity</h2><p>Waitlists, loyalty, nonprofit expansion, creator collabs, support, and social launch squads.</p></article>
+    </section>
+
+    <section class="grid" aria-label="Next phases">
+      <article class="card reveal"><h3>Phase 1: Atmosphere</h3><p>Every page gets motion, cosmic background energy, and a clear visual identity.</p></article>
+      <article class="card reveal"><h3>Phase 2: Direction</h3><p>Every section points visitors to a project, payment, waitlist, support, or partner action.</p></article>
+      <article class="card reveal"><h3>Phase 3: Expansion</h3><p>Child projects can inherit the identity system while adding their own content and assets.</p></article>
     </section>
   </main>
-
-  <footer>
-    <p>Contact placeholder: dlingo@thelingolegacy</p>
-  </footer>
+  <button class="sound" type="button" aria-pressed="false">Music: off</button>
+  <script>
+    const reveal=[...document.querySelectorAll('.reveal')];const io='IntersectionObserver'in window&&new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.18});reveal.forEach(el=>io?io.observe(el):el.classList.add('visible'));
+    let ctx,gain,timer,step=0,connected=false;const notes=[130.81,164.81,196,246.94,293.66,246.94,196,164.81];const btn=document.querySelector('.sound');btn.addEventListener('click',()=>{const on=btn.getAttribute('aria-pressed')!=='true';btn.setAttribute('aria-pressed',String(on));btn.textContent=on?'Music: on':'Music: off';if(!on){clearInterval(timer);timer=null;return;}const AudioCtor=window.AudioContext||window.webkitAudioContext;if(!AudioCtor){btn.textContent='Music unavailable';btn.setAttribute('aria-pressed','false');return;}ctx=ctx||new AudioCtor();if(ctx.state==='suspended')ctx.resume();gain=gain||ctx.createGain();gain.gain.value=.045;if(!connected){gain.connect(ctx.destination);connected=true;}timer=setInterval(()=>{const now=ctx.currentTime,osc=ctx.createOscillator(),g=ctx.createGain();osc.type=step%4?'triangle':'sine';osc.frequency.value=notes[step++%notes.length];g.gain.setValueAtTime(0,now);g.gain.linearRampToValueAtTime(.22,now+.03);g.gain.exponentialRampToValueAtTime(.001,now+.72);osc.connect(g).connect(gain);osc.start(now);osc.stop(now+.76)},420)});
+  </script>
 </body>
 </html>
