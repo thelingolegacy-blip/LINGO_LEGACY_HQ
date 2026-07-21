@@ -31,3 +31,9 @@ Short mission statement.
 
 ## Appendix
 - Contact list, email placeholders, asset ownership
+
+## Current strategic blueprint
+- Lingo Legacy Phase 5 Product and Platform Specification: `Lingo_Legacy_Phase_5_Product_Platform_Spec.md`
+
+## Current strategic blueprint
+- Lingo Legacy Phase 6 Build Modules: `Lingo_Legacy_Phase_6_Build_Modules.md`
