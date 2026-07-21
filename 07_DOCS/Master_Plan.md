@@ -31,3 +31,6 @@ Short mission statement.
 
 ## Appendix
 - Contact list, email placeholders, asset ownership
+
+## Current game blueprint
+- That's My Lingo Phase 5 Launch, Marketing, Growth, and Ecosystem Integration Package: `Thats_My_Lingo_Phase_5_Launch_Marketing_Growth_Package.md`
