@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Lingo Legacy Master Load Sequence</title>
+  <style>
+    :root{--bg:#07090d;--panel:#101722;--gold:#d8ad4c;--neon:#55d6ff;--text:#edf3f8;--muted:#a8b3bd}
+    *{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(145deg,#05070a,#111927 48%,#05070a);color:var(--text);line-height:1.6}
+    main{max-width:1120px;margin:0 auto;padding:32px}a{color:var(--neon)}header,section{background:rgba(16,23,34,.9);border:1px solid #243140;border-radius:18px;padding:24px;margin:20px 0;box-shadow:0 18px 55px rgba(0,0,0,.25)}
+    .eyebrow{color:var(--gold);letter-spacing:.14em;text-transform:uppercase;font-size:.78rem}h1{font-size:clamp(2rem,5vw,4rem);line-height:1;margin:12px 0}h2{margin-top:0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}.card{border:1px solid #2a3b4d;border-radius:14px;padding:16px;background:#0b121b}
+    pre{white-space:pre-wrap;background:#05070a;border-left:4px solid var(--gold);padding:16px;border-radius:10px;overflow:auto}.pill{display:inline-block;border:1px solid var(--neon);border-radius:999px;padding:6px 10px;margin:4px;color:var(--neon)}li{margin:6px 0}.note{color:var(--muted)}
+  </style>
+</head>
+<body>
+<main>
+  <p><a href="/">Back home</a></p>
+  <header>
+    <div class="eyebrow">Master Load Sequence</div>
+    <h1>The Lingo Legacy v1.0 Foundation</h1>
+    <p>The connected platform structure for Lingo.ai, Lingo ID, games, publishing, apparel, media, commerce, community, and enterprise operations.</p>
+  </header>
+
+  <section>
+    <h2>Platform Structure</h2>
+    <pre>THE LINGO LEGACY
+├── Lingo.ai: Ask Lingo, AI Writing, AI Creation, AI Business, AI Code, AI Voice, AI Automation
+├── Lingo ID: Accounts, Profiles, Wallet, XP, Rewards, Memberships
+├── Games Universe: That's My Lingo, Kotton's Code, Legacy Zombies, Spades, Lingo City, UhOh Lingo University
+├── Publishing Universe: Books, Ebooks, Audiobooks, Interactive Learning
+├── Apparel Universe: Loyalty Lane, Tap Stitch, Shadow Noir, Obsidian Closet, Limited Drops
+├── Media Studio: Movies, Animation, YouTube, TikTok, Podcasts, Music
+├── Commerce: Store, Subscriptions, Payments, Inventory, Shipping
+├── Community: Loyalty Lane Cycles, Iconic House of Avalon, Events, Donations, Programs
+└── Enterprise Control: Admin, Analytics, Legal, Developer Portal, Support, Security</pre>
+  </section>
+
+  <section>
+    <h2>Core Systems Loaded</h2>
+    <div>
+      <span class="pill">Main website architecture</span><span class="pill">App ecosystem</span><span class="pill">AI assistant layer</span><span class="pill">User accounts</span><span class="pill">Subscriptions</span><span class="pill">Payments</span><span class="pill">Domains</span><span class="pill">Email</span><span class="pill">Product catalog</span><span class="pill">Game network</span><span class="pill">Publishing</span><span class="pill">Apparel</span><span class="pill">Community programs</span><span class="pill">Developer ecosystem</span><span class="pill">Admin operations</span>
+    </div>
+  </section>
+
+  <section>
+    <h2>Lingo Legacy v1.0 Build Files</h2>
+    <div class="grid">
+      <div class="card"><h3>Homepage UI/UX</h3><p>Industrial Noir layout, navigation, Lingo ID CTA, Ask Lingo entry, product sections, newsletter signup.</p></div>
+      <div class="card"><h3>Mobile App Screen Map</h3><p>Onboarding, dashboard, Ask Lingo, games, marketplace, wallet, rewards, settings, and Guardian controls.</p></div>
+      <div class="card"><h3>Database Schema</h3><p>Users, profiles, memberships, wallet, XP, products, orders, agents, workflows, media, community, and support.</p></div>
+      <div class="card"><h3>API Architecture</h3><p>Auth, users, Lingo ID, AI, agents, automation, products, orders, payments, rewards, admin, support, analytics.</p></div>
+      <div class="card"><h3>Billing and Admin</h3><p>Subscription checkout, renewal handling, failed payment flows, admin modules, legal center, and security operations.</p></div>
+      <div class="card"><h3>Launch Package</h3><p>Entity websites, App Store and Play Store prep, domain verification, analytics, legal pages, support, and rollback plan.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Vercel Production Foundation</h2>
+    <ul>
+      <li>Next.js frontend deployed on Vercel</li>
+      <li>Vercel Functions for APIs and admin operations</li>
+      <li>Vercel Cron Jobs for scheduled reminders, summaries, and syncs</li>
+      <li>Vercel Blob for documents, reports, generated files, and media uploads</li>
+      <li>Vercel AI Gateway for Ask Lingo model routing</li>
+      <li>Vercel Web Analytics and Speed Insights for traffic and Core Web Vitals</li>
+      <li>Neon via the Vercel Marketplace for relational data; Vercel Postgres is no longer first-party and existing databases were migrated in December 2024</li>
+      <li>Upstash Redis via the Vercel Marketplace for queues and short-lived workflow state; Vercel KV is no longer first-party and existing stores were migrated in December 2024</li>
+    </ul>
+    <p class="note">Financial, identity, admin, and AI automation actions should require explicit permissions, audit logs, revocable access, and manual approval for high-risk operations.</p>
+  </section>
+</main>
+</body>
+</html>
