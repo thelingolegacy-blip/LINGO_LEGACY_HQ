@@ -31,3 +31,6 @@ Short mission statement.
 
 ## Appendix
 - Contact list, email placeholders, asset ownership
+
+## Current game blueprint
+- That's My Lingo Phase 4 Release and Live Service Package: `Thats_My_Lingo_Phase_4_Release_Live_Service_Package.md`
