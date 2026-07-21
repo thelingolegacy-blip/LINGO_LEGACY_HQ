@@ -31,3 +31,6 @@ Short mission statement.
 
 ## Appendix
 - Contact list, email placeholders, asset ownership
+
+## Current strategic blueprint
+- Lingo Legacy All-Phases Production Specification: `Lingo_Legacy_All_Phases_Production_Spec.md`

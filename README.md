@@ -17,3 +17,6 @@ How to use:
 2. Copy or submodule project-specific repos into the appropriate folders, or use this repo as the single source-of-truth.
 
 Contact: dlingo@thelingolegacy (placeholder)
+
+## Blueprints
+- Lingo Legacy All-Phases Production Specification: `07_DOCS/Lingo_Legacy_All_Phases_Production_Spec.md`
