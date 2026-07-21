@@ -17,3 +17,5 @@ How to use:
 2. Copy or submodule project-specific repos into the appropriate folders, or use this repo as the single source-of-truth.
 
 Contact: dlingo@thelingolegacy (placeholder)
+## Blueprints
+- Lingo Legacy Master Load Sequence: `07_DOCS/Lingo_Legacy_Master_Load_Sequence.md`

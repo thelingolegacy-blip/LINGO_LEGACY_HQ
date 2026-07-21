@@ -31,3 +31,6 @@ Short mission statement.
 
 ## Appendix
 - Contact list, email placeholders, asset ownership
+
+## Current strategic blueprint
+- Lingo Legacy Master Load Sequence: `Lingo_Legacy_Master_Load_Sequence.md`
