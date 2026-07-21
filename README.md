@@ -17,3 +17,6 @@ How to use:
 2. Copy or submodule project-specific repos into the appropriate folders, or use this repo as the single source-of-truth.
 
 Contact: dlingo@thelingolegacy (placeholder)
+
+## Blueprints
+- That's My Lingo Phase 5 Launch, Marketing, Growth, and Ecosystem Integration Package: `07_DOCS/Thats_My_Lingo_Phase_5_Launch_Marketing_Growth_Package.md`
