@@ -17,3 +17,6 @@ How to use:
 2. Copy or submodule project-specific repos into the appropriate folders, or use this repo as the single source-of-truth.
 
 Contact: dlingo@thelingolegacy (placeholder)
+
+## Blueprints
+- That's My Lingo Phase 3 Visual, Audio, Animation, and Live Operations Package: `07_DOCS/Thats_My_Lingo_Phase_3_Visual_Audio_LiveOps_Package.md`

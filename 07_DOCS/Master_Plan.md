@@ -31,3 +31,6 @@ Short mission statement.
 
 ## Appendix
 - Contact list, email placeholders, asset ownership
+
+## Current game blueprint
+- That's My Lingo Phase 3 Visual, Audio, Animation, and Live Operations Package: `Thats_My_Lingo_Phase_3_Visual_Audio_LiveOps_Package.md`
