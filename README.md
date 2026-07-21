@@ -17,3 +17,6 @@ How to use:
 2. Copy or submodule project-specific repos into the appropriate folders, or use this repo as the single source-of-truth.
 
 Contact: dlingo@thelingolegacy (placeholder)
+
+## Blueprints
+- That's My Lingo Phase 4 Release and Live Service Package: `07_DOCS/Thats_My_Lingo_Phase_4_Release_Live_Service_Package.md`

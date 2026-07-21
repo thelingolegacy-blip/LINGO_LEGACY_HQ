@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>That's My Lingo Phase 4 Release Package</title>
+  <style>
+    :root{--bg:#07090d;--panel:#101722;--gold:#d8ad4c;--neon:#55d6ff;--text:#edf3f8;--muted:#a8b3bd}
+    *{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:radial-gradient(circle at top,#1b2636,#07090d 50%);color:var(--text);line-height:1.6}
+    main{max-width:1180px;margin:0 auto;padding:32px}a{color:var(--neon)}header,section{background:rgba(16,23,34,.92);border:1px solid #263548;border-radius:18px;padding:24px;margin:20px 0;box-shadow:0 18px 55px rgba(0,0,0,.25)}
+    .eyebrow{color:var(--gold);letter-spacing:.14em;text-transform:uppercase;font-size:.78rem}h1{font-size:clamp(2rem,5vw,4rem);line-height:1;margin:12px 0}h2{margin-top:0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}.card{border:1px solid #2a3b4d;border-radius:14px;padding:16px;background:#0b121b}.card h3{margin-top:0;color:#fff}
+    pre{white-space:pre-wrap;background:#05070a;border-left:4px solid var(--gold);padding:16px;border-radius:10px;overflow:auto}li{margin:6px 0}.note{color:var(--muted)}
+  </style>
+</head>
+<body>
+<main>
+  <p><a href="/">Back home</a></p>
+  <header>
+    <div class="eyebrow">Phase 4 Release Package</div>
+    <h1>That's My Lingo Production Release and Live Service</h1>
+    <p>Launch-ready operating system for codebase structure, Firebase backend, Remote Config, economy, progression, VIP, live ops, marketing, analytics, QA, and release workflow.</p>
+  </header>
+
+  <section>
+    <h2>Production Codebase</h2>
+    <pre>thats-my-lingo-production/
+├── client/src
+│   ├── scenes
+│   ├── systems
+│   └── components
+├── backend/firebase
+│   ├── auth
+│   ├── firestore
+│   ├── functions
+│   └── storage
+├── admin/dashboard
+│   ├── players
+│   ├── economy
+│   ├── events
+│   └── analytics
+└── assets
+    ├── art
+    ├── audio
+    ├── animation
+    └── marketing</pre>
+  </section>
+
+  <section>
+    <h2>Backend and Economy</h2>
+    <div class="grid">
+      <div class="card"><h3>Firebase Auth</h3><p>Email, Google, Apple, guest play, and account linking.</p></div>
+      <div class="card"><h3>Player Save</h3><p>User ID, username, level, XP, coins, tokens, VIP, total spins, biggest win, free spins, themes, achievements.</p></div>
+      <div class="card"><h3>Remote Config</h3><p>Spin costs, daily rewards, bonus multipliers, events, promotions, bonus frequency, and new symbols.</p></div>
+      <div class="card"><h3>Economy</h3><p>Demo Coins, Loyalty Bucks, Lingo Tokens, earning, spending, rewards, limits, and promotions.</p></div>
+      <div class="card"><h3>Progression</h3><p>New Player, Lingo Explorer, Legacy Player, Lingo VIP, and Legacy Legend levels.</p></div>
+      <div class="card"><h3>VIP</h3><p>Daily bonus, exclusive symbols, VIP room, special events, profile badge, and early access.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Live Service Operations</h2>
+    <div class="grid">
+      <div class="card"><h3>Live Ops Dashboard</h3><p>Events, rewards, players, economy, promo codes, tournaments, support, analytics, and audit logs.</p></div>
+      <div class="card"><h3>Marketing Automation</h3><p>Welcome reward, Day 3 free spins, Day 7 VIP offer, comeback bonus, event invitation, and reward reminders.</p></div>
+      <div class="card"><h3>Analytics</h3><p>Spins, wins, losses, session length, revenue, purchases, subscriptions, ads, daily users, retention, referrals.</p></div>
+      <div class="card"><h3>QA</h3><p>Reel accuracy, reward accuracy, save system, device coverage, load speed, memory usage, network handling.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Launch Day</h2>
+    <ol>
+      <li>Server monitoring active.</li>
+      <li>App released.</li>
+      <li>Marketing campaign begins.</li>
+      <li>Player feedback collected.</li>
+      <li>Bugs prioritized.</li>
+      <li>First update scheduled.</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>First 90 Days</h2>
+    <ul>
+      <li>Month 1: fix bugs, improve onboarding, add rewards.</li>
+      <li>Month 2: add events, social features, and VIP.</li>
+      <li>Month 3: add tournaments, new themes, and deeper Lingo Legacy integration.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Vercel + Firebase Deployment</h2>
+    <ul>
+      <li>Vercel for HTML5 web build, preview deployments, and production releases.</li>
+      <li>Vercel Functions for web/API routes that are not Firebase-native.</li>
+      <li>Vercel Cron Jobs for scheduled reports and non-Firebase syncs.</li>
+      <li>Vercel Blob for reports, generated exports, and marketing/download packages.</li>
+      <li>Vercel Web Analytics and Speed Insights for web traffic and Core Web Vitals.</li>
+      <li>Firebase for auth, Firestore game state, Cloud Functions, Storage, Remote Config, and Firebase Analytics where retained.</li>
+    </ul>
+  </section>
+</main>
+</body>
+</html>
