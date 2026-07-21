@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>That's My Lingo Game Production Blueprint</title>
+  <style>
+    :root{--bg:#07090d;--panel:#101722;--gold:#d8ad4c;--neon:#55d6ff;--text:#edf3f8;--muted:#a8b3bd}
+    *{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:radial-gradient(circle at top,#1b2636,#07090d 50%);color:var(--text);line-height:1.6}
+    main{max-width:1180px;margin:0 auto;padding:32px}a{color:var(--neon)}header,section{background:rgba(16,23,34,.92);border:1px solid #263548;border-radius:18px;padding:24px;margin:20px 0;box-shadow:0 18px 55px rgba(0,0,0,.25)}
+    .eyebrow{color:var(--gold);letter-spacing:.14em;text-transform:uppercase;font-size:.78rem}h1{font-size:clamp(2rem,5vw,4rem);line-height:1;margin:12px 0}h2{margin-top:0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}.card{border:1px solid #2a3b4d;border-radius:14px;padding:16px;background:#0b121b}.card h3{margin-top:0;color:#fff}
+    pre{white-space:pre-wrap;background:#05070a;border-left:4px solid var(--gold);padding:16px;border-radius:10px;overflow:auto}li{margin:6px 0}.note{color:var(--muted)}
+  </style>
+</head>
+<body>
+<main>
+  <p><a href="/">Back home</a></p>
+  <header>
+    <div class="eyebrow">HTML5 / Phaser Game Package</div>
+    <h1>That's My Lingo</h1>
+    <p>Complete production blueprint for a social casino slot entertainment game targeting web, mobile web, iOS wrapper, Android wrapper, and future desktop builds.</p>
+  </header>
+
+  <section>
+    <h2>Core Game Loop</h2>
+    <pre>Player Login
+  ↓
+Receive Coins
+  ↓
+Spin Reels
+  ↓
+Match Symbols
+  ↓
+Win Rewards
+  ↓
+Earn XP
+  ↓
+Unlock Features
+  ↓
+Return Daily</pre>
+  </section>
+
+  <section>
+    <h2>Game Systems</h2>
+    <div class="grid">
+      <div class="card"><h3>Slot Engine</h3><p>5 reels, 3 rows, 20 paylines, spin, auto spin, turbo, free spins, bonus rounds, jackpot events.</p></div>
+      <div class="card"><h3>Currencies</h3><p>Demo Coins for practice, Loyalty Bucks for rewards/promotions, and Lingo Tokens for premium features and events.</p></div>
+      <div class="card"><h3>Symbols</h3><p>Lingo Star, Legacy Crown, Diamond Token, Microphone, Book, Lightning Bolt, Seven, Lucky Coin, Lingo Wild, Legacy Portal.</p></div>
+      <div class="card"><h3>Player Progress</h3><p>Coins, tokens, XP, level, inventory, achievements, daily rewards, leaderboards, cloud save.</p></div>
+      <div class="card"><h3>Shop</h3><p>Avatars, Noir Casino, Gold Room, Neon Room, XP Boost, Lucky Spin, Free Spin Pack, VIP rewards.</p></div>
+      <div class="card"><h3>Marketing</h3><p>Trailer, social packs, app icon, screenshots, banners, promotional video, store assets.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Phaser Production Structure</h2>
+    <pre>thats-my-lingo/
+├── public/
+├── src/
+├── scenes/
+│   ├── BootScene.js
+│   ├── LoadScene.js
+│   ├── MenuScene.js
+│   ├── SlotScene.js
+│   ├── BonusScene.js
+│   ├── RewardScene.js
+│   └── SettingsScene.js
+├── systems/
+│   ├── SlotEngine.js
+│   ├── WalletSystem.js
+│   ├── XPSystem.js
+│   ├── RewardSystem.js
+│   ├── AchievementSystem.js
+│   ├── AudioSystem.js
+│   └── SaveSystem.js
+├── objects/
+├── firebase/
+├── assets/
+└── styles/</pre>
+  </section>
+
+  <section>
+    <h2>Scene Flow</h2>
+    <ul>
+      <li>Splash Screen: Lingo Legacy logo, That's My Lingo logo, loading animation.</li>
+      <li>Main Menu: Play, Rewards, Shop, Leaderboard, Profile, Settings.</li>
+      <li>Slot Room: tokens, XP level, reels, bet controls, spin, free spins, bonus, jackpot.</li>
+      <li>Bonus and Reward scenes for special events, prize reveals, and daily rewards.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Backend and Deployment</h2>
+    <ul>
+      <li>Firebase for authentication, player profiles, cloud save, rewards, leaderboards, analytics, and remote configuration.</li>
+      <li>Vercel for the HTML5 web build, preview deployments, production deployment, and Vercel Functions where server-side game APIs are needed.</li>
+      <li>Vercel Blob can store generated exports, reports, and non-critical media packages; immutable asset URLs are preferred for production cache behavior.</li>
+      <li>Vercel Web Analytics and Speed Insights can track site traffic and Core Web Vitals for the web build.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Phase 3 Next Package</h2>
+    <ul>
+      <li>Full UI design system</li>
+      <li>Character mascots</li>
+      <li>Complete animation library</li>
+      <li>Sound design catalog</li>
+      <li>Firebase Functions</li>
+      <li>Admin dashboard</li>
+      <li>Live events system</li>
+      <li>App Store and Google Play launch package</li>
+      <li>QA testing checklist</li>
+    </ul>
+  </section>
+</main>
+</body>
+</html>
