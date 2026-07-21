@@ -17,3 +17,6 @@ How to use:
 2. Copy or submodule project-specific repos into the appropriate folders, or use this repo as the single source-of-truth.
 
 Contact: dlingo@thelingolegacy (placeholder)
+
+## Blueprints
+- Lingo.ai ecosystem and homepage blueprint: `07_DOCS/Lingo_AI_Ecosystem_and_Homepage_Blueprint.md`
