@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Lingo Legacy Phase 6 Build Modules</title>
+  <style>
+    :root{--bg:#07090d;--panel:#101722;--gold:#d8ad4c;--neon:#55d6ff;--text:#edf3f8;--muted:#a8b3bd}
+    *{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(145deg,#05070a,#121c2a 50%,#05070a);color:var(--text);line-height:1.6}
+    main{max-width:1180px;margin:0 auto;padding:32px}a{color:var(--neon)}header,section{background:rgba(16,23,34,.92);border:1px solid #263548;border-radius:18px;padding:24px;margin:20px 0;box-shadow:0 18px 55px rgba(0,0,0,.25)}
+    .eyebrow{color:var(--gold);letter-spacing:.14em;text-transform:uppercase;font-size:.78rem}h1{font-size:clamp(2rem,5vw,4rem);line-height:1;margin:12px 0}h2{margin-top:0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}.card{border:1px solid #2a3b4d;border-radius:14px;padding:16px;background:#0b121b}
+    pre{white-space:pre-wrap;background:#05070a;border-left:4px solid var(--gold);padding:16px;border-radius:10px;overflow:auto}li{margin:6px 0}.note{color:var(--muted)}
+  </style>
+</head>
+<body>
+<main>
+  <p><a href="/">Back home</a></p>
+  <header>
+    <div class="eyebrow">Phase 6</div>
+    <h1>Build Modules Specification</h1>
+    <p>Implementation-ready modules for database schema, APIs, app screens, website layouts, payments, email automation, legal pages, and launch checklist.</p>
+  </header>
+
+  <section>
+    <h2>Database Schema Domains</h2>
+    <div class="grid">
+      <div class="card"><h3>Identity</h3><p>Users, profiles, security settings, privacy, guardian mode, preferences, membership tier, XP, and rewards.</p></div>
+      <div class="card"><h3>Wallet and XP</h3><p>Wallets, wallet transactions, XP events, achievements, user achievements, rewards, and history.</p></div>
+      <div class="card"><h3>Commerce</h3><p>Products, orders, order items, subscriptions, provider references, inventory, and payment status.</p></div>
+      <div class="card"><h3>AI and Automation</h3><p>Agents, conversations, messages, memory, workflows, and audit logs.</p></div>
+      <div class="card"><h3>Content and Community</h3><p>Games, books, apparel collections, media projects, programs, events, support tickets, and newsletter subscribers.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>API Groups</h2>
+    <pre>/api/auth
+/api/users
+/api/profiles
+/api/privacy
+/api/wallet
+/api/xp
+/api/achievements
+/api/subscriptions
+/api/billing
+/api/products
+/api/cart
+/api/orders
+/api/payments
+/api/agents
+/api/ai
+/api/memory
+/api/admin
+/api/support
+/api/analytics</pre>
+  </section>
+
+  <section>
+    <h2>App and Admin Screens</h2>
+    <div class="grid">
+      <div class="card"><h3>Mobile App</h3><p>Onboarding, Create Lingo ID, Home, Ask Lingo, Games, Books, Store, Wallet, Rewards, Community, Notifications, Profile, Settings.</p></div>
+      <div class="card"><h3>Ask Lingo</h3><p>Chat, Voice, Create, History, Projects, Tools, Wallet, and Profile flows.</p></div>
+      <div class="card"><h3>Admin HQ</h3><p>Executive Overview, Users, Products, Orders, Subscriptions, Finance, Marketing, AI Agents, Automations, Content, Support, Legal, Security, Analytics.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Website Layouts</h2>
+    <ul>
+      <li>TheLingoLegacy.com: Home, Lingo ID, Ask Lingo, games, books, apparel, marketplace, community, membership, support, legal.</li>
+      <li>shop.thelingolegacy.com: storefront, collections, product detail, cart, checkout, orders.</li>
+      <li>games.thelingolegacy.com: game hub, title pages, leaderboards, rewards, events.</li>
+      <li>books.thelingolegacy.com: publishing hub, book details, learning resources, audiobooks.</li>
+      <li>developer.thelingolegacy.com: API docs, SDKs, keys, examples, status.</li>
+      <li>support.thelingolegacy.com and admin.thelingolegacy.com: support intake and private operations.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Payment and Subscription Architecture</h2>
+    <pre>Cart validation
+  ↓
+Checkout session
+  ↓
+Payment completion
+  ↓
+Webhook verification
+  ↓
+Order + wallet + XP + entitlement updates
+  ↓
+Confirmation email + notification</pre>
+    <p class="note">Required controls: webhook signature verification, idempotency keys, fraud review hooks, refund/dispute tracking, admin-only adjustments, and audit logs.</p>
+  </section>
+
+  <section>
+    <h2>Email, Legal, and Launch</h2>
+    <div class="grid">
+      <div class="card"><h3>Email Automation</h3><p>Verification, password reset, receipts, renewal reminders, failed payment, cancellation, support, rewards, launches, drops, and events.</p></div>
+      <div class="card"><h3>Legal Pages</h3><p>Terms, Privacy, Cookie Policy, Refund Policy, Subscription Terms, Community Guidelines, Creator Terms, Developer Terms, AI Use Policy, Guardian Controls, Accessibility.</p></div>
+      <div class="card"><h3>Launch Checklist</h3><p>Domains, Vercel project, env vars, database, Blob, AI Gateway, Cron Jobs, analytics, webhooks, email sender, legal, support, rollback plan.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Vercel Production Foundation</h2>
+    <ul>
+      <li>Vercel project, preview deployments, production deployments, Vercel Functions, and Cron Jobs.</li>
+      <li>Vercel Blob for uploads, exports, media files, generated assets, and reports.</li>
+      <li>Vercel AI Gateway for Ask Lingo model routing and AI tool orchestration.</li>
+      <li>Vercel Web Analytics and Speed Insights for traffic, engagement, and Core Web Vitals.</li>
+      <li>Neon via the Vercel Marketplace for relational data; Vercel Postgres is no longer first-party and existing databases were migrated in December 2024.</li>
+      <li>Upstash Redis via the Vercel Marketplace for cache, queues, rate limits, and workflow state; Vercel KV is no longer first-party and existing stores were migrated in December 2024.</li>
+    </ul>
+  </section>
+</main>
+</body>
+</html>
