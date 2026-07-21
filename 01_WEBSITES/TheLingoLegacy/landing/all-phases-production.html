@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Lingo Legacy All-Phases Production Spec</title>
+  <style>
+    :root{--bg:#07090d;--panel:#101722;--gold:#d8ad4c;--neon:#55d6ff;--text:#edf3f8;--muted:#a8b3bd}
+    *{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:radial-gradient(circle at top,#1a2638,#07090d 48%);color:var(--text);line-height:1.6}
+    main{max-width:1180px;margin:0 auto;padding:32px}a{color:var(--neon)}header,section{background:rgba(16,23,34,.92);border:1px solid #263548;border-radius:18px;padding:24px;margin:20px 0;box-shadow:0 18px 55px rgba(0,0,0,.25)}
+    .eyebrow{color:var(--gold);letter-spacing:.14em;text-transform:uppercase;font-size:.78rem}h1{font-size:clamp(2rem,5vw,4rem);line-height:1;margin:12px 0}h2{margin-top:0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}.card{border:1px solid #2a3b4d;border-radius:14px;padding:16px;background:#0b121b}.card h3{margin-top:0;color:#fff}
+    ol,ul{padding-left:22px}li{margin:6px 0}.phase{border-left:4px solid var(--gold)}.system{border-left:4px solid var(--neon)}.note{color:var(--muted)}
+  </style>
+</head>
+<body>
+<main>
+  <p><a href="/">Back home</a></p>
+  <header>
+    <div class="eyebrow">Phase 1–12</div>
+    <h1>All-Phases Production Specification</h1>
+    <p>The complete execution framework for turning The Lingo Legacy into a connected technology, entertainment, education, commerce, and community ecosystem.</p>
+  </header>
+
+  <section>
+    <h2>Production Phases</h2>
+    <div class="grid">
+      <div class="card phase"><h3>1. Foundation and Brand</h3><p>Company foundation, mission, brand guidelines, trademark/IP inventory, asset library, and product naming registry.</p></div>
+      <div class="card phase"><h3>2. Digital Infrastructure</h3><p>Domains, Vercel project structure, deployment workflow, storage, database, email, analytics, and security baseline.</p></div>
+      <div class="card phase"><h3>3. Core Platform</h3><p>Lingo ID, profiles, Universal Wallet, XP Engine, rewards, notifications, Guardian controls, and audit logs.</p></div>
+      <div class="card phase"><h3>4. Lingo.ai Platform</h3><p>Ask Lingo MVP, chat, voice, writing, creator, business, developer tools, Lingo Memory, permissions, and audit trails.</p></div>
+      <div class="card phase"><h3>5. Mobile Application</h3><p>Super App shell with onboarding, Ask Lingo, games, books, store, wallet, rewards, community, profile, and settings.</p></div>
+      <div class="card phase"><h3>6. Game Universe</h3><p>Shared game services, player profiles, cloud saves, leaderboards, achievements, rewards, purchases, events, and analytics.</p></div>
+      <div class="card phase"><h3>7. Publishing</h3><p>Publishing catalog, book pages, ebooks, audiobooks, activity books, interactive learning, and purchase/download flows.</p></div>
+      <div class="card phase"><h3>8. Apparel and Commerce</h3><p>Storefront, products, collections, cart, checkout, orders, inventory, coupons, reviews, shipping, and drops.</p></div>
+      <div class="card phase"><h3>9. Media Studio</h3><p>Media catalog, production schedule, release calendar, channel strategy, licensing tracker, asset storage, and exports.</p></div>
+      <div class="card phase"><h3>10. Community and Nonprofit</h3><p>Iconic House of Avalon, Loyalty Lane Cycles, programs, events, donations, partnerships, and impact reporting.</p></div>
+      <div class="card phase"><h3>11. Business Operations</h3><p>Admin HQ, finance, subscriptions, payroll, vendors, CRM, support, legal, security operations, and analytics.</p></div>
+      <div class="card phase"><h3>12. Global Expansion</h3><p>International websites, localization, enterprise workspaces, partners, licensing, developer marketplace, AR/VR, wearables.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Shared Platform Services</h2>
+    <div class="grid">
+      <div class="card system"><h3>Lingo ID</h3><p>Universal identity for accounts, profiles, privacy, Guardian controls, and access across the ecosystem.</p></div>
+      <div class="card system"><h3>Wallet + XP + Rewards</h3><p>Unified ledger for loyalty points, transactions, achievements, purchases, memberships, and incentives.</p></div>
+      <div class="card system"><h3>Ask Lingo</h3><p>AI assistant and tool center powered by permissioned memory, agents, audit logs, and Vercel AI Gateway routing.</p></div>
+      <div class="card system"><h3>Admin HQ</h3><p>Operations center for users, products, orders, subscriptions, finance, marketing, support, legal, security, and analytics.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Final Execution Order</h2>
+    <ol>
+      <li>Secure domains, brand registry, and infrastructure.</li>
+      <li>Build TheLingoLegacy.com gateway.</li>
+      <li>Build Lingo ID, profile, privacy, and security settings.</li>
+      <li>Build Universal Wallet, XP, rewards, and notifications.</li>
+      <li>Build Ask Lingo MVP and Lingo.ai Tool Center.</li>
+      <li>Build commerce checkout and subscription lifecycle.</li>
+      <li>Build Admin HQ and support/legal operations.</li>
+      <li>Launch first game MVP and connect rewards.</li>
+      <li>Launch publishing catalog and first book flows.</li>
+      <li>Launch apparel storefront and drops.</li>
+      <li>Launch media calendar and community program pages.</li>
+      <li>Add developer portal, enterprise planning, localization, and global expansion tracks.</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>Vercel Implementation Baseline</h2>
+    <ul>
+      <li>Next.js for web apps and admin dashboards.</li>
+      <li>Vercel Functions for APIs and backend routes.</li>
+      <li>Vercel Cron Jobs for reminders, summaries, syncs, and reports.</li>
+      <li>Vercel Blob for uploads, reports, generated files, exports, and media assets.</li>
+      <li>Vercel AI Gateway for Ask Lingo model routing and AI tool orchestration.</li>
+      <li>Vercel Web Analytics and Speed Insights for traffic, engagement, and Core Web Vitals.</li>
+      <li>Neon via the Vercel Marketplace for relational data; Vercel Postgres is no longer first-party and existing databases were migrated in December 2024.</li>
+      <li>Upstash Redis via the Vercel Marketplace for cache, queues, rate limits, and workflow state; Vercel KV is no longer first-party and existing stores were migrated in December 2024.</li>
+    </ul>
+  </section>
+</main>
+</body>
+</html>
