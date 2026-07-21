@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="assets/entity-experience.css" />
   <link rel="manifest" href="site.webmanifest" />
   <meta name="theme-color" content="#f7c948" />
+  <link rel="stylesheet" href="assets/launch-activation.css" />
 </head>
 <body>
   <main>
@@ -42,5 +43,6 @@
     let ctx,gain,timer,step=0,connected=false;const notes=[130.81,164.81,196,246.94,293.66,246.94,196,164.81];const btn=document.querySelector('.sound');btn.addEventListener('click',()=>{const on=btn.getAttribute('aria-pressed')!=='true';btn.setAttribute('aria-pressed',String(on));btn.textContent=on?'Music: on':'Music: off';if(!on){clearInterval(timer);timer=null;return;}const AudioCtor=window.AudioContext||window.webkitAudioContext;if(!AudioCtor){btn.textContent='Music unavailable';btn.setAttribute('aria-pressed','false');return;}ctx=ctx||new AudioCtor();if(ctx.state==='suspended')ctx.resume();gain=gain||ctx.createGain();gain.gain.value=.045;if(!connected){gain.connect(ctx.destination);connected=true;}timer=setInterval(()=>{const now=ctx.currentTime,osc=ctx.createOscillator(),g=ctx.createGain();osc.type=step%4?'triangle':'sine';osc.frequency.value=notes[step++%notes.length];g.gain.setValueAtTime(0,now);g.gain.linearRampToValueAtTime(.22,now+.03);g.gain.exponentialRampToValueAtTime(.001,now+.72);osc.connect(g).connect(gain);osc.start(now);osc.stop(now+.76)},420)});
   </script>
   <script defer src="assets/entity-experience.js"></script>
+  <script defer src="assets/launch-activation.js"></script>
 </body>
 </html>
