@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Lingo.ai Ecosystem and Homepage Blueprint</title>
+  <style>
+    :root{--bg:#07090d;--panel:#101722;--gold:#d8ad4c;--neon:#55d6ff;--text:#edf3f8;--muted:#a8b3bd}
+    *{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:radial-gradient(circle at top,#172233 0,#07090d 42%);color:var(--text);line-height:1.6}
+    main{max-width:1120px;margin:0 auto;padding:32px}a{color:var(--neon)}header{padding:48px 0;border-bottom:1px solid #243140}.eyebrow{color:var(--gold);letter-spacing:.14em;text-transform:uppercase;font-size:.78rem}
+    h1{font-size:clamp(2.2rem,6vw,4.8rem);line-height:1;margin:12px 0}h2{color:#fff;margin-top:0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}.card,section{background:rgba(16,23,34,.88);border:1px solid #243140;border-radius:16px;padding:22px;margin:20px 0;box-shadow:0 18px 55px rgba(0,0,0,.25)}
+    .tagline{color:var(--muted);font-size:1.2rem;max-width:760px}.cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}.button{border:1px solid var(--gold);color:#0b0f13;background:var(--gold);text-decoration:none;padding:10px 14px;border-radius:999px;font-weight:700}.button.secondary{background:transparent;color:var(--neon);border-color:var(--neon)}
+    li{margin:6px 0}.journey{white-space:pre-wrap;background:#071017;border-left:4px solid var(--neon);padding:16px;border-radius:10px}.note{color:var(--muted)}
+  </style>
+</head>
+<body>
+<main>
+  <p><a href="/">Back home</a></p>
+  <header>
+    <div class="eyebrow">Loyalty. Legacy. Language.</div>
+    <h1>Welcome to The Lingo Legacy</h1>
+    <p class="tagline">A universe built through stories, games, creativity, technology, and community.</p>
+    <div class="cta">
+      <a class="button" href="#legacy-id">Create Lingo ID</a>
+      <a class="button secondary" href="#ecosystem">Explore Ecosystem</a>
+      <a class="button secondary" href="#roadmap">View Roadmap</a>
+    </div>
+  </header>
+
+  <section id="ecosystem">
+    <h2>Lingo.ai Ecosystem Expansion</h2>
+    <div class="grid">
+      <div class="card"><h3>Lingo Agent Marketplace</h3><p>Business, Marketing, Developer, and Creative Agents that users can activate as specialized AI workers.</p></div>
+      <div class="card"><h3>Lingo Automation Hub</h3><p>Tell Lingo once, automate forever: workflows for sales, inventory, communication, reports, and data syncing.</p></div>
+      <div class="card"><h3>Lingo Memory</h3><p>Permissioned preferences, projects, documents, brand rules, workflows, and writing style with view, edit, delete, and off controls.</p></div>
+      <div class="card"><h3>Lingo Vision and Voice</h3><p>Image, video, speech-to-text, text-to-speech, voice commands, meeting summaries, and accessibility tools.</p></div>
+      <div class="card"><h3>Lingo Studio and Learning</h3><p>Creator production tools, tutoring, language learning, reading help, quizzes, progress tracking, and teacher tools.</p></div>
+      <div class="card"><h3>Lingo Enterprise and Developer Cloud</h3><p>Company workspaces, admin controls, custom AI assistants, APIs, SDKs, payments, analytics, and developer onboarding.</p></div>
+    </div>
+  </section>
+
+  <section id="legacy-id">
+    <h2>Lingo ID: One Account. One Legacy.</h2>
+    <p>Connect games, books, rewards, shopping, profiles, achievements, and community through a universal profile, XP system, rewards wallet, and personalized experience.</p>
+  </section>
+
+  <section>
+    <h2>Homepage Gateway</h2>
+    <div class="grid">
+      <div class="card"><h3>Gaming Universe</h3><p>That's My Lingo, Kotton's Code, Legacy Zombies, Spades Is My Lingo, and Lingo City.</p></div>
+      <div class="card"><h3>Story Universe</h3><p>Legacy Legends: heroes, villains, worlds, adventures, Shadow Noire, Bulldog Legacy Bridge, and future expansions.</p></div>
+      <div class="card"><h3>Publishing</h3><p>Kotton's Code and Say It Again books, learning tools, activity books, audiobooks, and speech-focused resources.</p></div>
+      <div class="card"><h3>Apparel and Lifestyle</h3><p>Loyalty Lane collections including Tap Stitch, Industrial Noir, Founder Collection, Kids Collection, and Premium Drops.</p></div>
+      <div class="card"><h3>Community Impact</h3><p>Iconic House of Avalon youth programs, education, community events, resource support, and giving initiatives.</p></div>
+      <div class="card"><h3>Legacy Marketplace</h3><p>Apparel, books, digital products, collectibles, memberships, exclusive drops, agents, templates, workflows, and courses.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Technical Stack</h2>
+    <ul>
+      <li>Next.js, TypeScript, and Tailwind CSS on Vercel</li>
+      <li>Vercel Functions, Cron Jobs, Blob, Web Analytics, Speed Insights, and AI Gateway</li>
+      <li>Neon via the Vercel Marketplace for relational data; Vercel Postgres is no longer first-party and existing databases were migrated in December 2024</li>
+      <li>Upstash Redis via the Vercel Marketplace for queues and cache; Vercel KV is no longer first-party and existing stores were migrated in December 2024</li>
+      <li>Firebase can remain for intentionally retained authentication, Firestore, or Cloud Functions workloads while Vercel serves the frontend and deployment layer</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Primary User Journey</h2>
+    <div class="journey">Visitor
+  ↓
+TheLingoLegacy.com
+  ↓
+Create Lingo ID
+  ↓
+Explore Worlds
+  ↓
+Play Games
+  ↓
+Read Books
+  ↓
+Shop Products
+  ↓
+Earn Rewards
+  ↓
+Become Part of The Legacy</div>
+  </section>
+
+  <section id="roadmap">
+    <h2>Deployment Roadmap</h2>
+    <ol>
+      <li>Launch the Industrial Noir homepage gateway.</li>
+      <li>Add Lingo ID profiles, rewards, membership, and privacy controls.</li>
+      <li>Preview Ask Lingo with Business, Marketing, Developer, and Creative Agents.</li>
+      <li>Launch marketplace listings and automation recipes.</li>
+      <li>Add Enterprise workspaces and Developer Cloud APIs.</li>
+    </ol>
+    <p class="note">Financial, device, and business-system automation must require explicit permissions, audit logs, revocable access, and manual approval for high-risk actions.</p>
+  </section>
+</main>
+</body>
+</html>

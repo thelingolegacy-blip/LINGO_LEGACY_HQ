@@ -4,6 +4,7 @@
 Short mission statement.
 
 ## Ecosystem Overview
+- AI, Identity, and Marketplace Expansion
 - Games Division
 - Music Division
 - Media & YouTube
@@ -31,3 +32,6 @@ Short mission statement.
 
 ## Appendix
 - Contact list, email placeholders, asset ownership
+
+## Current strategic blueprint
+- Lingo.ai ecosystem and homepage blueprint: `Lingo_AI_Ecosystem_and_Homepage_Blueprint.md`
