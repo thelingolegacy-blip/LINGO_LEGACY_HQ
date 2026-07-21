@@ -31,3 +31,6 @@ Short mission statement.
 
 ## Appendix
 - Contact list, email placeholders, asset ownership
+
+## Current game blueprint
+- That's My Lingo HTML5 / Phaser Production Blueprint: `Thats_My_Lingo_HTML5_Phaser_Production_Blueprint.md`

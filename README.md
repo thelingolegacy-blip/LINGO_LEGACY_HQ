@@ -17,3 +17,6 @@ How to use:
 2. Copy or submodule project-specific repos into the appropriate folders, or use this repo as the single source-of-truth.
 
 Contact: dlingo@thelingolegacy (placeholder)
+
+## Blueprints
+- That's My Lingo HTML5 / Phaser Production Blueprint: `07_DOCS/Thats_My_Lingo_HTML5_Phaser_Production_Blueprint.md`
