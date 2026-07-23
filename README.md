@@ -25,3 +25,7 @@ See `07_DOCS/blueprint-studio-phase-2.md` for the shared Creative OS, asset taxo
 ## Production Dashboard Architecture
 
 See `07_DOCS/production-dashboard-architecture.md` for the Admin Command Center, Asset Vault Ops Dashboard, HQ operating map, core modules, and next implementation targets.
+
+## Premium Studio Production Layout System
+
+See `07_DOCS/premium-production-layout-system.md` for the shared high-premium layout language across web, game, asset, book, and GDevelop surfaces.
