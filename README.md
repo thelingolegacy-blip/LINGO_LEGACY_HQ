@@ -9,7 +9,7 @@ Top-level folders:
 - 04_MEDIA: YouTube and media assets
 - 05_ASSETS: visuals, sounds, animations, source files
 - 06_CODE: engine folders and build notes
-- 07_DOCS: master plan, game design bible template, blueprints
+- 07_DOCS: master plan, game design bible template, blueprints, and the Blueprint Studio Phase 2 operating map
 - 08_EXPORTS: exportable PDFs and conversion tools
 
 How to use:
@@ -17,3 +17,7 @@ How to use:
 2. Copy or submodule project-specific repos into the appropriate folders, or use this repo as the single source-of-truth.
 
 Contact: dlingo@thelingolegacy (placeholder)
+
+## Blueprint Studio Phase 2
+
+See `07_DOCS/blueprint-studio-phase-2.md` for the shared Creative OS, asset taxonomy, dashboard modules, studio pipelines, automation flow, and wireframe checklist.
