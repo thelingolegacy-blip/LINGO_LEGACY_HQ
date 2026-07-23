@@ -21,3 +21,7 @@ Contact: dlingo@thelingolegacy (placeholder)
 ## Blueprint Studio Phase 2
 
 See `07_DOCS/blueprint-studio-phase-2.md` for the shared Creative OS, asset taxonomy, dashboard modules, studio pipelines, automation flow, and wireframe checklist.
+
+## Production Dashboard Architecture
+
+See `07_DOCS/production-dashboard-architecture.md` for the Admin Command Center, Asset Vault Ops Dashboard, HQ operating map, core modules, and next implementation targets.
