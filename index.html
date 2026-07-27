@@ -3,340 +3,43 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Lingo Legacy Studio — Live Command Floor</title>
-    <meta name="description" content="The Lingo Legacy live studio floor: worlds, games, assets, publishing, and production lanes presented as one cinematic command center." />
+    <title>The Lingo Legacy — Festival Command Portal</title>
+    <meta name="description" content="A high-energy, festival-grade live portal for The Lingo Legacy platform: estate overview, customization, smart systems, design consults, and real-time IoT event architecture." />
     <meta name="theme-color" content="#07070b" />
-    <link rel="canonical" href="https://characterbible.vercel.app" />
-    <meta property="og:title" content="Lingo Legacy Studio — Live Command Floor" />
-    <meta property="og:description" content="A studio-grade command floor for the Lingo Legacy ecosystem." />
+    <link rel="canonical" href="https://characterbible-thelingolegacy.vercel.app" />
+    <meta property="og:title" content="The Lingo Legacy — Festival Command Portal" />
+    <meta property="og:description" content="Four live performance zones, an interactive estate map, and real-time MQTT/WebSocket architecture in one studio-grade portal." />
     <meta property="og:type" content="website" />
     <script defer src="/_vercel/insights/script.js"></script>
     <script defer src="/_vercel/speed-insights/script.js"></script>
     <style>
-      :root {
-        color-scheme: dark;
-        --bg: #07070b;
-        --panel: rgba(16, 18, 27, 0.78);
-        --panel-strong: rgba(20, 22, 34, 0.94);
-        --line: rgba(245, 207, 103, 0.28);
-        --line-blue: rgba(87, 229, 255, 0.28);
-        --text: #fff8df;
-        --muted: #c8bea7;
-        --gold: #f5cf67;
-        --cyan: #57e5ff;
-        --violet: #9c6bff;
-        --danger: #ff5f8c;
-        --shadow: 0 30px 120px rgba(0, 0, 0, 0.62);
-      }
-
-      * { box-sizing: border-box; }
-      html { scroll-behavior: smooth; }
-      body {
-        margin: 0;
-        min-height: 100vh;
-        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-        color: var(--text);
-        background:
-          radial-gradient(circle at 14% 10%, rgba(156, 107, 255, 0.28), transparent 28rem),
-          radial-gradient(circle at 82% 12%, rgba(87, 229, 255, 0.2), transparent 26rem),
-          radial-gradient(circle at 52% 74%, rgba(245, 207, 103, 0.18), transparent 28rem),
-          linear-gradient(180deg, #11121b 0%, var(--bg) 48%, #020204 100%);
-        overflow-x: hidden;
-      }
-
-      body::before {
-        content: "";
-        position: fixed;
-        inset: 0;
-        pointer-events: none;
-        background:
-          linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px),
-          linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px);
-        background-size: 54px 54px;
-        mask-image: linear-gradient(#000, transparent 78%);
-      }
-
-      a { color: inherit; text-decoration: none; }
-      .wrap { width: min(1180px, calc(100% - 32px)); margin: 0 auto; }
-
-      .topbar {
-        position: sticky;
-        top: 0;
-        z-index: 10;
-        border-bottom: 1px solid rgba(255,255,255,.08);
-        background: rgba(5, 5, 8, 0.7);
-        backdrop-filter: blur(18px);
-      }
-
-      nav {
-        min-height: 72px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 22px;
-      }
-
-      .brand {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        font-weight: 950;
-        letter-spacing: -.045em;
-      }
-
-      .mark {
-        width: 38px;
-        height: 38px;
-        border-radius: 14px;
-        background: conic-gradient(from 220deg, var(--gold), var(--cyan), var(--violet), var(--gold));
-        box-shadow: 0 0 34px rgba(245,207,103,.32);
-      }
-
-      .navlinks { display: flex; gap: 18px; color: var(--muted); font-weight: 800; font-size: .92rem; }
-      .navlinks a:hover { color: var(--text); }
-
-      .hero {
-        min-height: calc(100vh - 72px);
-        display: grid;
-        grid-template-columns: .92fr 1.08fr;
-        gap: 34px;
-        align-items: center;
-        padding: 64px 0 42px;
-      }
-
-      .eyebrow {
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        padding: 9px 13px;
-        border: 1px solid var(--line);
-        border-radius: 999px;
-        background: rgba(245,207,103,.08);
-        color: var(--gold);
-        text-transform: uppercase;
-        letter-spacing: .15em;
-        font-size: .72rem;
-        font-weight: 1000;
-      }
-
-      h1 {
-        margin: 20px 0 18px;
-        font-size: clamp(3.8rem, 8.7vw, 8.4rem);
-        line-height: .83;
-        letter-spacing: -.085em;
-        text-transform: uppercase;
-      }
-
-      h1 span {
-        display: block;
-        background: linear-gradient(115deg, #fff8c8, var(--gold) 34%, var(--cyan) 72%, #fff);
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-        text-shadow: 0 0 54px rgba(87,229,255,.16);
-      }
-
-      .lead {
-        max-width: 670px;
-        color: var(--muted);
-        font-size: clamp(1.05rem, 1.8vw, 1.28rem);
-        line-height: 1.68;
-      }
-
-      .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
-      .button {
-        min-height: 50px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 999px;
-        padding: 13px 18px;
-        border: 1px solid rgba(255,255,255,.14);
-        background: rgba(255,255,255,.07);
-        font-weight: 950;
-      }
-      .button.primary {
-        color: #140b02;
-        border: 0;
-        background: linear-gradient(135deg, #fff0a6, var(--gold), var(--cyan));
-        box-shadow: 0 18px 70px rgba(245,207,103,.24);
-      }
-
-      .studio-card {
-        position: relative;
-        min-height: 640px;
-        border: 1px solid var(--line);
-        border-radius: 44px;
-        overflow: hidden;
-        background:
-          radial-gradient(circle at 50% 0%, rgba(245,207,103,.2), transparent 18rem),
-          linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.035));
-        box-shadow: var(--shadow);
-      }
-
-      .studio-card::before {
-        content: "";
-        position: absolute;
-        inset: -40%;
-        background: conic-gradient(transparent, rgba(245,207,103,.28), transparent, rgba(87,229,255,.24), transparent);
-        animation: spin 18s linear infinite;
-      }
-
-      .stage-inner {
-        position: absolute;
-        inset: 14px;
-        z-index: 1;
-        border-radius: 34px;
-        background: rgba(5, 6, 10, .84);
-        overflow: hidden;
-      }
-
-      .stage-inner::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background:
-          linear-gradient(120deg, transparent, rgba(255,255,255,.08), transparent),
-          radial-gradient(ellipse at 50% 100%, rgba(245,207,103,.24), transparent 54%);
-      }
-
-      .console {
-        position: absolute;
-        inset: 26px;
-        z-index: 2;
-        display: grid;
-        grid-template-rows: auto 1fr auto;
-        gap: 18px;
-      }
-
-      .status-row, .dock {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 12px;
-      }
-
-      .pill, .module {
-        border: 1px solid rgba(255,255,255,.12);
-        border-radius: 22px;
-        background: rgba(255,255,255,.065);
-        padding: 14px;
-      }
-
-      .pill strong, .module strong { display: block; color: var(--gold); font-size: .86rem; text-transform: uppercase; letter-spacing: .09em; }
-      .pill span, .module span { display: block; margin-top: 6px; color: var(--muted); font-size: .92rem; line-height: 1.45; }
-
-      .command-core {
-        display: grid;
-        place-items: center;
-        text-align: center;
-        border: 1px solid var(--line-blue);
-        border-radius: 34px;
-        background:
-          radial-gradient(circle at 50% 34%, rgba(87,229,255,.16), transparent 15rem),
-          rgba(255,255,255,.045);
-      }
-
-      .command-core b {
-        display: block;
-        font-size: clamp(2.6rem, 6vw, 5.4rem);
-        line-height: .88;
-        letter-spacing: -.07em;
-        text-transform: uppercase;
-      }
-
-      .command-core p { max-width: 460px; margin: 16px auto 0; color: var(--muted); line-height: 1.55; }
-
-      .rails {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 14px;
-        margin: -18px auto 72px;
-      }
-
-      .rail {
-        min-height: 184px;
-        border: 1px solid rgba(255,255,255,.12);
-        border-radius: 28px;
-        padding: 20px;
-        background: linear-gradient(160deg, rgba(255,255,255,.105), rgba(255,255,255,.035));
-        box-shadow: 0 24px 90px rgba(0,0,0,.26);
-      }
-
-      .rail small { color: var(--cyan); font-weight: 950; letter-spacing: .12em; text-transform: uppercase; }
-      .rail h2 { margin: 12px 0 8px; font-size: 1.18rem; }
-      .rail p { margin: 0; color: var(--muted); line-height: 1.55; }
-
-      @keyframes spin { to { transform: rotate(360deg); } }
-
-      @media (prefers-reduced-motion: reduce) {
-        *, *::before, *::after { animation-duration: 1ms !important; scroll-behavior: auto !important; }
-      }
-
-      @media (max-width: 940px) {
-        .hero { grid-template-columns: 1fr; padding-top: 46px; }
-        .studio-card { min-height: 560px; }
-        .rails { grid-template-columns: repeat(2, 1fr); }
-      }
-
-      @media (max-width: 620px) {
-        .navlinks { display: none; }
-        h1 { font-size: 3.35rem; }
-        .studio-card { min-height: 560px; border-radius: 30px; }
-        .status-row, .dock, .rails { grid-template-columns: 1fr; }
-        .console { inset: 16px; }
-      }
+      :root{color-scheme:dark;--bg:#06070c;--ink:#fff9e8;--muted:#cfc2a8;--gold:#f6ca56;--teal:#38f5d2;--green:#62ff7b;--blue:#56c7ff;--purple:#a777ff;--red:#ff5d83;--glass:rgba(16,19,32,.76);--line:rgba(246,202,86,.28);--line2:rgba(86,199,255,.26);--shadow:0 34px 120px rgba(0,0,0,.58)}
+      *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);background:radial-gradient(circle at 13% 7%,rgba(98,255,123,.22),transparent 24rem),radial-gradient(circle at 82% 12%,rgba(86,199,255,.25),transparent 26rem),radial-gradient(circle at 55% 72%,rgba(246,202,86,.18),transparent 32rem),linear-gradient(180deg,#151424 0%,var(--bg) 46%,#020205 100%);overflow-x:hidden}body:before{content:"";position:fixed;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px);background-size:52px 52px;mask-image:linear-gradient(#000,transparent 76%)}a{color:inherit;text-decoration:none}.wrap{width:min(1200px,calc(100% - 32px));margin:auto}.top{position:sticky;top:0;z-index:20;background:rgba(5,6,11,.72);border-bottom:1px solid rgba(255,255,255,.09);backdrop-filter:blur(18px)}nav{min-height:74px;display:flex;align-items:center;justify-content:space-between;gap:18px}.brand{display:flex;align-items:center;gap:12px;font-weight:1000;letter-spacing:-.045em}.mark{width:40px;height:40px;border-radius:15px;background:conic-gradient(from 210deg,var(--gold),var(--teal),var(--purple),var(--green),var(--gold));box-shadow:0 0 34px rgba(246,202,86,.35)}.links{display:flex;gap:16px;color:var(--muted);font-weight:850;font-size:.92rem}.hero{min-height:calc(100vh - 74px);display:grid;grid-template-columns:.88fr 1.12fr;gap:34px;align-items:center;padding:58px 0 42px}.eyebrow{display:inline-flex;gap:10px;align-items:center;padding:9px 14px;border:1px solid var(--line);border-radius:999px;background:rgba(246,202,86,.08);color:var(--gold);font-size:.72rem;font-weight:1000;text-transform:uppercase;letter-spacing:.15em}.pulse{width:9px;height:9px;border-radius:999px;background:var(--green);box-shadow:0 0 18px var(--green)}h1{margin:20px 0 18px;font-size:clamp(3.55rem,8.4vw,8.6rem);line-height:.84;letter-spacing:-.085em;text-transform:uppercase}h1 span{display:block;background:linear-gradient(115deg,#fff4b7,var(--gold) 28%,var(--teal) 58%,var(--blue) 82%,#fff);-webkit-background-clip:text;background-clip:text;color:transparent}.lead{max-width:690px;color:var(--muted);font-size:clamp(1.04rem,1.8vw,1.28rem);line-height:1.68}.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}.button{min-height:50px;display:inline-flex;align-items:center;justify-content:center;border-radius:999px;padding:13px 18px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.07);font-weight:950}.primary{border:0;color:#120900;background:linear-gradient(135deg,#fff2a6,var(--gold),var(--teal));box-shadow:0 18px 70px rgba(246,202,86,.24)}.stage{position:relative;min-height:650px;border:1px solid var(--line);border-radius:44px;overflow:hidden;background:radial-gradient(circle at 50% 0,rgba(246,202,86,.22),transparent 19rem),linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.035));box-shadow:var(--shadow)}.stage:before{content:"";position:absolute;inset:-42%;background:conic-gradient(transparent,rgba(246,202,86,.28),transparent,rgba(56,245,210,.22),transparent,rgba(167,119,255,.2),transparent);animation:spin 18s linear infinite}.stage-inner{position:absolute;inset:14px;z-index:1;border-radius:34px;background:rgba(4,6,12,.86);overflow:hidden}.stage-inner:before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 100%,rgba(246,202,86,.24),transparent 54%),linear-gradient(120deg,transparent,rgba(255,255,255,.08),transparent)}.console{position:absolute;inset:24px;z-index:2;display:grid;grid-template-rows:auto 1fr auto;gap:16px}.status,.dock{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.pill,.module,.card,.map-ui,.arch-card{border:1px solid rgba(255,255,255,.12);border-radius:22px;background:rgba(255,255,255,.065);padding:14px}.pill strong,.module strong,.card small,.arch-card small{display:block;color:var(--gold);font-size:.78rem;text-transform:uppercase;letter-spacing:.11em;font-weight:1000}.pill span,.module span,.card p,.arch-card p{display:block;margin:7px 0 0;color:var(--muted);line-height:1.48}.core{display:grid;place-items:center;text-align:center;border:1px solid var(--line2);border-radius:34px;background:radial-gradient(circle at 50% 34%,rgba(86,199,255,.16),transparent 15rem),rgba(255,255,255,.045)}.core b{display:block;font-size:clamp(2.5rem,5.8vw,5.2rem);line-height:.88;letter-spacing:-.07em;text-transform:uppercase}.core p{max-width:470px;margin:16px auto 0;color:var(--muted);line-height:1.55}.section{padding:44px 0}.section h2{margin:0 0 18px;font-size:clamp(2rem,4vw,4rem);line-height:.95;letter-spacing:-.055em;text-transform:uppercase}.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.card{min-height:260px;background:linear-gradient(160deg,rgba(255,255,255,.105),rgba(255,255,255,.035));box-shadow:0 24px 90px rgba(0,0,0,.24)}.card h3{margin:12px 0 8px;font-size:1.16rem}.character{margin-top:16px;padding:12px;border-radius:18px;background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.08);color:#f5ead0;font-weight:800}.map-screen{display:grid;grid-template-columns:1.05fr .95fr;gap:18px;align-items:stretch}.phone{min-height:670px;border-radius:42px;border:1px solid var(--line);background:radial-gradient(circle at 50% 35%,rgba(27,59,43,.65),transparent 17rem),linear-gradient(160deg,#13211c,#07090c);box-shadow:var(--shadow);padding:18px;position:relative;overflow:hidden}.phone:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(212,175,55,.18) 1px,transparent 1px),linear-gradient(rgba(56,245,210,.12) 1px,transparent 1px);background-size:46px 46px;transform:perspective(600px) rotateX(50deg) translateY(80px);transform-origin:bottom;opacity:.75}.top-status{position:relative;z-index:2;display:flex;justify-content:space-between;gap:10px}.glass{background:rgba(7,11,14,.64);border:1px solid rgba(255,255,255,.12);border-radius:22px;padding:13px;backdrop-filter:blur(14px);box-shadow:0 16px 60px rgba(0,0,0,.24)}.markers{position:absolute;inset:120px 36px 170px;z-index:2}.marker{position:absolute;width:20px;height:20px;border-radius:999px;border:2px solid rgba(255,255,255,.7);box-shadow:0 0 0 10px rgba(98,255,123,.11),0 0 28px currentColor;animation:breathe 1.8s ease-in-out infinite}.blue{color:var(--blue);background:var(--blue);left:18%;top:22%}.amber{color:var(--gold);background:var(--gold);right:20%;top:32%}.green{color:var(--green);background:var(--green);left:48%;bottom:30%}.red{color:var(--red);background:var(--red);right:34%;bottom:18%}.fab{position:absolute;right:22px;bottom:172px;z-index:3;display:grid;gap:10px}.fab button,.scene{border:1px solid rgba(255,255,255,.12);background:rgba(7,11,14,.72);color:var(--ink);border-radius:18px;padding:12px;font-weight:950}.bottom-hub{position:absolute;left:18px;right:18px;bottom:18px;z-index:3}.scene-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.scene{font-size:.82rem;color:var(--gold)}.specs{display:grid;gap:12px}.map-ui h3,.arch-card h3{margin:9px 0 7px}.architecture{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.flow{grid-column:1/-1;border:1px solid var(--line2);border-radius:28px;padding:18px;background:rgba(255,255,255,.055);overflow:auto;color:#e9f7ff}.flow pre{margin:0;font:800 .86rem/1.55 ui-monospace,SFMono-Regular,Menlo,monospace}.events{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.code{margin-top:10px;padding:12px;border-radius:16px;background:rgba(0,0,0,.42);border:1px solid rgba(255,255,255,.08);font:800 .78rem/1.55 ui-monospace,SFMono-Regular,Menlo,monospace;color:#dffcff;white-space:pre-wrap}@keyframes spin{to{transform:rotate(360deg)}}@keyframes breathe{50%{transform:scale(1.2);filter:brightness(1.35)}}@media (prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:1ms!important;scroll-behavior:auto!important}}@media(max-width:980px){.hero,.map-screen{grid-template-columns:1fr}.grid4,.architecture,.events{grid-template-columns:repeat(2,1fr)}.stage{min-height:570px}}@media(max-width:650px){.links{display:none}h1{font-size:3.25rem}.status,.dock,.grid4,.architecture,.events{grid-template-columns:1fr}.stage{min-height:610px}.console{inset:16px}.phone{min-height:620px}}
     </style>
   </head>
   <body>
-    <header class="topbar">
-      <nav class="wrap" aria-label="Primary navigation">
-        <a class="brand" href="/" aria-label="Lingo Legacy Studio home"><span class="mark" aria-hidden="true"></span><span>Lingo Legacy Studio</span></a>
-        <div class="navlinks"><a href="#floor">Command Floor</a><a href="#lanes">Production Lanes</a></div>
-      </nav>
-    </header>
-
+    <header class="top"><nav class="wrap" aria-label="Primary navigation"><a class="brand" href="/"><span class="mark" aria-hidden="true"></span><span>The Lingo Legacy</span></a><div class="links"><a href="#zones">Zones</a><a href="#map">Live Map</a><a href="#architecture">Architecture</a></div></nav></header>
     <main>
-      <section class="wrap hero" id="floor">
-        <div>
-          <span class="eyebrow">Live studio-grade version</span>
-          <h1>Build the<span>Legacy</span></h1>
-          <p class="lead">A cinematic operating floor for the full Lingo Legacy universe: character bible, game worlds, asset vault, publishing pipeline, and launch command in one premium live surface.</p>
-          <div class="actions">
-            <a class="button primary" href="#lanes">Open the command floor</a>
-            <a class="button" href="mailto:hello@thelingolegacy.com?subject=Lingo%20Legacy%20Studio">Book the next studio pass</a>
-          </div>
-        </div>
-
-        <section class="studio-card" aria-label="Studio command floor preview">
-          <div class="stage-inner">
-            <div class="console">
-              <div class="status-row">
-                <div class="pill"><strong>Status</strong><span>Live-ready visual shell</span></div>
-                <div class="pill"><strong>Mode</strong><span>Studio command floor</span></div>
-                <div class="pill"><strong>Signal</strong><span>Premium cinematic brand</span></div>
-              </div>
-              <div class="command-core">
-                <div>
-                  <b>Character Bible<br />HQ</b>
-                  <p>Worldbuilding, production assets, game systems, and publishing gates organized for a studio-grade launch path.</p>
-                </div>
-              </div>
-              <div class="dock">
-                <div class="module"><strong>Worlds</strong><span>Canon, characters, maps, lore, and scripts.</span></div>
-                <div class="module"><strong>Assets</strong><span>Visuals, audio, motion, export packages.</span></div>
-                <div class="module"><strong>Launch</strong><span>Vercel live surface, QA, and rollout control.</span></div>
-              </div>
-            </div>
-          </div>
-        </section>
+      <section class="wrap hero">
+        <div><span class="eyebrow"><span class="pulse"></span>Festival-grade live platform</span><h1>Fun. Live.<span>Command.</span></h1><p class="lead">The Lingo Legacy portal is now framed as a vibrant event-driven command center: color characters, interactive estate controls, smart systems, and design mastery all performing on one studio-grade stage.</p><div class="actions"><a class="button primary" href="#map">Open Estate Overview</a><a class="button" href="#architecture">View realtime system</a></div></div>
+        <section class="stage" aria-label="Festival command portal preview"><div class="stage-inner"><div class="console"><div class="status"><div class="pill"><strong>Map</strong><span>Live estate wireframe</span></div><div class="pill"><strong>Characters</strong><span>Festival performers and color modules</span></div><div class="pill"><strong>Signal</strong><span>MQTT to WebSocket event flow</span></div></div><div class="core"><div><b>Multi-Module<br/>Event Layout</b><p>Dashboard, That’s My Lingo, Kotton’s Code, and Master Design as four interactive performance zones.</p></div></div><div class="dock"><div class="module"><strong>LED Map</strong><span>Gold, green, teal, and blue live-grid activity.</span></div><div class="module"><strong>Aerial Hub</strong><span>Customization presets visualized by motion and ribbons.</span></div><div class="module"><strong>Code Dance</strong><span>Smart-system data flow becomes live choreography.</span></div></div></div></div></section>
       </section>
 
-      <section class="wrap rails" id="lanes" aria-label="Production lanes">
-        <article class="rail"><small>01</small><h2>Character Bible</h2><p>Core canon, story arcs, characters, and universe rules presented as a premium production hub.</p></article>
-        <article class="rail"><small>02</small><h2>Game Studio</h2><p>GDevelop lanes, reward loops, UI states, and gameplay beats organized for rapid build waves.</p></article>
-        <article class="rail"><small>03</small><h2>Asset Vault</h2><p>Brand visuals, sound, video, and export-ready files framed for future Vercel Blob-backed storage.</p></article>
-        <article class="rail"><small>04</small><h2>Publishing Ops</h2><p>Release gates, QA checks, rollout notes, and live-site handoffs visible from the command floor.</p></article>
-      </section>
+      <section class="wrap section" id="zones"><h2>Four live performance zones</h2><div class="grid4">
+        <article class="card"><small>01 Dashboard / Estate Overview</small><h3>Interactive Live Map</h3><p>A massive LED estate wireframe becomes a dynamic game world with gold property lines, teal overlays, and real-time pulsing asset markers.</p><div class="character">Acrobats trigger map interactions while a central performer rides a glowing drone.</div></article>
+        <article class="card"><small>02 That’s My Lingo</small><h3>Customization Hub</h3><p>The gold compass rose becomes an animated personalization center for lifestyle presets, estate tags, and custom scenes.</p><div class="character">Aerial silk performers in teal and gold define zones with flowing ribbons.</div></article>
+        <article class="card"><small>03 Smart Systems / Kotton’s Code</small><h3>Digital Code Dance</h3><p>Indigo circuits, neon-green ripples, and network nodes turn irrigation, lighting, and conservation data into a live performance.</p><div class="character">A DJ runs the code console while robots and dancers visualize the data flow.</div></article>
+        <article class="card"><small>04 Master Design</small><h3>Creative Mastery</h3><p>A glowing gold L node anchors floating blueprints, consultation gates, and creative approvals.</p><div class="character">A master designer draws glowing CAD lines with a giant stylus beside a drum line.</div></article>
+      </div></section>
+
+      <section class="wrap section" id="map"><h2>Estate Overview live map</h2><div class="map-screen">
+        <div class="phone" aria-label="Mobile estate overview mockup"><div class="top-status"><div class="glass">72° Sunny<br/><strong>Rain expected 4 PM</strong></div><div class="glass">All Systems Go<br/><strong style="color:var(--green)">Live Health</strong></div></div><div class="markers"><span class="marker blue" title="Sprinkler Zone 4 active"></span><span class="marker amber" title="Path lighting scheduled"></span><span class="marker green" title="Crew active"></span><span class="marker red" title="Valve alert"></span></div><div class="fab"><button>3D</button><button>2D</button><button>Center</button></div><div class="bottom-hub glass"><strong>Find Asset, Zone, or Scene</strong><div class="scene-row"><button class="scene">Evening Entertaining</button><button class="scene">Weekend Away</button><button class="scene">Water Zone 4</button></div></div></div>
+        <div class="specs"><article class="map-ui"><h3>Visual hierarchy</h3><p>The map owns the full screen. Floating glass controls sit above it: top weather and health, right-side 2D/3D and recenter controls, and a bottom control hub in the thumb zone.</p></article><article class="map-ui"><h3>Status markers</h3><p>Glowing blue means watering, amber means pending or scheduled, green means active or healthy, and red means alert. Detail appears progressively as the user zooms.</p></article><article class="map-ui"><h3>Interaction motion</h3><p>Pinch, pan, tap, and swipe interactions use soft inertia, marker pulses, slide-up detail cards, and full-map digital ripples when a scene activates.</p></article></div>
+      </div></section>
+
+      <section class="wrap section" id="architecture"><h2>Event-driven realtime architecture</h2><div class="architecture"><article class="arch-card"><small>Field Hardware</small><h3>MQTT devices</h3><p>Sprinklers, light drivers, valves, and soil sensors publish telemetry and receive commands on estate-scoped topics with QoS 0 for frequent telemetry and QoS 1 for critical control.</p></article><article class="arch-card"><small>Cloud Backend</small><h3>Broker and bridge</h3><p>An MQTT broker feeds a Node.js app server, which stores latest state in Redis and streams JSON updates to the mobile UI over WebSockets.</p></article><article class="arch-card"><small>Mobile App UI</small><h3>Live map rendering</h3><p>The portal receives marker updates, animates pulses, and sends homeowner actions back to the backend for authorization before hardware commands are published.</p></article><div class="flow"><pre>[ Field Hardware ]        MQTT Pub/Sub        [ Cloud Backend ]       WebSocket Stream       [ Mobile App UI ]
+Sprinklers / Sensors  ───────────────────▶   Broker + App Server  ───────────────────▶   Interactive Map
+Valve / Lighting Cmd  ◀───────────────────   Auth + Command Bus    ◀───────────────────   User Actions</pre></div></div><div class="events"><article class="arch-card"><small>Sensor to Map</small><h3>Hardware event pulse</h3><p>Soil moisture drops, the device publishes telemetry, and the map marker transitions to amber.</p><div class="code">{"type":"MARKER_STATUS_UPDATE","assetId":"soil_zone_04","status":"WARNING_DRY","visualState":"PULSE_AMBER"}</div></article><article class="arch-card"><small>Map to Hardware</small><h3>User command flow</h3><p>The homeowner taps Water Zone 4, the backend authorizes it, publishes an MQTT command, and the marker turns glowing blue after device confirmation.</p><div class="code">{"action":"TRIGGER_VALVE","zoneId":"zone_04","durationMinutes":15}</div></article></div></section>
     </main>
   </body>
 </html>
