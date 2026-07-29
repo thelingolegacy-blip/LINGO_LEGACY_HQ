@@ -18,6 +18,11 @@ How to use:
 
 Contact: dlingo@thelingolegacy (placeholder)
 
+
+## Studio UI v2
+
+This live Vercel surface now loads `assets/studio-version.css`, the shared Studio UI refresh for stronger visual hierarchy, responsive polish, premium panels, motion-safe hover states, and consistent Lingo OS theming.
+
 ## Blueprint Studio Phase 2
 
 See `07_DOCS/blueprint-studio-phase-2.md` for the shared Creative OS, asset taxonomy, dashboard modules, studio pipelines, automation flow, and wireframe checklist.
