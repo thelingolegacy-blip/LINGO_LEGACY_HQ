@@ -34,3 +34,8 @@ See `07_DOCS/production-dashboard-architecture.md` for the Admin Command Center,
 ## Premium Studio Production Layout System
 
 See `07_DOCS/premium-production-layout-system.md` for the shared high-premium layout language across web, game, asset, book, and GDevelop surfaces.
+
+
+## Lane activation front-to-back
+
+See `07_DOCS/lane-activation-front-to-back.md` for the Flutter, Firebase, Cloudflare, Vercel, and GitHub interface map for Loyalty Lane Apparel, Lingo Wash District, Kottons Code Spades, Uhno, promotion banners, sounds, animations, and safety guardrails.
