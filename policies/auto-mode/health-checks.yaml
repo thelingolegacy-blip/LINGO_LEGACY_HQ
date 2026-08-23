@@ -1,0 +1,23 @@
+policy:
+  id: auto.health-checks.safe
+  version: 1.0
+  status: active
+  scope:
+    resource: platform
+    action: health_check
+  conditions:
+    event_type: HEALTH_SIGNAL
+    severity: [Medium, High]
+    environment: [staging, prod]
+  decision:
+    type: ALLOW
+    parameters:
+      max_frequency: 5m
+      max_parallel_checks: 3
+  precedence:
+    level: application
+  audit:
+    required: true
+  effective:
+    starts_at: "2026-08-23T00:00:00Z"
+    expires_at: null
