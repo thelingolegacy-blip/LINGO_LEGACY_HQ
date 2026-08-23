@@ -1,0 +1,19 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://thelingolegacy.com/schemas/safety-gateway/check-response-v1.schema.json",
+  "title":"Lingo Legacy Safety Gateway Check Response v1",
+  "type":"object",
+  "required":["decision","source","reason_code","trace_id","evaluated_at"],
+  "properties":{
+    "decision":{"enum":["ALLOW","DENY","LIMIT","REQUIRE_APPROVAL","REQUIRE_PARENT_AUTH"]},
+    "source":{"enum":["system_safety","legal_platform","parent","user","application"]},
+    "reason_code":{"type":"string","minLength":1},
+    "policy_id":{"type":"string"},
+    "policy_version":{"type":"string"},
+    "parameters":{"type":["object","null"]},
+    "trace_id":{"type":"string","minLength":1},
+    "evaluated_at":{"type":"string","format":"date-time"},
+    "expires_at":{"type":["string","null"],"format":"date-time"}
+  },
+  "additionalProperties":false
+}
