@@ -1,0 +1,33 @@
+test:
+  name: auto_health_check_policy_allows_safe_signal
+  policy_id: auto.health-checks.safe
+  given:
+    event_type: HEALTH_SIGNAL
+    severity: Medium
+    environment: staging
+  expect:
+    decision: ALLOW
+    audit_required: true
+
+test:
+  name: deployment_anomaly_requires_approval
+  policy_id: auto.deployment.anomaly
+  given:
+    event_type: DEPLOYMENT_EVENT
+    status: FAILED
+    environment: prod
+  expect:
+    decision: REQUIRE_APPROVAL
+    audit_required: true
+
+# Constitutional negative case: Auto Mode must never bypass approval for production remediation.
+test:
+  name: production_remediation_cannot_auto_deploy
+  policy_id: auto.deployment.anomaly
+  given:
+    event_type: DEPLOYMENT_EVENT
+    status: FAILED
+    environment: prod
+    requested_action: DEPLOY
+  expect:
+    decision: REQUIRE_APPROVAL
