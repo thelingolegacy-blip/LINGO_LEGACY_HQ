@@ -1,0 +1,24 @@
+policy:
+  id: auto.deployment.anomaly
+  version: 1.0
+  status: active
+  scope:
+    resource: deployment
+    action: remediation
+  conditions:
+    event_type: DEPLOYMENT_EVENT
+    status: [FAILED, DEGRADED]
+    environment: [staging, prod]
+  decision:
+    type: REQUIRE_APPROVAL
+    parameters:
+      approval_channel: terminal
+      required_roles: [platform-ops, security-ops]
+      allowed_preapproval_actions: [CREATE_INCIDENT, GENERATE_REPORT]
+  precedence:
+    level: platform
+  audit:
+    required: true
+  effective:
+    starts_at: "2026-08-23T00:00:00Z"
+    expires_at: null
