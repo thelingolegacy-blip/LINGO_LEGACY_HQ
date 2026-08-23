@@ -1,0 +1,30 @@
+version: "1.0"
+status: active
+precedence:
+  - system_safety
+  - legal_platform
+  - parent
+  - user
+  - application
+allowed_decisions:
+  - ALLOW
+  - DENY
+  - LIMIT
+  - REQUIRE_APPROVAL
+  - REQUIRE_PARENT_AUTH
+constitutional_forbidden:
+  - override_platform_safety
+  - bypass_parent_control
+  - disable_audit
+  - ignore_precedence
+  - allow_on_failure
+fail_closed: true
+auto_mode:
+  production_deploy: REQUIRE_APPROVAL
+  production_rollback: REQUIRE_APPROVAL
+  policy_change: REQUIRE_APPROVAL
+  health_check: ALLOW
+  diagnostics: ALLOW
+  report_generation: ALLOW
+  dashboard_update: ALLOW
+  incident_routing: ALLOW
