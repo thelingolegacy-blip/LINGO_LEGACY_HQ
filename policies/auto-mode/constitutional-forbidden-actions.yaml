@@ -1,0 +1,32 @@
+version: "1.0"
+status: active
+name: auto-mode-constitutional-forbidden-actions
+purpose: >-
+  Explicit deny-list for Auto Mode actions that may never bypass constitutional
+  safety, approval, IAM, or audit boundaries.
+forbidden_actions:
+  - OVERRIDE_PLATFORM_SAFETY
+  - BYPASS_PARENT_CONTROL
+  - DISABLE_AUDIT
+  - IGNORE_PRECEDENCE
+  - ALLOW_ON_FAILURE
+  - SILENT_PRODUCTION_DEPLOY
+  - SILENT_PRODUCTION_ROLLBACK
+  - MODIFY_CONSTITUTIONAL_POLICY
+  - ESCALATE_PRIVILEGE
+rules:
+  - id: deny-forbidden-action
+    when: action in forbidden_actions
+    decision: DENY
+    reason_code: CONSTITUTIONAL_ACTION_FORBIDDEN
+  - id: fail-closed
+    when: policy_evaluation_error == true
+    decision: DENY
+    reason_code: POLICY_EVALUATION_FAILED
+  - id: approval-boundary
+    when: production_impact == true and explicit_approval == false
+    decision: REQUIRE_APPROVAL
+    reason_code: PRODUCTION_APPROVAL_REQUIRED
+audit:
+  required: true
+  immutable: true
