@@ -1,0 +1,39 @@
+name: Constitutional Policy Gate
+
+on:
+  pull_request:
+    paths:
+      - 'policies/**'
+      - 'schemas/**'
+      - 'services/rule-engine/**'
+      - 'tests/rule-engine/**'
+  push:
+    branches: [main]
+    paths:
+      - 'policies/**'
+      - 'schemas/**'
+      - 'services/rule-engine/**'
+      - 'tests/rule-engine/**'
+
+permissions:
+  contents: read
+
+jobs:
+  policy-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate constitutional policy files
+        shell: bash
+        run: |
+          set -euo pipefail
+          forbidden='override_platform_safety|bypass_parent_control|disable_audit|ignore_precedence|allow_on_failure'
+          if grep -RInE "$forbidden" policies services/rule-engine schemas tests/rule-engine; then
+            echo 'Constitutional policy violation detected.'
+            exit 1
+          fi
+          test -f policies/auto-mode/constitutional-gate-v1.yaml
+          test -f schemas/rule-engine/evaluation-request-v1.schema.json
+          test -f schemas/safety-gateway/check-response-v1.schema.json
+          test -f tests/rule-engine/constitutional-evaluation-v1.md
+          echo 'Constitutional policy gate passed.'
