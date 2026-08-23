@@ -1,0 +1,39 @@
+version: "1.0"
+suite: precedence-engine
+cases:
+  - name: system_deny_beats_application_allow
+    policies:
+      - precedence: system_safety
+        decision: DENY
+      - precedence: application
+        decision: ALLOW
+    expect: DENY
+  - name: parent_deny_beats_user_allow
+    policies:
+      - precedence: parent
+        decision: DENY
+      - precedence: user
+        decision: ALLOW
+    expect: DENY
+  - name: legal_deny_beats_parent_allow
+    policies:
+      - precedence: legal_platform
+        decision: DENY
+      - precedence: parent
+        decision: ALLOW
+    expect: DENY
+  - name: highest_applicable_allow
+    policies:
+      - precedence: application
+        decision: ALLOW
+    expect: ALLOW
+  - name: evaluation_error_fails_closed
+    evaluation_error: true
+    expect: DENY
+  - name: tie_breaker_is_deny
+    policies:
+      - precedence: parent
+        decision: ALLOW
+      - precedence: parent
+        decision: DENY
+    expect: DENY
