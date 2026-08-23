@@ -1,0 +1,54 @@
+name: Auto Mode Policy Validation
+
+on:
+  pull_request:
+    paths:
+      - 'policies/**'
+      - 'tests/auto-mode/**'
+      - '.github/workflows/auto-mode-policy-validation.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'policies/**'
+      - 'tests/auto-mode/**'
+
+permissions:
+  contents: read
+
+jobs:
+  validate-constitutional-boundaries:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate policy files exist
+        shell: bash
+        run: |
+          test -f policies/auto-mode/constitutional-forbidden-actions.yaml
+          test -f tests/auto-mode/constitutional-boundary.test.yaml
+
+      - name: Reject forbidden bypass declarations
+        shell: bash
+        run: |
+          if grep -RniE 'override_platform_safety:\s*true|bypass_parent_control:\s*true|disable_audit:\s*true|ignore_precedence:\s*true|allow_on_failure:\s*true' policies tests; then
+            echo 'Forbidden constitutional bypass declaration detected.'
+            exit 1
+          fi
+
+      - name: Require fail-closed and approval boundaries
+        shell: bash
+        run: |
+          grep -q 'POLICY_EVALUATION_FAILED' policies/auto-mode/constitutional-forbidden-actions.yaml
+          grep -q 'PRODUCTION_APPROVAL_REQUIRED' policies/auto-mode/constitutional-forbidden-actions.yaml
+          grep -q 'CONSTITUTIONAL_ACTION_FORBIDDEN' tests/auto-mode/constitutional-boundary.test.yaml
+
+      - name: Validate YAML syntax
+        uses: docker://ghcr.io/mikefarah/yq:4
+        with:
+          args: >-
+            eval '.' policies/auto-mode/constitutional-forbidden-actions.yaml
+            && eval '.' tests/auto-mode/constitutional-boundary.test.yaml
+
+      - name: Constitutional gate
+        run: echo 'Auto Mode constitutional policy gate passed.'
