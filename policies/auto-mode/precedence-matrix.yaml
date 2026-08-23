@@ -1,0 +1,20 @@
+version: "1.0"
+name: constitutional-precedence-matrix
+precedence:
+  - system_safety
+  - legal_platform
+  - parent
+  - user
+  - application
+resolution:
+  rule: highest_precedence_applicable_decision_wins
+  deny_overrides_allow: true
+  lower_level_cannot_override_higher_level_deny: true
+  tie_breaker: deny
+  evaluation_error: DENY
+allowed_decisions:
+  - ALLOW
+  - DENY
+  - LIMIT
+  - REQUIRE_APPROVAL
+  - REQUIRE_PARENT_AUTH
