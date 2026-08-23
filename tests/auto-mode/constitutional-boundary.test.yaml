@@ -1,0 +1,32 @@
+version: "1.0"
+suite: constitutional-boundary
+cases:
+  - name: override_safety_is_denied
+    action: OVERRIDE_PLATFORM_SAFETY
+    expect: DENY
+    reason_code: CONSTITUTIONAL_ACTION_FORBIDDEN
+  - name: parent_bypass_is_denied
+    action: BYPASS_PARENT_CONTROL
+    expect: DENY
+    reason_code: CONSTITUTIONAL_ACTION_FORBIDDEN
+  - name: audit_disable_is_denied
+    action: DISABLE_AUDIT
+    expect: DENY
+    reason_code: CONSTITUTIONAL_ACTION_FORBIDDEN
+  - name: precedence_bypass_is_denied
+    action: IGNORE_PRECEDENCE
+    expect: DENY
+    reason_code: CONSTITUTIONAL_ACTION_FORBIDDEN
+  - name: failure_is_fail_closed
+    policy_evaluation_error: true
+    expect: DENY
+    reason_code: POLICY_EVALUATION_FAILED
+  - name: production_action_requires_approval
+    production_impact: true
+    explicit_approval: false
+    expect: REQUIRE_APPROVAL
+    reason_code: PRODUCTION_APPROVAL_REQUIRED
+  - name: safe_health_check_remains_allowed
+    action: RUN_HEALTH_CHECK
+    production_impact: false
+    expect: ALLOW
