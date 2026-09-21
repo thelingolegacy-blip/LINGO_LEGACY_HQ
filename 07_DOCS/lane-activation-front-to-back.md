@@ -31,3 +31,25 @@ Any missing evidence blocks the next transition.
 - Sounds require user action; animations need reduced-motion fallbacks.
 - Backend accounts, payments, matchmaking, and reward fulfillment require explicit review before activation.
 - Secrets never enter source control.
+
+## Canonical routing
+
+`/` → Studio Hub / Master Home
+
+`/loyalty-lane` → `/p/loyalty-lane-apparel` → Loyalty Lane Apparel commerce destination
+
+`/kottons-code` → `/p/kottonscode`
+
+`/casino` → `/p/thats-my-lingo`
+
+`/uhoh-lingo-university` → `/p/uhno-lingo-u-no`
+
+`/legacy-legends` → `/p/legacy-legends-lingo-city`
+
+`/travel` → `/p/lingotravel`
+
+`/ai` → `/p/lingo-ai`
+
+`/apps`, `/websites`, `/blogs`, and `/shop` remain network-level directories/gateways.
+
+The Studio Hub is the intended homepage layer. Loyalty Lane Apparel and other properties are destinations beneath the unified domain, not competing apex surfaces.
