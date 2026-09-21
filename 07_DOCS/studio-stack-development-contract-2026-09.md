@@ -54,3 +54,12 @@ GitHub Actions runner evidence remains the controlling execution gate. A success
 
 ## Domain policy
 thelingolegacy.com and www.thelingolegacy.com are the canonical web hostnames. DNS and runtime authority must remain with Cloudflare. A third-party deployment preview must never become production authority.
+
+## Canonical homepage and landing-page model
+
+- `https://thelingolegacy.com/` is the intended Master Home / Studio Hub gateway.
+- The root homepage is an ecosystem directory and must never be replaced by a child storefront.
+- Loyalty Lane Apparel owns the dedicated landing path `/loyalty-lane` and canonical property path `/p/loyalty-lane-apparel`.
+- The commerce route `/shop` is a gateway into the live Loyalty Lane storefront; checkout remains owned by the commerce platform.
+- Other properties receive dedicated landing paths under `/p/<slug>` with short canonical aliases where defined by the route map.
+- The homepage owns discovery; property landing pages own context; external or verified application targets own execution; no child property becomes apex authority.
