@@ -1,12 +1,12 @@
-name: Runner Route Probe — Slim Hosted Fleet
+name: Runner Route Probe — Hosted Fleet
 on:
   push:
     branches:
-      - studio-hub/stack-sync-2026-09-21
+      - fix/runner-probe-label-and-sync-2026-09-21
   workflow_dispatch:
 jobs:
-  slim-runner-probe:
-    runs-on: ubuntu-slim
+  hosted-runner-probe:
+    runs-on: ubuntu-latest
     steps:
       - name: Execution sentinel
         run: |
