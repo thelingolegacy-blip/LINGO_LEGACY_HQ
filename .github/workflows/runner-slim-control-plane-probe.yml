@@ -1,12 +1,12 @@
-name: Runner Route Probe — Hosted Fleet
+name: Runner Slim Control Plane Probe
 on:
-  push:
+  pull_request:
     branches:
-      - fix/runner-probe-label-and-sync-2026-09-21
+      - main
   workflow_dispatch:
 jobs:
-  hosted-runner-probe:
-    runs-on: ubuntu-latest
+  slim-control-plane-sentinel:
+    runs-on: ubuntu-slim
     steps:
       - name: Execution sentinel
         run: |
@@ -14,5 +14,4 @@ jobs:
           echo "RUNNER_NAME=$RUNNER_NAME"
           echo "RUNNER_ARCH=$RUNNER_ARCH"
           echo "GITHUB_RUN_ID=$GITHUB_RUN_ID"
-          echo "SENTINEL_EXECUTED=true"
-          echo "PROBE_REVISION=2"
+          echo "SLIM_CONTROL_PLANE_SENTINEL=true"
