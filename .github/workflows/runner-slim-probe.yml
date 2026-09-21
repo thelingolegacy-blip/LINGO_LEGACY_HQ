@@ -15,3 +15,4 @@ jobs:
           echo "RUNNER_ARCH=$RUNNER_ARCH"
           echo "GITHUB_RUN_ID=$GITHUB_RUN_ID"
           echo "SENTINEL_EXECUTED=true"
+          echo "PROBE_REVISION=2"
