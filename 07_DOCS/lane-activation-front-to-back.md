@@ -1,4 +1,3 @@
-
 # Lane activation front-to-back map
 
 ## Activated lanes
@@ -7,14 +6,23 @@
 - Lingo Wash District: neighborhood missions, partner banners, safe local progression, and community route panels.
 - Kottons Code Spades: family card room concept with educator-facing guardrails and no open chat by default.
 - Uhno: original color-card room concept with virtual-only play and no cash value.
+- Studio Hub constellation: canonical routing surface for Avalon, Lingo Legacy OS, Game143, and LingoCampus properties.
 
 ## Interface layers
 
-- Flutter: mobile shell consumes lane metadata, visual tokens, reduced-motion settings, and sound-toggle state.
-- Firebase: proposed auth/profile/progress/event collections remain schema-gated; no production write path is enabled from static pages.
-- Cloudflare: proposed DNS/CDN/WAF edge policy stays documented as an external configuration layer.
-- Vercel: hosts the web lanes, preview deployments, Web Analytics, Speed Insights, and production environment controls.
-- GitHub: source of truth for pull requests, release notes, asset manifests, and review gates.
+- Frontend: dynamic web surfaces consume the canonical studio/entity manifest and route users to the owning studio.
+- Backend: authenticated APIs and server-authoritative configuration remain required before production activation; static pages do not receive production write authority.
+- Flutter: mobile shell consumes lane metadata, visual tokens, reduced-motion settings, sound-toggle state, and the canonical entity/studio manifest.
+- Firebase: auth/profile/progress/event collections remain schema-gated; no production write path is enabled from static pages.
+- Cloudflare: authoritative DNS/CDN/WAF/runtime edge; Workers, Pages where appropriate, D1, KV, R2, routing, and edge health are production controls.
+- GitHub: source of truth for pull requests, release notes, asset manifests, CI evidence, and review gates.
+- AppDeploy: isolated staging/QA surface for implementation snapshots; staging readiness does not authorize promotion.
+
+## Production synchronization contract
+
+SOURCE → BUILD → CI RUNNER → JOB/STEP EVIDENCE → RUNTIME/QA → CLOUDFLARE LIVE CHECK → FIREBASE AUTH/DATA CHECK → REVIEW → ELIGIBILITY → PROMOTION
+
+Any missing evidence blocks the next transition.
 
 ## Safety defaults
 
@@ -22,3 +30,4 @@
 - No wagers, deposits, paid spins, cash-out, or prizes tied to game outcomes.
 - Sounds require user action; animations need reduced-motion fallbacks.
 - Backend accounts, payments, matchmaking, and reward fulfillment require explicit review before activation.
+- Secrets never enter source control.
