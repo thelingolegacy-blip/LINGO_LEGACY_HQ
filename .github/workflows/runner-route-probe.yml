@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - studio-hub/stack-sync-2026-09-21
+  pull_request:
+    branches:
+      - main
 
 permissions:
   contents: read
