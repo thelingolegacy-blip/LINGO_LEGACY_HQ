@@ -1,0 +1,26 @@
+name: Runner Route Probe — Alternate Hosted Fleet
+
+on:
+  push:
+    branches:
+      - studio-hub/stack-sync-2026-09-21
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  alternate-runner-probe:
+    runs-on: windows-latest
+    steps:
+      - name: Runner dispatch sentinel
+        shell: pwsh
+        run: |
+          Write-Host "RUNNER_ROUTE_PROBE=STARTED"
+          Write-Host "RUNNER_OS=$env:RUNNER_OS"
+          Write-Host "RUNNER_NAME=$env:RUNNER_NAME"
+          Write-Host "RUNNER_ARCH=$env:RUNNER_ARCH"
+          Write-Host "GITHUB_RUN_ID=$env:GITHUB_RUN_ID"
+          Write-Host "RUNNER_ROUTE_PROBE=EXECUTED"
