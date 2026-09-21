@@ -53,3 +53,17 @@ Any missing evidence blocks the next transition.
 `/apps`, `/websites`, `/blogs`, and `/shop` remain network-level directories/gateways.
 
 The Studio Hub is the intended homepage layer. Loyalty Lane Apparel and other properties are destinations beneath the unified domain, not competing apex surfaces.
+
+## Studio Universe runtime contract
+
+The web and Flutter surfaces consume the same studio-universe metadata contract: route, studio id, visual theme, poster fallback, optional background media, optional audio cue, typography token, motion policy, and accessibility state.
+
+Web rendering may use CSS/Canvas plus governed media resources. Flutter uses the same logical metadata but resolves platform-specific media implementations. Neither client owns Google Cloud credentials.
+
+Firebase stores authenticated user preferences and eligible experience state; it does not become the public media origin. Cloudflare remains the production edge authority. Google Cloud Storage/CDN/Media CDN may serve approved media behind an explicitly governed origin and cache policy.
+
+Asset intelligence such as image labeling, dominant-color extraction, or OCR belongs in an authenticated backend/media pipeline using Google Cloud Vision. Generated media belongs in a controlled build/media pipeline. Neither is required for basic landing-page rendering.
+
+Required fallback behavior: poster/image fallback, reduced motion, audio-off-by-default, graceful missing-media handling, and telemetry for media load failures/performance.
+
+Production promotion requires evidence for asset provenance, cache behavior, performance, accessibility, runtime errors, and edge delivery in addition to the existing runner/runtime gates.
