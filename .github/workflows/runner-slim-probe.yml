@@ -1,0 +1,17 @@
+name: Runner Route Probe — Slim Hosted Fleet
+on:
+  push:
+    branches:
+      - studio-hub/stack-sync-2026-09-21
+  workflow_dispatch:
+jobs:
+  slim-runner-probe:
+    runs-on: ubuntu-slim
+    steps:
+      - name: Execution sentinel
+        run: |
+          echo "RUNNER_OS=$RUNNER_OS"
+          echo "RUNNER_NAME=$RUNNER_NAME"
+          echo "RUNNER_ARCH=$RUNNER_ARCH"
+          echo "GITHUB_RUN_ID=$GITHUB_RUN_ID"
+          echo "SENTINEL_EXECUTED=true"
