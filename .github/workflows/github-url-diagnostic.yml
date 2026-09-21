@@ -1,0 +1,53 @@
+name: GitHub URL Diagnostic
+
+on:
+  pull_request:
+    paths:
+      - '**/*.md'
+      - '**/*.mdx'
+      - '**/*.json'
+      - '**/*.yml'
+      - '**/*.yaml'
+      - 'config/github-repo-registry.json'
+      - 'tools/github-url-validator.py'
+      - '.github/workflows/github-url-diagnostic.yml'
+  push:
+    branches: [main]
+    paths:
+      - '**/*.md'
+      - '**/*.mdx'
+      - '**/*.json'
+      - '**/*.yml'
+      - '**/*.yaml'
+      - 'config/github-repo-registry.json'
+      - 'tools/github-url-validator.py'
+      - '.github/workflows/github-url-diagnostic.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate-github-links:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate canonical registry URLs
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          python tools/github-url-validator.py --scan . > github-url-diagnostic.json
+          cat github-url-diagnostic.json
+
+      - name: Validate registry syntax
+        run: python -m json.tool config/github-repo-registry.json >/dev/null
+
+      - name: Upload diagnostic report
+        uses: actions/upload-artifact@v4
+        with:
+          name: github-url-diagnostic
+          path: github-url-diagnostic.json
+
+      - name: Diagnostic gate
+        run: echo 'GitHub URL diagnostic gate completed.'
