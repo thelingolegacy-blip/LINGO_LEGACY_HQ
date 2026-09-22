@@ -8,7 +8,7 @@ permissions:
   contents: read
 jobs:
   g02-self-hosted-probe:
-    runs-on: [self-hosted, linux, x64, lingo-g02]
+    runs-on: self-hosted
     steps:
       - name: G02 execution sentinel
         shell: bash
