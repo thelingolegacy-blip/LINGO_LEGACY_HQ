@@ -1,0 +1,27 @@
+name: Runner Replica — Isolated Diagnostic
+
+on:
+  push:
+    branches:
+      - diagnostic/runner-replica-2026-09-22
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  replica-runner-probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Runner allocation sentinel
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "REPLICA_RUNNER_PROBE=STARTED"
+          echo "RUNNER_ID=$RUNNER_ID"
+          echo "RUNNER_NAME=$RUNNER_NAME"
+          echo "RUNNER_GROUP_NAME=$RUNNER_GROUP_NAME"
+          echo "RUNNER_OS=$RUNNER_OS"
+          echo "RUNNER_ARCH=$RUNNER_ARCH"
+          echo "GITHUB_RUN_ID=$GITHUB_RUN_ID"
+          echo "REPLICA_RUNNER_PROBE=EXECUTED"
