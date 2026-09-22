@@ -13,14 +13,14 @@ permissions:
 
 jobs:
   alternate-runner-probe:
-    runs-on: windows-latest
+    runs-on: ubuntu-slim
     steps:
       - name: Runner dispatch sentinel
-        shell: pwsh
+        shell: bash
         run: |
-          Write-Host "RUNNER_ROUTE_PROBE=STARTED"
-          Write-Host "RUNNER_OS=$env:RUNNER_OS"
-          Write-Host "RUNNER_NAME=$env:RUNNER_NAME"
-          Write-Host "RUNNER_ARCH=$env:RUNNER_ARCH"
-          Write-Host "GITHUB_RUN_ID=$env:GITHUB_RUN_ID"
-          Write-Host "RUNNER_ROUTE_PROBE=EXECUTED"
+          echo "RUNNER_ROUTE_PROBE=STARTED"
+          echo "RUNNER_OS=$RUNNER_OS"
+          echo "RUNNER_NAME=$RUNNER_NAME"
+          echo "RUNNER_ARCH=$RUNNER_ARCH"
+          echo "GITHUB_RUN_ID=$GITHUB_RUN_ID"
+          echo "RUNNER_ROUTE_PROBE=EXECUTED"
