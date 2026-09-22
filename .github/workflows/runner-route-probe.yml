@@ -14,7 +14,7 @@ permissions:
 
 jobs:
   alternate-runner-probe:
-    runs-on: ubuntu-slim
+    runs-on: ubuntu-latest
     steps:
       - name: Runner dispatch sentinel
         shell: bash
