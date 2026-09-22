@@ -1,0 +1,24 @@
+name: G02 Self-Hosted Runner Probe
+on:
+  push:
+    branches:
+      - diagnostic/runner-replica-2026-09-22
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  g02-self-hosted-probe:
+    runs-on: [self-hosted, linux, x64, lingo-g02]
+    steps:
+      - name: G02 execution sentinel
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "G02_SENTINEL=STARTED"
+          echo "RUNNER_ID=$RUNNER_ID"
+          echo "RUNNER_NAME=$RUNNER_NAME"
+          echo "RUNNER_GROUP_NAME=$RUNNER_GROUP_NAME"
+          echo "RUNNER_OS=$RUNNER_OS"
+          echo "RUNNER_ARCH=$RUNNER_ARCH"
+          echo "GITHUB_RUN_ID=$GITHUB_RUN_ID"
+          echo "G02_SENTINEL=EXECUTED"
