@@ -3,7 +3,7 @@ name: Runner Route Probe — Alternate Hosted Fleet
 on:
   push:
     branches:
-      - studio-hub/stack-sync-2026-09-21
+      - edge/cloudflare-appdeploy-bridge
   pull_request:
     branches:
       - main
