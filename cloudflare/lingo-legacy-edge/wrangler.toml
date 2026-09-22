@@ -1,0 +1,6 @@
+name = "lingo-legacy-edge"
+main = "src/index.js"
+compatibility_date = "2026-09-22"
+
+# Production custom-domain binding is intentionally omitted here.
+# DNS and Worker activation remain a controlled production mutation.
