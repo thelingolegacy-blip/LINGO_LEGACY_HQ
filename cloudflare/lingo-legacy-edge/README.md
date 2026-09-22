@@ -31,3 +31,5 @@ No DNS mutation, Worker deployment, or LKG promotion is performed by this artifa
 GitHub G02 remains independent: a successful Cloudflare route does not satisfy the GitHub hosted-runner evidence requirement.
 
 Hosted-runner probe validation is intentionally isolated from production activation.
+
+Dispatch validation checkpoint: 2026-09-22T00:00Z.
