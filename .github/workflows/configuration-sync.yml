@@ -1,0 +1,21 @@
+name: Configuration Synchronization Gate
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  synchronization-gate:
+    runs-on: self-hosted
+    steps:
+      - name: Synchronization sentinel
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "CONFIG_SYNC=STARTED"
+          echo "RUNNER_NAME=$RUNNER_NAME"
+          echo "RUNNER_GROUP_NAME=$RUNNER_GROUP_NAME"
+          echo "GITHUB_RUN_ID=$GITHUB_RUN_ID"
+          echo "CONFIG_SYNC=EXECUTED"
