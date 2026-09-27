@@ -33,3 +33,4 @@ jobs:
           test "$RUNNER_OS" = "Linux"
           test "$RUNNER_ARCH" = "X64"
           echo "G02_EXIT=0"
+# G02 controlled execution probe refresh
