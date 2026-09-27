@@ -1,0 +1,35 @@
+name: G02 Self-Hosted Runner Sentinel
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  g02-runner-sentinel:
+    runs-on: [self-hosted, linux, x64, lingo-g02]
+    steps:
+      - name: Runner identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "RUNNER_ID=$RUNNER_ID"
+          echo "RUNNER_NAME=$RUNNER_NAME"
+          echo "RUNNER_OS=$RUNNER_OS"
+          echo "RUNNER_ARCH=$RUNNER_ARCH"
+          echo "GITHUB_RUN_ID=$GITHUB_RUN_ID"
+          echo "G02_SENTINEL=STARTED"
+      - name: G02 execution sentinel
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "G02_SENTINEL=PASS"
+          test -n "$RUNNER_ID"
+          test -n "$RUNNER_NAME"
+          test "$RUNNER_OS" = "Linux"
+          test "$RUNNER_ARCH" = "X64"
+          echo "G02_EXIT=0"
