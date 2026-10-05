@@ -8,7 +8,11 @@ permissions:
 
 jobs:
   synchronization-gate:
-    runs-on: self-hosted
+    runs-on:
+      - self-hosted
+      - linux
+      - x64
+      - lingo-g02
     steps:
       - name: Synchronization sentinel
         shell: bash
