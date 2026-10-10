@@ -1,0 +1,123 @@
+name: LINGO Infrastructure Repair Robot
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 */6 * * *"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: lingo-infrastructure-repair-robot
+  cancel-in-progress: false
+
+jobs:
+  public-edge-audit:
+    name: Public DNS, TLS, redirect, and HTTP evidence
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Capture public reachability evidence
+        shell: bash
+        run: |
+          set -uo pipefail
+          mkdir -p evidence
+          report="evidence/public-edge-audit.txt"
+          {
+            echo "LINGO_PUBLIC_EDGE_AUDIT_SCHEMA=1"
+            echo "UTC_TIME=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            echo "REPOSITORY=$GITHUB_REPOSITORY"
+            echo "WORKFLOW=$GITHUB_WORKFLOW"
+            echo "RUN_ID=$GITHUB_RUN_ID"
+            echo "RUN_ATTEMPT=$GITHUB_RUN_ATTEMPT"
+            echo "COMMIT=$GITHUB_SHA"
+            echo
+          } | tee "$report"
+
+          failures=0
+          check_url() {
+            local url="$1"
+            local label="$2"
+            local tmp="evidence/${label}.headers"
+            echo "===== HTTP CHECK: $label ($url) =====" | tee -a "$report"
+            local code
+            code=$(curl --silent --show-error --location --max-redirs 8 --connect-timeout 12 --max-time 30 \
+              --dump-header "$tmp" --output /dev/null \
+              --write-out '%{http_code}' "$url" 2>>"$report")
+            local rc=$?
+            if [ "$rc" -ne 0 ]; then
+              echo "CURL_EXIT=$rc" | tee -a "$report"
+              failures=$((failures + 1))
+            fi
+            echo "FINAL_HTTP_STATUS=${code:-000}" | tee -a "$report"
+            if [ -s "$tmp" ]; then
+              awk 'BEGIN{IGNORECASE=1} /^HTTP\// || /^location:/ || /^server:/ || /^cf-ray:/ || /^content-type:/ {print}' "$tmp" | tee -a "$report"
+            fi
+            case "${code:-000}" in
+              2??) ;;
+              *) failures=$((failures + 1)) ;;
+            esac
+            echo | tee -a "$report"
+          }
+
+          check_url "https://thelingolegacy.com/" "apex"
+          check_url "https://www.thelingolegacy.com/" "www"
+          check_url "https://casino.thelingolegacy.com/" "casino"
+
+          echo "===== DNS LOOKUPS =====" | tee -a "$report"
+          for host in thelingolegacy.com www.thelingolegacy.com casino.thelingolegacy.com; do
+            echo "--- $host ---" | tee -a "$report"
+            if command -v dig >/dev/null 2>&1; then
+              dig +time=5 +tries=1 "$host" A +noall +answer 2>&1 | tee -a "$report"
+              dig +time=5 +tries=1 "$host" AAAA +noall +answer 2>&1 | tee -a "$report"
+              dig +time=5 +tries=1 "$host" CNAME +noall +answer 2>&1 | tee -a "$report"
+            else
+              getent ahosts "$host" 2>&1 | tee -a "$report" || true
+            fi
+          done
+
+          echo "===== TLS CERTIFICATE SUMMARY =====" | tee -a "$report"
+          for host in thelingolegacy.com www.thelingolegacy.com casino.thelingolegacy.com; do
+            echo "--- $host ---" | tee -a "$report"
+            timeout 12 openssl s_client -connect "$host:443" -servername "$host" </dev/null 2>/dev/null \
+              | openssl x509 -noout -subject -issuer -dates -fingerprint -sha256 2>&1 | tee -a "$report" || failures=$((failures + 1))
+          done
+
+          echo "AUDIT_FAILURE_COUNT=$failures" | tee -a "$report"
+          if [ "$failures" -gt 0 ]; then
+            echo "AUDIT_RESULT=FAIL_OR_UNREACHABLE" | tee -a "$report"
+            exit 1
+          fi
+          echo "AUDIT_RESULT=PASS_PUBLIC_HTTP_CHECKS" | tee -a "$report"
+
+      - name: Publish evidence summary
+        if: always()
+        shell: bash
+        run: |
+          {
+            echo "## LINGO Infrastructure Repair Robot"
+            echo
+            echo "- Run: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+            echo "- Commit: $GITHUB_SHA"
+            echo "- Scope: read-only public DNS, TLS, redirect, and HTTP diagnostics"
+            echo "- Production DNS, Worker routes, deployment settings, secrets, and branches were not mutated."
+            echo "- A failed public probe is evidence of a failed probe from this runner, not proof of the root cause."
+            echo "- No automatic merge, deployment, credential rotation, DNS edit, or activation is permitted."
+            echo
+            if [ -f evidence/public-edge-audit.txt ]; then
+              echo "### Diagnostic report"
+              sed 's/^/    /' evidence/public-edge-audit.txt
+            else
+              echo "No report was generated; inspect the job logs."
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload correlated audit evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: lingo-public-edge-audit-${{ github.run_id }}-${{ github.run_attempt }}
+          path: evidence/
+          if-no-files-found: warn
+          retention-days: 14
