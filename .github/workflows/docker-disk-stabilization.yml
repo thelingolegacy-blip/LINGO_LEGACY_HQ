@@ -69,6 +69,7 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p .ci-evidence
+          bash -n ops/docker/host-preflight.sh
           {
             echo "UTC: $(date -u +%FT%TZ)"
             echo "Commit: $GITHUB_SHA"
@@ -78,11 +79,7 @@ jobs:
             echo "Runner OS: $RUNNER_OS"
             echo "Runner architecture: $RUNNER_ARCH"
             echo
-            df -hT
-            df -ih
-            docker version
-            docker info
-            docker system df -v
+            bash ops/docker/host-preflight.sh
           } 2>&1 | tee .ci-evidence/docker-before.txt
 
       - name: Validate daemon example and write correlated run evidence
