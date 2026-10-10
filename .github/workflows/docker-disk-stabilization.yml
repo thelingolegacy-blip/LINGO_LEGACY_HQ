@@ -1,0 +1,142 @@
+name: Docker Disk & Build Stabilization
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'Dockerfile'
+      - '**/Dockerfile'
+      - 'docker-compose.yml'
+      - 'compose.yaml'
+      - 'compose.yml'
+      - '.dockerignore'
+      - 'ops/docker/**'
+      - '.github/workflows/docker-disk-stabilization.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: docker-stabilization-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  dispatch-sentinel:
+    name: Runner dispatch sentinel
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Write assigned runner identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .ci-evidence
+          {
+            echo "utc_time=$(date -u +%FT%TZ)"
+            echo "run_id=$GITHUB_RUN_ID"
+            echo "run_attempt=$GITHUB_RUN_ATTEMPT"
+            echo "commit=$GITHUB_SHA"
+            echo "job=$GITHUB_JOB"
+            echo "runner_name=$RUNNER_NAME"
+            echo "runner_os=$RUNNER_OS"
+            echo "runner_arch=$RUNNER_ARCH"
+          } | tee .ci-evidence/runner-sentinel.txt
+          test -n "$RUNNER_NAME"
+          test -n "$GITHUB_SHA"
+          printf 'LINGO_G02_SENTINEL_PASS run=%s commit=%s runner=%s\n' "$GITHUB_RUN_ID" "$GITHUB_SHA" "$RUNNER_NAME"
+
+      - name: Upload sentinel evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: runner-sentinel-${{ github.run_id }}-${{ github.run_attempt }}-${{ github.sha }}
+          path: .ci-evidence/runner-sentinel.txt
+          if-no-files-found: error
+          retention-days: 3
+
+  inspect-and-build:
+    name: Inspect Docker, disk, and build cache
+    needs: dispatch-sentinel
+    if: needs.dispatch-sentinel.result == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Capture preflight, runner identity, and disk state
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .ci-evidence
+          bash -n ops/docker/host-preflight.sh
+          {
+            echo "UTC: $(date -u +%FT%TZ)"
+            echo "Commit: $GITHUB_SHA"
+            echo "Run: $GITHUB_RUN_ID"
+            echo "Attempt: $GITHUB_RUN_ATTEMPT"
+            echo "Runner: $RUNNER_NAME"
+            echo "Runner OS: $RUNNER_OS"
+            echo "Runner architecture: $RUNNER_ARCH"
+            echo
+            bash ops/docker/host-preflight.sh
+          } 2>&1 | tee .ci-evidence/docker-before.txt
+
+      - name: Validate daemon example and write correlated run evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m json.tool ops/docker/daemon.json.example >/dev/null
+          python3 - <<'PY'
+          import json, os
+          keys = ("GITHUB_RUN_ID", "GITHUB_RUN_ATTEMPT", "GITHUB_SHA", "RUNNER_NAME", "GITHUB_WORKFLOW")
+          payload = {key.lower(): os.environ.get(key, "") for key in keys}
+          with open(".ci-evidence/correlation.json", "w", encoding="utf-8") as f:
+              json.dump(payload, f, indent=2, sort_keys=True)
+              f.write("\n")
+          if not payload["github_sha"] or not payload["github_run_id"]:
+              raise SystemExit("Missing run/commit correlation identifiers")
+          PY
+
+      - name: Set up Buildx
+        if: hashFiles('Dockerfile', '**/Dockerfile') != ''
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build image without publishing
+        if: hashFiles('Dockerfile', '**/Dockerfile') != ''
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: false
+          load: false
+          tags: lingo-legacy-ci:validation
+          cache-from: type=gha,scope=lingo-docker-build
+          cache-to: type=gha,scope=lingo-docker-build,mode=max
+          provenance: false
+
+      - name: Report missing Dockerfile
+        if: hashFiles('Dockerfile', '**/Dockerfile') == ''
+        shell: bash
+        run: echo "No Dockerfile found; Docker and disk diagnostics completed, image build skipped."
+
+      - name: Capture post-build disk state and safely prune old builder cache
+        if: always()
+        shell: bash
+        run: |
+          mkdir -p .ci-evidence
+          {
+            echo "UTC: $(date -u +%FT%TZ)"
+            df -hT
+            df -ih
+            docker system df -v
+          } > .ci-evidence/docker-after.txt 2>&1 || true
+          docker builder prune --force --filter 'until=24h' || true
+
+      - name: Upload correlated Docker diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: docker-disk-evidence-${{ github.run_id }}-${{ github.run_attempt }}-${{ github.sha }}
+          path: .ci-evidence/
+          if-no-files-found: error
+          retention-days: 3
