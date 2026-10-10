@@ -15,6 +15,16 @@ Add cache mounts to the relevant existing Dockerfile only after confirming the p
 RUN --mount=type=cache,target=/root/.npm npm ci
 ```
 
+## Read-only host preflight
+
+Run this on the actual Docker host, not on a separate CI worker, when host access is available:
+
+```bash
+bash ops/docker/host-preflight.sh
+```
+
+It prints filesystem byte/inode capacity, Docker state and storage usage, daemon JSON syntax plus the relevant logging settings, and the largest JSON container log files. It does not write an evidence file, modify the daemon, restart services, prune caches, delete images, or remove volumes. Capture its stdout to an approved evidence destination if a durable record is required.
+
 ## Disk diagnosis and cleanup
 
 Capture `df -hT`, `df -ih`, and `docker system df -v` before and after a build. Separate byte exhaustion, inode exhaustion, JSON logs, image layers, builder cache, artifacts, and volumes before removing anything. The CI workflow only prunes BuildKit cache older than 24 hours on its runner. It never automatically prunes volumes or images. Alert when free space falls below 15%, subject to host-specific policy.
