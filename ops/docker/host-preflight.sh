@@ -32,7 +32,7 @@ if command -v systemctl >/dev/null 2>&1; then
   systemctl is-active docker 2>&1 || true
   systemctl status docker --no-pager --lines=0 2>&1 || true
 else
-  printf '[INFO] systemctl is unavailable; inspect the host's service manager.\n'
+  printf '[INFO] systemctl is unavailable; inspect the host service manager.\n'
 fi
 
 section "Daemon configuration validation (read-only)"
