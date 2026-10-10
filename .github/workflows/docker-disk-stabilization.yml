@@ -23,15 +23,13 @@ concurrency:
 jobs:
   inspect-and-build:
     name: Inspect Docker, disk, and build cache
-    # Hosted runners are currently failing before step initialization. Use explicit
-    # self-hosted labels only if an online daemon is confirmed; do not disguise that gate.
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
 
-      - name: Capture runner identity and pre-build disk/Docker state
+      - name: Capture preflight, runner identity, and disk state
         shell: bash
         run: |
           set -euo pipefail
@@ -43,7 +41,7 @@ jobs:
             echo "Attempt: $GITHUB_RUN_ATTEMPT"
             echo "Runner: $RUNNER_NAME"
             echo "Runner OS: $RUNNER_OS"
-            echo "Runner arch: $RUNNER_ARCH"
+            echo "Runner architecture: $RUNNER_ARCH"
             echo
             df -hT
             df -ih
@@ -52,19 +50,27 @@ jobs:
             docker system df -v
           } 2>&1 | tee .ci-evidence/docker-before.txt
 
-      - name: Validate daemon sample and workflow metadata
+      - name: Validate daemon example and write correlated run evidence
         shell: bash
         run: |
           set -euo pipefail
           python3 -m json.tool ops/docker/daemon.json.example >/dev/null
-          test -n "$GITHUB_SHA"
-          printf '{"run_id":"%s","run_attempt":"%s","commit":"%s","runner":"%s","workflow":"%s"}\n'             "$GITHUB_RUN_ID" "$GITHUB_RUN_ATTEMPT" "$GITHUB_SHA" "$RUNNER_NAME" "$GITHUB_WORKFLOW"             > .ci-evidence/correlation.json
+          python3 - <<'PY'
+          import json, os
+          keys = ("GITHUB_RUN_ID", "GITHUB_RUN_ATTEMPT", "GITHUB_SHA", "RUNNER_NAME", "GITHUB_WORKFLOW")
+          payload = {key.lower(): os.environ.get(key, "") for key in keys}
+          with open(".ci-evidence/correlation.json", "w", encoding="utf-8") as f:
+              json.dump(payload, f, indent=2, sort_keys=True)
+              f.write("\n")
+          if not payload["github_sha"] or not payload["github_run_id"]:
+              raise SystemExit("Missing run/commit correlation identifiers")
+          PY
 
       - name: Set up Buildx
         if: hashFiles('Dockerfile', '**/Dockerfile') != ''
         uses: docker/setup-buildx-action@v3
 
-      - name: Build without publishing
+      - name: Build image without publishing
         if: hashFiles('Dockerfile', '**/Dockerfile') != ''
         uses: docker/build-push-action@v6
         with:
@@ -76,12 +82,12 @@ jobs:
           cache-to: type=gha,scope=lingo-docker-build,mode=max
           provenance: false
 
-      - name: Mark missing Dockerfile without failing diagnostics
+      - name: Report missing Dockerfile
         if: hashFiles('Dockerfile', '**/Dockerfile') == ''
         shell: bash
-        run: echo "No Dockerfile found; completed Docker/disk diagnostics and skipped build."
+        run: echo "No Dockerfile found; Docker and disk diagnostics completed, image build skipped."
 
-      - name: Capture final Docker/disk state
+      - name: Capture post-build disk state and safely prune old builder cache
         if: always()
         shell: bash
         run: |
@@ -92,7 +98,6 @@ jobs:
             df -ih
             docker system df -v
           } > .ci-evidence/docker-after.txt 2>&1 || true
-          # CI runner only: remove stale BuildKit cache, never volumes or images.
           docker builder prune --force --filter 'until=24h' || true
 
       - name: Upload correlated diagnostics
@@ -101,5 +106,5 @@ jobs:
         with:
           name: docker-disk-evidence-${{ github.run_id }}-${{ github.run_attempt }}-${{ github.sha }}
           path: .ci-evidence/
-          if-no-files-found: warn
+          if-no-files-found: error
           retention-days: 3
