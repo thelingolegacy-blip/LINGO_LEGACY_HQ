@@ -1,6 +1,9 @@
 name: LINGO Infrastructure Repair Robot
 
 on:
+  push:
+    branches:
+      - ops/lingo-infrastructure-repair-robot-2026-10-09
   workflow_dispatch:
   schedule:
     - cron: "17 */6 * * *"
