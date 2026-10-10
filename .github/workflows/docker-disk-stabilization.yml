@@ -1,0 +1,104 @@
+name: Docker Disk & Build Stabilization
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'Dockerfile'
+      - '**/Dockerfile'
+      - 'docker-compose.yml'
+      - 'compose.yaml'
+      - 'compose.yml'
+      - '.dockerignore'
+      - 'ops/docker/**'
+      - '.github/workflows/docker-disk-stabilization.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: docker-stabilization-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  inspect-and-build:
+    name: Inspect Docker, disk, and build cache
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Capture pre-build disk and Docker state
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .ci-evidence
+          {
+            echo "UTC: $(date -u +%FT%TZ)"
+            echo "Commit: $GITHUB_SHA"
+            echo "Runner: $RUNNER_NAME"
+            echo
+            df -hT
+            echo
+            df -ih
+            echo
+            docker version
+            echo
+            docker info
+            echo
+            docker system df -v
+          } 2>&1 | tee .ci-evidence/docker-before.txt
+
+      - name: Validate example daemon configuration
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m json.tool ops/docker/daemon.json.example >/dev/null
+          echo "daemon.json.example is valid JSON"
+
+      - name: Set up Buildx
+        if: hashFiles('Dockerfile', '**/Dockerfile') != ''
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build with bounded GitHub Actions cache
+        if: hashFiles('Dockerfile', '**/Dockerfile') != ''
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: false
+          load: false
+          tags: lingo-legacy-ci:validation
+          cache-from: type=gha,scope=lingo-docker-build
+          cache-to: type=gha,scope=lingo-docker-build,mode=max
+          provenance: false
+
+      - name: Report when no root Dockerfile exists
+        if: hashFiles('Dockerfile') == '' && hashFiles('**/Dockerfile') == ''
+        shell: bash
+        run: echo "No Dockerfile found; Docker and disk diagnostics completed, image build skipped."
+
+      - name: Capture post-build disk state
+        if: always()
+        shell: bash
+        run: |
+          set -uo pipefail
+          {
+            echo "UTC: $(date -u +%FT%TZ)"
+            df -hT
+            echo
+            df -ih
+            echo
+            docker system df -v
+          } 2>&1 | tee .ci-evidence/docker-after.txt
+          # Safe, time-bounded builder-cache cleanup only. No volumes or images are pruned.
+          docker builder prune --force --filter 'until=24h' || true
+
+      - name: Upload disk and Docker evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: docker-disk-evidence-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .ci-evidence/
+          if-no-files-found: warn
+          retention-days: 3
