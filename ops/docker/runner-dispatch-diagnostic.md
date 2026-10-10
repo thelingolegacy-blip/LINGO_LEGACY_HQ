@@ -36,6 +36,19 @@ A retry of an earlier Docker run also failed with the same signature. This is ev
 
 Related blocker issue: https://github.com/thelingolegacy-blip/LINGO_LEGACY_HQ/issues/35
 
+
+## Latest current-head rerun
+
+Latest branch head tested: `6f25ea5a646539f8ba7e05c270d3641814d8f5e6`.
+
+| Workflow | Run ID | Job ID |
+| --- | ---: | ---: |
+| Docker Disk & Build Stabilization — runner sentinel | 38014382896 | 114101315278 |
+| Runner Route Probe — Alternate Hosted Fleet | 38014382898 | 114101315154 |
+| Jekyll site CI | 38014382872 | 114101315032 |
+
+All three failed before steps. Job summaries returned `steps=[]` and `logs_url=null`; direct job log retrieval for earlier runs in this sequence returned `BlobNotFound`. The Docker diagnostics job was skipped behind the failed sentinel. Actual host disk telemetry remains unavailable until the runner dispatch gate passes or an authorized operator runs the host preflight locally.
+
 ## Vercel error isolated separately
 
 Vercel project `character_bible` is linked to this monorepo. Deployment `dpl_FZGFf2rGAoaeUThK6WUJpqqdSoF3` is canceled; its build log says the Ignored Build Step ran `echo "Hello World"` and canceled the deployment. This is a configured skip command, not a Docker build failure.
