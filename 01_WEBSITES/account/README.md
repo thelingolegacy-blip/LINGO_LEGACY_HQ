@@ -9,26 +9,11 @@ This folder contains the first registration UI for The Lingo Legacy at `register
 3. In Firebase Authentication → Sign-in method, enable **Email/Password** and **Google**.
 4. In Authentication settings, add the actual registration host to **Authorized domains**.
 5. In `register.html`, replace the four `REPLACE_WITH_...` values in `firebaseConfig` with the web-app values. Firebase web config is designed to be present in browser code; do not add service-account credentials, private API secrets, or Admin SDK credentials.
-6. Enable Firestore and deploy restrictive rules before testing. A starting rule for the base profile is shown below; adapt it to the project's existing rules rather than replacing rules blindly.
+6. Enable Firestore and review the restrictive rules in [`firestore.rules`](./firestore.rules). Test them in the Firebase Emulator Suite, then deploy them to the **intended project** using an authorized Firebase Console session or CLI.
 
-```text
-match /users/{userId} {
-  allow read: if request.auth != null && request.auth.uid == userId;
-  allow create: if request.auth != null
-    && request.auth.uid == userId
-    && request.resource.data.uid == request.auth.uid
-    && request.resource.data.keys().hasOnly([
-      'uid', 'displayName', 'firstName', 'lastName', 'email',
-      'emailVerified', 'schemaVersion', 'createdAt', 'updatedAt'
-    ]);
-  allow update: if request.auth != null
-    && request.auth.uid == userId
-    && request.resource.data.uid == resource.data.uid;
-  allow delete: if false;
-}
-```
+The supplied broad rule pattern `allow read, write: if ...` must **not** be combined with a narrower `allow update` deny rule as if one overrides the other. Firestore allows a request if any matching `allow` expression evaluates true. The included rules instead allow only the current user's single profile document, restrict create/update fields, preserve the original UID and creation timestamp, deny listing/deletion, and deny all other collections by default. This default-deny policy can affect existing application collections; reconcile it with the actual project rules before deployment rather than replacing a live ruleset blindly.
 
-This is a profile-only example, not a complete production ruleset. Merge it carefully with existing rules and test the final rules in the Firebase Emulator Suite. Validate every mutable field and immutable timestamp/identity field in your final rules.
+The client intentionally does not write `email` or `emailVerified` into the profile document; Firebase Authentication is authoritative for those values. Wallet, XP, rewards, and tier fields must be written only through trusted backend paths with server-side authorization. The profile rules are a scoped starting point and still need emulator tests against the full application.
 
 ## Deploy and route
 
