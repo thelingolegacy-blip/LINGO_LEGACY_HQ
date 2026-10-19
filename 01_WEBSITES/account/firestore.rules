@@ -1,0 +1,50 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedInAs(userId) {
+      return request.auth != null && request.auth.uid == userId;
+    }
+
+    // Client-owned identity fields only. Authentication claims, wallet balances,
+    // XP, rewards, tier, roles, and other system state are not client writable.
+    match /users/{userId} {
+      allow get: if signedInAs(userId);
+      allow list: if false;
+
+      allow create: if signedInAs(userId)
+        && request.resource.data.keys().hasOnly([
+          'uid', 'displayName', 'firstName', 'lastName',
+          'schemaVersion', 'createdAt', 'updatedAt'
+        ])
+        && request.resource.data.keys().hasAll([
+          'uid', 'displayName', 'firstName', 'lastName',
+          'schemaVersion', 'createdAt', 'updatedAt'
+        ])
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.displayName is string
+        && request.resource.data.firstName is string
+        && request.resource.data.lastName is string
+        && request.resource.data.schemaVersion == 1
+        && request.resource.data.createdAt == request.time
+        && request.resource.data.updatedAt == request.time;
+
+      allow update: if signedInAs(userId)
+        && request.resource.data.uid == resource.data.uid
+        && request.resource.data.createdAt == resource.data.createdAt
+        && request.resource.data.diff(resource.data).affectedKeys()
+          .hasOnly(['displayName', 'firstName', 'lastName', 'updatedAt'])
+        && request.resource.data.displayName is string
+        && request.resource.data.firstName is string
+        && request.resource.data.lastName is string
+        && request.resource.data.updatedAt == request.time;
+
+      allow delete: if false;
+    }
+
+    // Explicit default deny. Add narrowly scoped rules for other collections
+    // only after reviewing their ownership and trusted-server write paths.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
