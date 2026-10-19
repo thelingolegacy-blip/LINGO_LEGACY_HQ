@@ -34,6 +34,18 @@ Both the GitHub workflow and the host operator must use the same target contract
 - **Host side must confirm:** the same runner name, service/version, active polling and assignment in diagnostics, and the correlation ID/commit SHA emitted by the sentinel.
 - **Mismatch behavior:** wrong runner name, missing label, wrong scope/group, runner ID zero, no assignment, or no first step means the handshake is rejected and G02 stays blocked.
 
+## Audit finding — repository-scope mismatch (OPEN)
+
+**Do not treat the sentinel run in `thelingolegacy-blip/LINGO_LEGACY_HQ` as a probe of the canonical runner until scope is verified.** A cross-repository audit found that the canonical runner bootstrap and host-provisioning documentation in `thelingolegacy-blip/TheLingoLegacy` explicitly set repository-scoped registration to `thelingolegacy-blip/TheLingoLegacy`, name `lingo-legacy-g02`, labels `self-hosted,linux,x64,lingo-g02`, and say the dedicated Linux host/daemon is NOT CREATED / NOT VERIFIED at that recorded checkpoint. The two repositories are distinct IDs. The owner is a personal account; the canonical runner package documents repository-level registration, not a shared organization runner group.
+
+Therefore, the new queued run `39247766979` in `LINGO_LEGACY_HQ` may be blocked by repository scope even if a runner with the same name is online in `TheLingoLegacy`. The current GitHub connector cannot read the Actions runner-admin inventory or host telemetry, so it cannot establish whether a separate HQ registration exists. This is a **confirmed configuration/documentation mismatch, with the live registration state unresolved**.
+
+**Required resolution:** use the existing trusted sentinel in `thelingolegacy-blip/TheLingoLegacy` (`.github/workflows/g02-sentinel.yml`) to validate the canonical repository-scoped runner, after confirming host readiness; or have an authorized admin explicitly prove that the intended runner is registered and eligible in `LINGO_LEGACY_HQ`. Do not create a duplicate runner or widen scope just to make the HQ run assign. Keep the current HQ run as an unresolved scope diagnostic, not acceptance evidence.
+
+**Selector limitation:** GitHub `runs-on` selects by labels (and optionally runner group), not registered runner name. The HQ workflow's `runs-on: [self-hosted, linux, x64, lingo-g02]` does not by itself guarantee that the assigned runner is named `lingo-legacy-g02`. The canonical sentinel in `TheLingoLegacy` explicitly asserts `RUNNER_NAME == lingo-legacy-g02`; require that identity assertion and the run/job telemetry before acceptance.
+
+**Host-side conflict:** prior reports described the runner as Online/Idle, while the checked-in host-provisioning checkpoint says the dedicated host and daemon are not verified. Treat these as contradictory/stale until an authorized operator supplies fresh host/service and GitHub inventory evidence from the same UTC window.
+
 ## Two-sided signal and correlation protocol
 
 GitHub Actions is the control plane; the runner agent initiates outbound polling/communication to GitHub. Do not assume GitHub can open an inbound connection to the runner host, and do not expose an inbound runner port as a workaround. “Both sides signal at the same time” means one coordinated, timestamped handshake with evidence from each side—not two uncorrelated status badges.
