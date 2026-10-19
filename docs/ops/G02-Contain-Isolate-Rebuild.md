@@ -21,6 +21,19 @@ Run `39246609607`, job `118039957627`, commit `38e2dcd1bdc73dece3058f5a793d7494b
 
 Record non-secret evidence for: runner scope (repository/organization), exact name/ID, enabled state, online/idle and last-seen state, runner group, repository/workflow access, public-repository eligibility, account Actions policy, and exact labels. The dedicated sentinel requires `self-hosted`, `linux`, `x64`, `lingo-g02`. An “Online” badge alone does not prove eligibility or polling. If administration evidence is unavailable, stop and escalate rather than infer the cause.
 
+## Exact runner target contract
+
+Both the GitHub workflow and the host operator must use the same target contract; do not guess from an Online badge.
+
+- **Expected registered runner name:** `lingo-legacy-g02` (confirm this exact name in Actions → Runners before treating the identity as valid).
+- **Required runner labels:** `self-hosted`, `linux`, `x64`, `lingo-g02` — all four must match the workflow's `runs-on` selector.
+- **Repository/workflow scope:** `thelingolegacy-blip/LINGO_LEGACY_HQ`; the runner must be enabled and eligible for this repository and the trusted recovery-branch sentinel workflow.
+- **Runner group:** record the actual configured group and confirm that group grants access to this repository. Do not infer a group from the runner name or labels.
+- **Workload boundary:** only the trusted recovery-branch sentinel is eligible for this dedicated runner. Do not assign public/untrusted pull-request code or production workloads to it.
+- **GitHub side must confirm:** run ID, attempt, job ID, selected labels, assigned runner ID greater than zero, exact runner name/group, and started steps.
+- **Host side must confirm:** the same runner name, service/version, active polling and assignment in diagnostics, and the correlation ID/commit SHA emitted by the sentinel.
+- **Mismatch behavior:** wrong runner name, missing label, wrong scope/group, runner ID zero, no assignment, or no first step means the handshake is rejected and G02 stays blocked.
+
 ## Two-sided signal and correlation protocol
 
 GitHub Actions is the control plane; the runner agent initiates outbound polling/communication to GitHub. Do not assume GitHub can open an inbound connection to the runner host, and do not expose an inbound runner port as a workaround. “Both sides signal at the same time” means one coordinated, timestamped handshake with evidence from each side—not two uncorrelated status badges.
