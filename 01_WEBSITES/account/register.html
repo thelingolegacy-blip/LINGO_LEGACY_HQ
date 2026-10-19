@@ -86,13 +86,13 @@
       !firebaseConfig.appId.startsWith("REPLACE_");
     let auth = null, db = null, createUserWithEmailAndPassword, updateProfile,
         sendEmailVerification, GoogleAuthProvider, signInWithPopup, initializeApp,
-        doc, setDoc, serverTimestamp;
+        doc, getDoc, setDoc, updateDoc, serverTimestamp;
     if (configured) {
       try {
         ({ initializeApp } = await import("https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js"));
         ({ getAuth, createUserWithEmailAndPassword, updateProfile, sendEmailVerification,
            GoogleAuthProvider, signInWithPopup } = await import("https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js"));
-        ({ getFirestore, doc, setDoc, serverTimestamp } = await import("https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js"));
+        ({ getFirestore, doc, getDoc, setDoc, updateDoc, serverTimestamp } = await import("https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js"));
         const app = initializeApp(firebaseConfig);
         auth = getAuth(app);
         db = getFirestore(app);
@@ -105,18 +105,26 @@
     async function persistProfile(user, firstName, lastName) {
       const displayName = [firstName, lastName].filter(Boolean).join(" ").trim() || user.displayName || "Legacy Member";
       await updateProfile(user, { displayName });
-      // Create only the base identity profile; wallet/rewards are initialized by trusted backend code.
-      await setDoc(doc(db, "users", user.uid), {
-        uid: user.uid,
+      const profileRef = doc(db, "users", user.uid);
+      const existing = await getDoc(profileRef);
+      const profileFields = {
         displayName,
         firstName: firstName || "",
         lastName: lastName || "",
-        email: user.email || "",
-        emailVerified: Boolean(user.emailVerified),
-        schemaVersion: 1,
-        createdAt: serverTimestamp(),
         updatedAt: serverTimestamp()
-      }, { merge: true });
+      };
+      if (existing.exists()) {
+        // Never reset creation time or rewrite auth-owned/system-owned fields on sign-in.
+        await updateDoc(profileRef, profileFields);
+      } else {
+        // Identity only. Email verification and account email are authoritative in Firebase Auth.
+        await setDoc(profileRef, {
+          uid: user.uid,
+          ...profileFields,
+          schemaVersion: 1,
+          createdAt: serverTimestamp()
+        });
+      }
       return displayName;
     }
     form.addEventListener("submit", async (event) => {
