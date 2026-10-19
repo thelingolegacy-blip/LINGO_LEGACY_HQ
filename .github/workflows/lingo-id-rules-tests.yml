@@ -1,53 +1,45 @@
-name: Lingo ID Firestore Rules Tests
+name: Firestore Rules Tests
 
 on:
-  pull_request:
-    branches:
-      - main
-    paths:
-      - "01_WEBSITES/account/firestore.rules"
-      - "01_WEBSITES/account/rules-tests/**"
-      - ".github/workflows/lingo-id-rules-tests.yml"
   push:
     branches:
       - feature/lingo-account-registration
-    paths:
-      - "01_WEBSITES/account/firestore.rules"
-      - "01_WEBSITES/account/rules-tests/**"
-      - ".github/workflows/lingo-id-rules-tests.yml"
+      - main
+  pull_request:
+    branches:
+      - feature/lingo-account-registration
+      - main
   workflow_dispatch:
 
 permissions:
   contents: read
 
-concurrency:
-  group: lingo-id-rules-tests-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
-  firestore-rules:
-    name: Firestore Emulator / Jest
+  test-rules:
+    name: Run Firestore Security Rules Suite
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    permissions:
+      contents: read
     steps:
-      - name: Checkout repository
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
+      - name: Setup Node.js 20
         uses: actions/setup-node@v4
         with:
           node-version: "20"
 
-      - name: Set up Java for Firebase Emulator
+      - name: Setup Java 21 (Temurin)
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: "21"
 
-      - name: Install test dependencies
+      - name: Install Rules Test Dependencies
         working-directory: 01_WEBSITES/account/rules-tests
-        run: npm install --no-audit --no-fund
+        run: npm ci || npm install --no-audit --no-fund
 
-      - name: Execute Firestore rules tests
+      - name: Run Firestore Emulator Tests
         working-directory: 01_WEBSITES/account/rules-tests
         run: npm run test:rules
