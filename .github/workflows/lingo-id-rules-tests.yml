@@ -1,6 +1,13 @@
 name: Lingo ID Firestore Rules Tests
 
 on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "01_WEBSITES/account/firestore.rules"
+      - "01_WEBSITES/account/rules-tests/**"
+      - ".github/workflows/lingo-id-rules-tests.yml"
   push:
     branches:
       - feature/lingo-account-registration
@@ -30,6 +37,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "20"
+
+      - name: Set up Java for Firebase Emulator
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
 
       - name: Install test dependencies
         working-directory: 01_WEBSITES/account/rules-tests
