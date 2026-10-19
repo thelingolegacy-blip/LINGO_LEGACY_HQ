@@ -1,0 +1,40 @@
+name: Lingo ID Firestore Rules Tests
+
+on:
+  push:
+    branches:
+      - feature/lingo-account-registration
+    paths:
+      - "01_WEBSITES/account/firestore.rules"
+      - "01_WEBSITES/account/rules-tests/**"
+      - ".github/workflows/lingo-id-rules-tests.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: lingo-id-rules-tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  firestore-rules:
+    name: Firestore Emulator / Jest
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install test dependencies
+        working-directory: 01_WEBSITES/account/rules-tests
+        run: npm install --no-audit --no-fund
+
+      - name: Execute Firestore rules tests
+        working-directory: 01_WEBSITES/account/rules-tests
+        run: npm run test:rules
