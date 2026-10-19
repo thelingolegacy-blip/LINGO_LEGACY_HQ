@@ -1,0 +1,64 @@
+name: G02 Two-Sided Runner Sentinel
+
+on:
+  push:
+    branches:
+      - recovery/g02-runbook-main-only-2026-10-19
+    paths:
+      - .github/workflows/g02-two-sided-sentinel.yml
+
+permissions:
+  contents: read
+
+concurrency:
+  group: g02-two-sided-sentinel
+  cancel-in-progress: false
+
+jobs:
+  g02-sentinel:
+    name: Correlated runner handshake
+    runs-on: [self-hosted, linux, x64, lingo-g02]
+    timeout-minutes: 5
+    steps:
+      - name: Emit runner-side signal
+        id: signal
+        shell: bash
+        env:
+          RUN_ID: ${{ github.run_id }}
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+          JOB_NAME: ${{ github.job }}
+          COMMIT_SHA: ${{ github.sha }}
+          REF_NAME: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          mkdir -p g02-evidence
+          CORRELATION_ID="G02-${RUN_ID}-${RUN_ATTEMPT}-${GITHUB_JOB}-$(date -u +%Y%m%dT%H%M%SZ)"
+          STARTED_UTC="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          {
+            printf 'correlation_id=%s\n' "$CORRELATION_ID"
+            printf 'run_id=%s\n' "$RUN_ID"
+            printf 'run_attempt=%s\n' "$RUN_ATTEMPT"
+            printf 'job_name=%s\n' "$JOB_NAME"
+            printf 'commit_sha=%s\n' "$COMMIT_SHA"
+            printf 'ref_name=%s\n' "$REF_NAME"
+            printf 'runner_name=%s\n' "$RUNNER_NAME"
+            printf 'runner_os=%s\n' "$RUNNER_OS"
+            printf 'runner_arch=%s\n' "$RUNNER_ARCH"
+            printf 'started_utc=%s\n' "$STARTED_UTC"
+          } | tee g02-evidence/runner-signal.txt
+          echo "correlation_id=$CORRELATION_ID" >> "$GITHUB_OUTPUT"
+          echo "started_utc=$STARTED_UTC" >> "$GITHUB_OUTPUT"
+      - name: Acknowledge runner signal
+        shell: bash
+        run: |
+          set -euo pipefail
+          printf 'acknowledged_utc=%s\n' "$(date -u +%Y-%m-%dT%H:%M:%SZ)" | tee -a g02-evidence/runner-signal.txt
+          test -s g02-evidence/runner-signal.txt
+      - name: Upload correlated evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: g02-sentinel-${{ github.run_id }}-${{ github.run_attempt }}
+          path: g02-evidence/runner-signal.txt
+          if-no-files-found: warn
+          retention-days: 7
