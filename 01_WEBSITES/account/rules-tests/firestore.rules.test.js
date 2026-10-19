@@ -8,7 +8,7 @@ const projectId = "lingo-id-rules-test";
 beforeAll(async () => {
   env = await initializeTestEnvironment({
     projectId,
-    firestore: { rules: readFileSync("01_WEBSITES/account/firestore.rules", "utf8") }
+    firestore: { rules: readFileSync("../firestore.rules", "utf8") }
   });
 });
 
