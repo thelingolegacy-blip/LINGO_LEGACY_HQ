@@ -21,6 +21,20 @@ Run `39246609607`, job `118039957627`, commit `38e2dcd1bdc73dece3058f5a793d7494b
 
 Record non-secret evidence for: runner scope (repository/organization), exact name/ID, enabled state, online/idle and last-seen state, runner group, repository/workflow access, public-repository eligibility, account Actions policy, and exact labels. The dedicated sentinel requires `self-hosted`, `linux`, `x64`, `lingo-g02`. An “Online” badge alone does not prove eligibility or polling. If administration evidence is unavailable, stop and escalate rather than infer the cause.
 
+## Two-sided signal and correlation protocol
+
+GitHub Actions is the control plane; the runner agent initiates outbound polling/communication to GitHub. Do not assume GitHub can open an inbound connection to the runner host, and do not expose an inbound runner port as a workaround. “Both sides signal at the same time” means one coordinated, timestamped handshake with evidence from each side—not two uncorrelated status badges.
+
+For each authorized sentinel attempt, use one unique correlation value (for example, G02-<run_id>-<run_attempt>-<UTC timestamp>) and record:
+
+1. **Control-plane signal (GitHub):** workflow name/ref/SHA, dispatch or event timestamp, run ID and attempt, job ID, queued/started/completed timestamps, assigned runner ID/name/group, labels/scope, step list, conclusion, and artifact IDs. Capture the API/UI response as observed; never infer assignment from “queued” or runner “Online”.
+2. **Runner-side signal (host):** the same correlation value printed as the first sentinel step, UTC start/end timestamps, hostname or stable runner name (no secrets), runner service state/version, and the matching `_diag/Runner_*.log` / `_diag/Worker_*.log` polling/assignment lines. Keep the raw local diagnostics access-controlled and redact tokens.
+3. **Join and acknowledgement:** compare both sides by run ID + attempt + job ID + correlation value + UTC time window + runner identity. The runner step should emit a small non-secret evidence file containing the correlation value and observed commit SHA; upload it as a run artifact. The control plane must independently show that the same job was assigned to the expected runner and that the artifact belongs to that exact run/attempt.
+4. **Interpretation:** GitHub queue event without host polling evidence = control-plane only; host polling without job assignment = runner is reachable but not proven eligible; assignment without a started step = execution not proven; step without retrievable logs/artifact = evidence incomplete; mismatched IDs, SHA, runner identity, or time window = reject the handshake and keep G02 blocked.
+5. **No blind retries:** create a new correlation value only after the previous attempt is terminal and its evidence is collected. Never create duplicate queued jobs to simulate simultaneous signaling.
+
+The two sides do not exchange a guaranteed atomic signal. The acceptance condition is a correlated handshake across both evidence sources; clock synchronization and UTC timestamps are required to make the time window meaningful.
+
 ## Existing-host diagnostics
 
 Only on the authorized runner host, capture before restarting: supported runner version output (for example `./run.sh --version`), service state/recent service-manager logs, relevant `_diag/Runner_*.log` and `_diag/Worker_*.log` excerpts around job polling, outbound DNS/HTTPS to GitHub Actions and artifact endpoints, disk space, process state, clock synchronization, and auto-update status. Redact tokens and secrets. If below the currently enforced GitHub minimum, preserve logs and use the official in-place update procedure.
