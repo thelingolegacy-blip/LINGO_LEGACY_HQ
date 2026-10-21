@@ -6,6 +6,7 @@ on:
   workflow_dispatch:
 jobs:
   hosted-runner-probe:
+  slim-runner-probe:
     runs-on: ubuntu-latest
     steps:
       - name: Execution sentinel

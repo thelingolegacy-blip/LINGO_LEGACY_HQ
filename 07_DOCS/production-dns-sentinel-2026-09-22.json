@@ -1,0 +1,22 @@
+{
+  "artifact": "lingo-legacy-production-dns-sentinel",
+  "date": "2026-09-22",
+  "status": "blocked_pending_domain_entitlement_and_dns",
+  "deployment_target": "AppDeploy",
+  "app_id": "lingo-legacy-studio-hub-nhda3b",
+  "stage": "v2",
+  "proxy_host": "proxy-v2.appdeploy.ai",
+  "proxy_ipv4": ["18.232.7.146"],
+  "recommended_studio_hostname": "studio.thelingolegacy.com",
+  "record": {
+    "type": "CNAME",
+    "name": "studio",
+    "target": "proxy-v2.appdeploy.ai"
+  },
+  "verification": {
+    "required": true,
+    "activation_requires_dns": true,
+    "connector_constraint": "AppDeploy reports Plus required to connect or activate a new custom domain"
+  },
+  "production_mutation_performed": false
+}
