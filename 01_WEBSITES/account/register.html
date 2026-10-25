@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080808">
+  <meta name="description" content="Create your Lingo ID and join The Lingo Legacy. Loyalty. Legacy. Language.">
+  <title>Create your Lingo ID | The Lingo Legacy</title>
+  <style>
+    :root{color-scheme:dark;--bg:#080808;--panel:#111;--line:#2b2b2b;--text:#f4f2ed;--muted:#a7a39b;--gold:#e5b900;--purple:#6d45a8;--danger:#ff8b8b;--ok:#9ce4b2}
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 80% 8%,#21172f 0,transparent 35%),radial-gradient(ellipse at 10% 95%,#2a2109 0,transparent 34%),var(--bg);color:var(--text);font:16px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;display:grid;grid-template-columns:minmax(0,1fr) minmax(320px,520px);align-items:center;gap:5vw;padding:clamp(24px,7vw,100px)}
+    .brand{max-width:580px}.mark{width:58px;height:58px;border:1px solid var(--gold);display:grid;place-items:center;color:var(--gold);font-weight:900;letter-spacing:-3px;font-size:25px;transform:rotate(-3deg)}.eyebrow{color:var(--gold);font-size:.75rem;letter-spacing:.22em;text-transform:uppercase;font-weight:800;margin:28px 0 12px}h1{font-size:clamp(2.8rem,6vw,5.7rem);line-height:.94;letter-spacing:-.065em;margin:0 0 24px}h1 span{color:var(--gold)}.brand-copy{color:#c4c0b8;font-size:1.12rem;max-width:450px}.motto{margin-top:42px;color:var(--muted);font-size:.78rem;letter-spacing:.18em;text-transform:uppercase}
+    .card{width:100%;max-width:520px;justify-self:end;background:linear-gradient(145deg,rgba(23,23,23,.97),rgba(12,12,12,.98));border:1px solid #34312a;border-radius:18px;padding:clamp(24px,4vw,40px);box-shadow:0 28px 90px #0009}.card h2{font-size:1.8rem;letter-spacing:-.04em;margin:0}.sub{color:var(--muted);margin:6px 0 26px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.field{display:flex;flex-direction:column;gap:7px;margin-bottom:15px}.field.full{grid-column:1/-1}label{font-size:.83rem;color:#ddd8cf;font-weight:650}input{width:100%;min-height:48px;border:1px solid #393939;background:#090909;border-radius:8px;padding:12px 13px;color:var(--text);font:inherit;outline:none}input:focus{border-color:var(--gold);box-shadow:0 0 0 3px #e5b90022}input::placeholder{color:#777}small{color:var(--muted);font-size:.75rem}.check{display:flex;gap:10px;align-items:flex-start;color:#c9c5bc;font-size:.82rem;margin:6px 0 18px}.check input{width:17px;min-height:17px;margin-top:3px;accent-color:var(--gold);flex-shrink:0}.btn{width:100%;min-height:49px;border-radius:8px;border:1px solid var(--gold);background:var(--gold);color:#111;font:inherit;font-weight:850;cursor:pointer;padding:12px 16px}.btn:hover{filter:brightness(1.08)}.btn:disabled{opacity:.6;cursor:wait}.secondary{background:transparent;color:var(--text);border-color:#424242}.or{display:flex;align-items:center;gap:12px;color:#888;font-size:.75rem;margin:18px 0}.or:before,.or:after{content:"";height:1px;background:#333;flex:1}.signin{text-align:center;color:var(--muted);font-size:.88rem;margin:20px 0 0}.signin a,.check a{color:var(--gold)}.status{display:none;margin:0 0 16px;padding:11px 12px;border:1px solid #454545;border-radius:8px;font-size:.85rem;overflow-wrap:anywhere}.status.show{display:block}.status.error{color:var(--danger);border-color:#6c3030}.status.success{color:var(--ok);border-color:#28533a}.foot{margin-top:20px;color:#777;font-size:.72rem;text-align:center}.foot a{color:#aaa}.hidden{display:none!important}
+    @media(max-width:850px){body{grid-template-columns:1fr;gap:30px;padding:24px 18px 40px}.brand{max-width:520px}.brand .eyebrow{margin-top:18px}.brand h1{font-size:clamp(2.7rem,12vw,4.5rem)}.brand-copy{font-size:1rem}.motto{margin-top:20px}.card{justify-self:center}.mark{width:46px;height:46px;font-size:21px}}@media(max-width:420px){.grid{grid-template-columns:1fr;gap:0}.field.full{grid-column:auto}.card{padding:22px}}
+  </style>
+</head>
+<body>
+  <section class="brand" aria-label="The Lingo Legacy">
+    <div class="mark" aria-hidden="true">LL</div>
+    <p class="eyebrow">Your story. Your legacy.</p>
+    <h1>Make it<br><span>LEGACY.</span></h1>
+    <p class="brand-copy">One identity for the worlds, games, stories, rewards, and experiences of The Lingo Legacy. Create your Lingo ID to get started.</p>
+    <p class="motto">Loyalty. Legacy. Language.</p>
+  </section>
+  <main class="card">
+    <h2>Create your account</h2>
+    <p class="sub">Build your Lingo ID. Your next chapter starts here.</p>
+    <div id="status" class="status" role="status" aria-live="polite"></div>
+    <form id="signup-form">
+      <div class="grid">
+        <div class="field"><label for="firstName">First name</label><input id="firstName" name="firstName" autocomplete="given-name" maxlength="60" placeholder="First name" required></div>
+        <div class="field"><label for="lastName">Last name</label><input id="lastName" name="lastName" autocomplete="family-name" maxlength="60" placeholder="Last name" required></div>
+        <div class="field full"><label for="email">Email address</label><input id="email" name="email" type="email" autocomplete="email" maxlength="254" placeholder="you@example.com" required></div>
+        <div class="field"><label for="password">Password</label><input id="password" name="password" type="password" autocomplete="new-password" minlength="10" maxlength="128" placeholder="At least 10 characters" required><small>Use 10+ characters.</small></div>
+        <div class="field"><label for="confirmPassword">Confirm password</label><input id="confirmPassword" name="confirmPassword" type="password" autocomplete="new-password" minlength="10" maxlength="128" placeholder="Repeat password" required></div>
+      </div>
+      <label class="check"><input id="terms" type="checkbox" required><span>I agree to the <a href="/terms" target="_blank" rel="noopener">Terms</a> and <a href="/privacy" target="_blank" rel="noopener">Privacy Policy</a>.</span></label>
+      <button id="create-account" class="btn" type="submit">Create Lingo ID</button>
+    </form>
+    <div class="or">OR</div>
+    <button id="google-signin" class="btn secondary" type="button">Continue with Google</button>
+    <p class="signin">Already part of the Legacy? <a href="./login.html">Sign in</a></p>
+    <p class="foot">Protected by Firebase Authentication. Never share your password or verification link.</p>
+  </main>
+  <script type="module">
+    /*
+      SETUP: Add your Firebase web-app config below. Firebase web config is public;
+      enforce authorized domains, Authentication rules, Firestore rules, and App Check.
+      Never put service-account credentials or private API keys in this file.
+    */
+    const firebaseConfig = {
+      apiKey: "REPLACE_WITH_FIREBASE_WEB_API_KEY",
+      authDomain: "REPLACE_WITH_PROJECT.firebaseapp.com",
+      projectId: "REPLACE_WITH_PROJECT_ID",
+      appId: "REPLACE_WITH_FIREBASE_APP_ID"
+    };
+    const statusEl = document.querySelector("#status");
+    const form = document.querySelector("#signup-form");
+    const submit = document.querySelector("#create-account");
+    const googleButton = document.querySelector("#google-signin");
+    function showStatus(message, kind = "error") {
+      statusEl.textContent = message;
+      statusEl.className = "status show " + kind;
+    }
+    function setBusy(busy) {
+      submit.disabled = busy;
+      googleButton.disabled = busy;
+      submit.textContent = busy ? "Creating your account…" : "Create Lingo ID";
+    }
+    function friendlyError(error) {
+      const code = error?.code || "";
+      const messages = {
+        "auth/email-already-in-use": "An account already uses this email. Sign in or reset your password.",
+        "auth/invalid-email": "Enter a valid email address.",
+        "auth/weak-password": "Choose a stronger password with at least 10 characters.",
+        "auth/operation-not-allowed": "This sign-in method is not enabled in Firebase yet.",
+        "auth/popup-closed-by-user": "The Google sign-in window was closed before finishing.",
+        "auth/popup-blocked": "Your browser blocked the sign-in window. Allow pop-ups and try again.",
+        "auth/network-request-failed": "Network issue. Check your connection and try again.",
+        "auth/too-many-requests": "Too many attempts. Wait a little before trying again."
+      };
+      return messages[code] || "We couldn't complete registration. Please try again; if it continues, contact support.";
+    }
+    const configured = !firebaseConfig.apiKey.startsWith("REPLACE_") &&
+      !firebaseConfig.projectId.startsWith("REPLACE_") &&
+      !firebaseConfig.appId.startsWith("REPLACE_");
+    let auth = null, db = null, createUserWithEmailAndPassword, updateProfile,
+        sendEmailVerification, GoogleAuthProvider, signInWithPopup, initializeApp,
+        doc, getDoc, setDoc, updateDoc, serverTimestamp;
+    if (configured) {
+      try {
+        ({ initializeApp } = await import("https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js"));
+        ({ getAuth, createUserWithEmailAndPassword, updateProfile, sendEmailVerification,
+           GoogleAuthProvider, signInWithPopup } = await import("https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js"));
+        ({ getFirestore, doc, getDoc, setDoc, updateDoc, serverTimestamp } = await import("https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js"));
+        const app = initializeApp(firebaseConfig);
+        auth = getAuth(app);
+        db = getFirestore(app);
+      } catch (error) {
+        showStatus("Authentication setup could not load. Check the Firebase configuration and network connection.");
+      }
+    } else {
+      showStatus("Setup required: add the Firebase web-app configuration to this page and enable Email/Password and Google sign-in in Firebase Authentication.");
+    }
+    async function persistProfile(user, firstName, lastName) {
+      const displayName = [firstName, lastName].filter(Boolean).join(" ").trim() || user.displayName || "Legacy Member";
+      await updateProfile(user, { displayName });
+      const profileRef = doc(db, "users", user.uid);
+      const existing = await getDoc(profileRef);
+      const profileFields = {
+        displayName,
+        firstName: firstName || "",
+        lastName: lastName || "",
+        updatedAt: serverTimestamp()
+      };
+      if (existing.exists()) {
+        // Never reset creation time or rewrite auth-owned/system-owned fields on sign-in.
+        await updateDoc(profileRef, profileFields);
+      } else {
+        // Identity only. Email verification and account email are authoritative in Firebase Auth.
+        await setDoc(profileRef, {
+          uid: user.uid,
+          ...profileFields,
+          schemaVersion: 1,
+          createdAt: serverTimestamp()
+        });
+      }
+      return displayName;
+    }
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (!auth || !db) { showStatus("Registration isn't connected yet. Complete the Firebase setup steps before accepting accounts."); return; }
+      const firstName = document.querySelector("#firstName").value.trim();
+      const lastName = document.querySelector("#lastName").value.trim();
+      const email = document.querySelector("#email").value.trim();
+      const password = document.querySelector("#password").value;
+      const confirmation = document.querySelector("#confirmPassword").value;
+      if (password !== confirmation) { showStatus("Your passwords don't match."); document.querySelector("#confirmPassword").focus(); return; }
+      if (password.length < 10) { showStatus("Use a password with at least 10 characters."); return; }
+      if (!document.querySelector("#terms").checked) { showStatus("Please accept the Terms and Privacy Policy to continue."); return; }
+      setBusy(true);
+      try {
+        const credential = await createUserWithEmailAndPassword(auth, email, password);
+        await persistProfile(credential.user, firstName, lastName);
+        await sendEmailVerification(credential.user);
+        showStatus("Your account was created. Check your email for the verification link before using account features.", "success");
+        form.reset();
+      } catch (error) {
+        showStatus(friendlyError(error));
+      } finally { setBusy(false); }
+    });
+    googleButton.addEventListener("click", async () => {
+      if (!auth || !db) { showStatus("Google sign-in isn't connected yet. Complete the Firebase setup steps first."); return; }
+      if (!document.querySelector("#terms").checked) { showStatus("Please accept the Terms and Privacy Policy to continue."); return; }
+      setBusy(true);
+      try {
+        const provider = new GoogleAuthProvider();
+        const result = await signInWithPopup(auth, provider);
+        const parts = (result.user.displayName || "").trim().split(/\s+/);
+        await persistProfile(result.user, parts.shift() || "", parts.join(" "));
+        showStatus("You're signed in. Your Lingo ID is ready.", "success");
+      } catch (error) { showStatus(friendlyError(error)); }
+      finally { setBusy(false); }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+{
+  "name": "lingo-legacy-hubspot-sync",
+  "version": "1.0.0",
+  "private": true,
+  "main": "index.js",
+  "engines": { "node": ">=20" },
+  "dependencies": {
+    "@hubspot/api-client": "^12.0.0",
+    "firebase-admin": "^13.0.0"
+  }
+}

@@ -1,0 +1,148 @@
+name: Firestore Rules Tests
+
+on:
+  push:
+    branches:
+      - feature/lingo-account-registration
+      - main
+    paths:
+      - '.github/workflows/lingo-id-rules-tests.yml'
+      - '01_WEBSITES/account/**'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/lingo-id-rules-tests.yml'
+      - '01_WEBSITES/account/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: firestore-rules-tests-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  test-rules:
+    name: Run Firestore Security Rules Suite
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    permissions:
+      contents: read
+    steps:
+      - name: Initialize evidence directory
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/firestore-rules-evidence"
+          {
+            echo "GITHUB_REPOSITORY=$GITHUB_REPOSITORY"
+            echo "GITHUB_WORKFLOW=$GITHUB_WORKFLOW"
+            echo "GITHUB_RUN_ID=$GITHUB_RUN_ID"
+            echo "GITHUB_RUN_ATTEMPT=$GITHUB_RUN_ATTEMPT"
+            echo "GITHUB_JOB=$GITHUB_JOB"
+            echo "GITHUB_SHA=$GITHUB_SHA"
+            echo "GITHUB_REF=$GITHUB_REF"
+            echo "GITHUB_EVENT_NAME=$GITHUB_EVENT_NAME"
+            echo "RUNNER_ID=${RUNNER_ID:-unavailable}"
+            echo "RUNNER_NAME=${RUNNER_NAME:-unavailable}"
+            echo "RUNNER_OS=${RUNNER_OS:-unavailable}"
+            echo "RUNNER_ARCH=${RUNNER_ARCH:-unavailable}"
+            echo "RUN_URL=https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID/attempts/$GITHUB_RUN_ATTEMPT"
+          } > "$RUNNER_TEMP/firestore-rules-evidence/run-metadata.txt"
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup Java 21 (Temurin)
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Record toolchain and source hashes
+        shell: bash
+        run: |
+          set -euo pipefail
+          evidence="$RUNNER_TEMP/firestore-rules-evidence"
+          {
+            node --version
+            npm --version
+            java -version 2>&1
+            sha256sum 01_WEBSITES/account/firestore.rules
+            sha256sum 01_WEBSITES/account/rules-tests/firestore.rules.test.js
+            sha256sum 01_WEBSITES/account/rules-tests/package.json
+            sha256sum 01_WEBSITES/account/rules-tests/firebase.json
+          } > "$evidence/toolchain-and-source.txt"
+
+      - name: Install test dependencies
+        working-directory: 01_WEBSITES/account/rules-tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm install --no-audit --no-fund --package-lock=true 2>&1 | tee "$RUNNER_TEMP/firestore-rules-evidence/dependency-install.log"
+          npm ls --depth=0 --json > "$RUNNER_TEMP/firestore-rules-evidence/dependency-tree.json"
+
+      - name: Run Firestore Emulator and all Jest assertions
+        working-directory: 01_WEBSITES/account/rules-tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm run test:rules 2>&1 | tee "$RUNNER_TEMP/firestore-rules-evidence/test-run.log"
+
+      - name: Finalize evidence and checksums
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          evidence="$RUNNER_TEMP/firestore-rules-evidence"
+          test_dir="01_WEBSITES/account/rules-tests"
+          if [ -f "$test_dir/jest-results.json" ]; then
+            cp "$test_dir/jest-results.json" "$evidence/jest-results.json"
+          fi
+          if [ -f "$test_dir/package-lock.json" ]; then
+            cp "$test_dir/package-lock.json" "$evidence/generated-package-lock.json"
+          fi
+          {
+            echo "GITHUB_REPOSITORY=$GITHUB_REPOSITORY"
+            echo "GITHUB_WORKFLOW=$GITHUB_WORKFLOW"
+            echo "GITHUB_RUN_ID=$GITHUB_RUN_ID"
+            echo "GITHUB_RUN_ATTEMPT=$GITHUB_RUN_ATTEMPT"
+            echo "GITHUB_JOB=$GITHUB_JOB"
+            echo "GITHUB_SHA=$GITHUB_SHA"
+            echo "GITHUB_REF=$GITHUB_REF"
+            echo "GITHUB_EVENT_NAME=$GITHUB_EVENT_NAME"
+            echo "RUNNER_ID=${RUNNER_ID:-unavailable}"
+            echo "RUNNER_NAME=${RUNNER_NAME:-unavailable}"
+            echo "RUNNER_OS=${RUNNER_OS:-unavailable}"
+            echo "RUNNER_ARCH=${RUNNER_ARCH:-unavailable}"
+            echo "RUN_URL=https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID/attempts/$GITHUB_RUN_ATTEMPT"
+            echo "UTC_FINISHED_AT=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          } > "$evidence/run-metadata.txt"
+          {
+            echo "## Firestore Rules Test Evidence"
+            echo
+            echo "- Run: https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID/attempts/$GITHUB_RUN_ATTEMPT"
+            echo "- Attempt: $GITHUB_RUN_ATTEMPT"
+            echo "- Commit: $GITHUB_SHA"
+            echo "- Runner ID: ${RUNNER_ID:-unavailable}"
+            echo "- Runner name: ${RUNNER_NAME:-unavailable}"
+            echo "- Test output and metadata are attached as a workflow artifact when the job reaches steps."
+            echo "- This workflow does not deploy, promote, or mutate production resources."
+          } >> "$GITHUB_STEP_SUMMARY"
+          find "$evidence" -maxdepth 1 -type f ! -name SHA256SUMS.txt -print0 | sort -z | xargs -0 -r sha256sum > "$evidence/SHA256SUMS.txt"
+
+      - name: Upload execution evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: firestore-rules-evidence-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/firestore-rules-evidence/
+          if-no-files-found: error
+          retention-days: 14

@@ -1,0 +1,66 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isOwner(userId) {
+      return request.auth != null && request.auth.uid == userId;
+    }
+
+    function validProfileCreate(userId) {
+      return request.resource.data.keys().hasOnly([
+          'uid', 'displayName', 'firstName', 'lastName',
+          'schemaVersion', 'createdAt', 'updatedAt'
+        ])
+        && request.resource.data.keys().hasAll([
+          'uid', 'displayName', 'firstName', 'lastName',
+          'schemaVersion', 'createdAt', 'updatedAt'
+        ])
+        && request.resource.data.uid == userId
+        && request.resource.data.displayName is string
+        && request.resource.data.displayName.size() <= 120
+        && request.resource.data.firstName is string
+        && request.resource.data.firstName.size() <= 60
+        && request.resource.data.lastName is string
+        && request.resource.data.lastName.size() <= 60
+        && request.resource.data.schemaVersion == 1
+        && request.resource.data.createdAt == request.time
+        && request.resource.data.updatedAt == request.time;
+    }
+
+    match /users/{userId} {
+      // A user may read only their own profile; collection queries are not permitted.
+      allow get: if isOwner(userId);
+      allow list: if false;
+
+      allow create: if isOwner(userId) && validProfileCreate(userId);
+
+      // Strict allow-list: even fields not named below cannot be client-added or changed.
+      allow update: if isOwner(userId)
+        && request.resource.data.keys().hasOnly([
+          'uid', 'displayName', 'firstName', 'lastName',
+          'schemaVersion', 'createdAt', 'updatedAt', 'preferredTheme'
+        ])
+        && request.resource.data.uid == resource.data.uid
+        && request.resource.data.schemaVersion == resource.data.schemaVersion
+        && request.resource.data.createdAt == resource.data.createdAt
+        && request.resource.data.diff(resource.data).affectedKeys()
+          .hasOnly(['displayName', 'firstName', 'lastName', 'preferredTheme', 'updatedAt'])
+        && request.resource.data.displayName is string
+        && request.resource.data.displayName.size() <= 120
+        && request.resource.data.firstName is string
+        && request.resource.data.firstName.size() <= 60
+        && request.resource.data.lastName is string
+        && request.resource.data.lastName.size() <= 60
+        && (!('preferredTheme' in request.resource.data)
+          || request.resource.data.preferredTheme in ['system', 'light', 'dark'])
+        && request.resource.data.updatedAt == request.time;
+
+      allow delete: if false;
+    }
+
+    // Explicit default deny. Add narrowly scoped rules for additional collections
+    // after reviewing their ownership and backend write paths.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

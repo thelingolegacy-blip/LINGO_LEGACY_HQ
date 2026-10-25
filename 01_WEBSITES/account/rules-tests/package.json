@@ -1,0 +1,13 @@
+{
+  "name": "lingo-id-firestore-rules-tests",
+  "private": true,
+  "scripts": {
+    "test:rules": "firebase emulators:exec --only firestore \"npx jest --runInBand --json --outputFile=./jest-results.json\""
+  },
+  "devDependencies": {
+    "@firebase/rules-unit-testing": "^4.0.1",
+    "firebase": "^11.10.0",
+    "firebase-tools": "^14.0.0",
+    "jest": "^30.0.0"
+  }
+}
