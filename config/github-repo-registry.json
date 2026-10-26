@@ -1,0 +1,34 @@
+{
+  "version": "2.0.0",
+  "owner": "thelingolegacy-blip",
+  "canonical_base": "https://github.com/thelingolegacy-blip",
+  "repositories": [
+    "LINGO_LEGACY_HQ",
+    "TheLingoLegacy",
+    "TheLingoLegacy-Web",
+    "thelingolegacy-hub",
+    "LingoLegacy-MasterBlueprint",
+    "THATS-MY-LINGO",
+    "Spades-is-my_Lingo",
+    "kottens-code-engine",
+    "Kotton-code-engine",
+    "Loyaltylaneapparel",
+    "Lingolegends",
+    "lingo_backend",
+    "lingo_admin_console",
+    "lingo_website",
+    "lingo_documentation",
+    "lingo_assets",
+    "Lingo-legacy-tv-os",
+    "Lingo-legacy-backend",
+    "Lingo-legacy-games",
+    "nextjs-lingolegacy"
+  ],
+  "policy": {
+    "canonical_format": "https://github.com/<owner>/<repository>",
+    "reject_trailing_slash": true,
+    "reject_git_suffix_for_web_links": true,
+    "https_only": true,
+    "private_repositories_require_authenticated_access": true
+  }
+}
