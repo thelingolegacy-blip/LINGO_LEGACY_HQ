@@ -7,7 +7,7 @@
 ## Executive disposition
 
 - **Production:** PROTECTED HOLD. No production deployment, DNS change, secret rotation, Firebase mutation, payment activation, merge, or gate promotion was performed by this audit.
-- **G02 runner execution:** BLOCKED / NOT QUALIFIED. The authoritative acceptance contract requires an assigned runner ID greater than zero, expected runner identity, instantiated steps, executed sentinel, retrievable logs, downloadable artifacts, checksums, and independent correlation. A queued run or empty jobs response does not pass.
+- **G02 runner execution:** BLOCKED / NOT QUALIFIED. Fresh PR #46 run 40292312379 returned a failed job with null steps/log URL and no artifacts. The authoritative acceptance contract requires an assigned runner ID greater than zero, expected runner identity, instantiated steps, executed sentinel, retrievable logs, downloadable artifacts, checksums, and independent correlation. A queued run or empty jobs response does not pass.
 - **CI execution:** BLOCKED where workflow runs terminate before jobs/steps are created. This is not evidence of application-code test failure or success.
 - **Preview capacity:** Prior repository evidence records a Vercel preview quota rejection. This audit does not change billing, plans, or deployment targets.
 - **Firebase:** Prior repository evidence records placeholder configuration values; current platform credentials and actual provider state are not established by repository metadata alone.
@@ -18,6 +18,13 @@
 The connected GitHub inventory returned 38 repositories. This report uses repository metadata, selected README/operating-contract files, open pull-request metadata, and the recorded release-gate documentation available during this pass. Role labels below are **provisional** and based on names and the limited inspected evidence. They are not authoritative product ownership decisions. Repository size, existence, a PR, or a workflow file is not proof of buildability, security, or production use.
 
 This was a source/control-plane inspection. No local checkout or executable build/test run was performed. The connected tooling did not provide authoritative runner-admin inventory, host service telemetry, current Cloudflare production configuration, Firebase project credentials, Vercel team authorization, or complete deployment acceptance evidence. Those items remain **UNKNOWN/BLOCKED**, not assumed absent or healthy.
+
+## Fresh execution evidence — 2026-10-26 08:27 UTC
+
+- New portfolio PR #46 workflow run: [40292312379](https://github.com/thelingolegacy-blip/LINGO_LEGACY_HQ/actions/runs/40292312379) concluded `failure`.
+- The run's only reported job, `control-plane-sentinel` (job ID 121470013699), has `steps=null` and `logs_url=null`; the run returned no artifacts. This is consistent with a pre-step/control-plane failure and does **not** establish a dashboard source defect.
+- Latest inspected canonical runtime runs include [40279123399](https://github.com/thelingolegacy-blip/TheLingoLegacy/actions/runs/40279123399) (`startup_failure`) and [40288472297](https://github.com/thelingolegacy-blip/TheLingoLegacy/actions/runs/40288472297) (`failure`). The latter requires separate workflow/job-log investigation; do not classify every failure as runner startup without job-level evidence.
+- Branch-protection API read returned HTTP 403 `Resource not accessible by integration`. Enforcement is therefore **UNVERIFIED**, not assumed enabled or disabled.
 
 ## Priority findings
 
