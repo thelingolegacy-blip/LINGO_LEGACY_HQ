@@ -1,15 +1,25 @@
 name: Runner Control Plane Probe
+
+# Exploratory probe: manual-only to avoid repeated automatic PR dispatch failures.
 on:
-  pull_request:
-    branches:
-      - main
   workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: runner-control-plane-probe
+  cancel-in-progress: false
+
 jobs:
   control-plane-sentinel:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - name: Execution sentinel
+        shell: bash
         run: |
+          set -euo pipefail
           echo "RUNNER_OS=$RUNNER_OS"
           echo "RUNNER_NAME=$RUNNER_NAME"
           echo "RUNNER_ARCH=$RUNNER_ARCH"
