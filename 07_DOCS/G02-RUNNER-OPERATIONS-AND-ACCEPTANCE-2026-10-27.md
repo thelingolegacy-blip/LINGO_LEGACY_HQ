@@ -139,6 +139,10 @@ Current status:
 - Merge: **DRAFT / REVIEW REQUIRED**
 - Production and last-known-good: **PROTECTED HOLD**
 
+## Vercel source-of-truth boundary
+
+The GitHub status for this recovery branch reports Vercel `Account is blocked`, and a read-only deployment query returned no preview deployment for this branch. Separately, the Vercel team inventory shows an existing `READY` production deployment for project `the-lingo-legacy`, connected to repository `thelingolegacy-blip/TheLingoLegacy`, with `thelingolegacy.com` and `www.thelingolegacy.com` aliases. The current repository is connected to a separate Vercel project named `character_bible`. Do not conflate these projects: the existing READY deployment does not prove that this recovery branch is deployed, and the blocked preview status does not by itself prove the separate production deployment is down. No deployment, alias, DNS, or project connection was changed.
+
 ## 10. Current execution blocker
 
 The main-based recovery branch triggered Jekyll site CI run `40598152899` / job `122519231221`; GitHub reported `runner_id=0`, empty runner name, zero steps, and log retrieval returned `BlobNotFound`. The runner dispatch/control-plane issue therefore reproduces on this branch. This run is not a validation of the modified workflow because no step executed.
