@@ -48,3 +48,30 @@ The evidence-manifest commit triggered the existing `.github/workflows/runner-sl
 - Interpretation: this new attempt did not qualify CI execution and produced no retrievable job/artifact evidence. The G02 acceptance predicate remains unchanged and blocked.
 
 This is a real control-plane observation correlated to the commit, but it is not a passing test result and does not independently establish the underlying cause of runner dispatch failure.
+
+
+## Additional independent control-plane verification — 2026-10-27 22:23 UTC
+
+### Cloudflare authoritative inventory
+- Read-only Cloudflare API returned the `thelingolegacy.com` zone as active and unpaused, with nameservers `rita.ns.cloudflare.com` and `rustam.ns.cloudflare.com`.
+- DNS records: apex A is proxied; `www` is a proxied CNAME to the apex; `casino` CNAME targets `proxy-v2.appdeploy.ai`; `app` CNAME targets `my-flutter-app.pages.dev`; `admin` CNAME targets `admin-thelingolegacy.firebaseapp.com`.
+- Worker route inventory confirms both `thelingolegacy.com/` → `lingo-flagship-root` and `thelingolegacy.com/*` → `thelingolegacyv-5`; `www.thelingolegacy.com/*` → `thelingolegacyv-5`. These routes are present in the live API inventory. Apex page retrieval shows the flagship candidate page and its explicit non-production-status disclosure. The browser reader could not retrieve `www` or the Cloudflare Pages preview URLs, so those live HTTP/browser checks remain unqualified.
+- The exact-root Worker has active deployment `31ccefbb-ddf4-4a62-974b-3ee9d0bc81d3`, version `658acd1a-997b-45cd-b8fc-e59c59b26b45`, at 100% of that Worker’s traffic. The existing `thelingolegacyv-5` Worker’s latest deployment `ecd71a70-e476-4318-92a7-35249ced360b` assigns version `2d161fa5-598f-4998-ada8-7ac4c72c3461` at 100% of that Worker’s traffic. These are per-Worker allocations, not a single combined site traffic percentage.
+- Cloudflare Workers Builds API confirms no build configuration exists for script target `thelingolegacy` (404). The existing `thelingolegacyv-5` configuration is explicitly fail-closed: branch `__LINGO_FAIL_CLOSED_HOLD__`, production path include `__LINGO_DEPLOYMENT_DISABLED__/**`, and previews disabled with `__LINGO_PREVIEW_DISABLED__/**`. Its recent successful-status build records use `build_command: true` and disabled path filters; they are not evidence of a real source build or deploy.
+- Cloudflare Pages project `lingo-legacy-github-integration-test` has a successful preview deployment `4d273caf-67bb-404d-8079-bb45174262a0` for branch `architecture/landing-page-foundation-2026-10-27`, commit `8c34811b9f4999ec1f0d59e348e2b16dc9d20800`. This is preview-build evidence only; its page content could not be independently browser-verified in this pass.
+
+### Vercel and source checks
+- Vercel team inventory distinguishes a Hobby team (`shop-c54e0277`) and a Pro team (`thelingolegacy`); both show a project named `the-lingo-legacy` linked to `TheLingoLegacy`. The queried Hobby-team project has `launch.thelingolegacy.com`, `studio-preview.thelingolegacy.com`, and a `vercel.app` domain; the queried Pro-team project domain list returned zero. No apex/www Vercel mapping was found in these scoped project-domain results. This does not override the live Cloudflare routing inventory.
+- Runtime PR #402 checks show Cloudflare Pages preview success and Vercel preview success, while the Cloudflare Workers Build check fails because script target `thelingolegacy` does not exist. This is a source-to-provider configuration mismatch, not proof that the candidate is ready for production.
+- Firebase source inspection confirms placeholder API keys/app IDs in `lib/firebase_options.dart`; the `.firebaserc` default project is `lingo-legacy-production`. Project ownership, live authentication, and rules remain unverified.
+- HQ Actions runs now return job records for several probe runs, but those records have `steps: null` and `logs_url: null`; direct log retrieval returns `BlobNotFound`. Other runs still return no jobs. Therefore no real sentinel/test execution has been proven.
+- Vercel status for HQ manifest commit `b0fc439bbc8faa90e6fa9dc79994b99db40f83d0` reports `Account is blocked` and `1 required project failed to deploy`. This is an independent preview/deployment blocker for that project, separate from GitHub runner dispatch.
+
+### Updated gate interpretation
+- Source inventory: PARTIAL, with live Cloudflare route and DNS state now observed.
+- G02/G03: BLOCKED; job identity/step/log/artifact acceptance predicate not satisfied.
+- Cloudflare: LIVE ROUTES OBSERVED; SOURCE-TO-ROUTE PARITY NOT QUALIFIED; Worker build target mismatch and intentionally disabled build configuration remain.
+- Vercel: PREVIEW PROJECT ACCESS/BILLING BLOCKED for HQ status; scoped domain results do not show apex/www on the queried Vercel projects.
+- Firebase: BLOCKED by source placeholders and missing authorized non-production validation.
+- Browser acceptance, accessibility, game/commerce integrations, backup/rollback drill, and release authorization: NOT QUALIFIED.
+- Production remains PROTECTED HOLD. No production configuration was changed by this verification.
