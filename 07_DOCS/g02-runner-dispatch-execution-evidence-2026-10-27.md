@@ -28,6 +28,22 @@
 - Job-log retrieval returned HTTP 404 with `BlobNotFound`.
 - Run URL: https://github.com/thelingolegacy-blip/LINGO_LEGACY_HQ/actions/runs/40595369983
 
+## Latest main-based recovery PR execution
+
+The main-based recovery branch triggered a Jekyll site CI run after the first branch commit:
+
+- Run: `40598152899`
+- Job: `122519231221`
+- Workflow: `Jekyll site CI`
+- Commit: `5f154dca4654896e10c5cc4f6ff7638732788edb`
+- Conclusion: `failure`
+- Runner ID: `0`; runner name: empty
+- Steps: empty
+- Log retrieval: HTTP 404 `BlobNotFound`
+- Run URL: https://github.com/thelingolegacy-blip/LINGO_LEGACY_HQ/actions/runs/40598152899
+
+This is a fresh reproduction of pre-step dispatch failure on the main-based branch. It does not validate the new workflow syntax or prove dedicated-runner assignment.
+
 ## Allocation and dispatch cleanup
 
 A repository Actions-run inventory for the diagnostic branch returned 22 workflow runs: **22 completed, 0 queued, 0 in progress, 0 waiting/requested/pending** at capture time. There are no active run/job allocations in this queried branch inventory to cancel. Completed runs and their audit history were preserved; they were not deleted.
