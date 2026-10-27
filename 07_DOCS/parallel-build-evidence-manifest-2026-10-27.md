@@ -34,3 +34,17 @@ Disposition: PROTECTED HOLD; no production promotion authorized.
 Every result must identify repository, commit SHA, workflow/run/attempt/job, runner, command/tool versions, timestamp, exit code, retrievable logs/artifacts, SHA-256, deployment target/version, live route/HTTP/TLS/security-header results, redacted backend checks, independent verifier and exception record. No result passes on assumption or dashboard status alone.
 
 Final state: SOURCE INVENTORY=PARTIAL; CI=NOT QUALIFIED; CLOUDFLARE=UNKNOWN; FIREBASE=BLOCKED; PRODUCTION=PROTECTED HOLD.
+
+
+## Post-commit execution check — 2026-10-27
+
+The evidence-manifest commit triggered the existing `.github/workflows/runner-slim-probe.yml` workflow on the isolated PR branch.
+
+- Run: https://github.com/thelingolegacy-blip/LINGO_LEGACY_HQ/actions/runs/40580610156
+- Commit: `976ee4de527537114d3fecc3c3c5937bba5e03d2`
+- Run status: completed / failure.
+- Jobs API: `total_count=0`, `jobs=[]`.
+- Artifacts API: `total_count=0`, `artifacts=[]`.
+- Interpretation: this new attempt did not qualify CI execution and produced no retrievable job/artifact evidence. The G02 acceptance predicate remains unchanged and blocked.
+
+This is a real control-plane observation correlated to the commit, but it is not a passing test result and does not independently establish the underlying cause of runner dispatch failure.
