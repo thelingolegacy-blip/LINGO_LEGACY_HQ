@@ -77,7 +77,7 @@ Synchronization checks:
 - Keep least-privilege `contents: read`, bounded timeouts, and serialized concurrency.
 - Keep the incident reference and explicit canary confirmation required.
 - Ensure artifact names include both `github.run_id` and `github.run_attempt`.
-- Ensure the evidence payload includes repository, workflow, run, attempt, job, commit, ref, runner ID/name/OS/architecture, timestamp, and final sentinel result.
+- Ensure the evidence payload includes repository, workflow, run, attempt, job, commit, ref, available runner name/OS/architecture, timestamp, and sentinel result; verify positive runner ID from GitHub job metadata.
 - Do not claim a job's artifact exists merely because an upload step is configured; verify the artifact from the actual run.
 - Avoid editing the same workflow path concurrently; fetch the latest blob SHA before each update.
 
@@ -114,7 +114,7 @@ After merge (only after authorized approval), verify the merged commit and workf
 All conditions are mandatory:
 
 1. Correct repository, workflow, branch/ref, commit SHA, run ID and attempt recorded.
-2. Job is assigned to the dedicated runner with `runner_id > 0` and populated `runner_name`.
+2. Job is assigned to the dedicated runner with `runner_id > 0` and populated `runner_name`, verified from GitHub job metadata (not inferred from workflow environment).
 3. Runner OS is Linux and architecture is x64.
 4. Required labels and runner-group access are confirmed.
 5. Sentinel checks complete successfully and the job has instantiated steps.
