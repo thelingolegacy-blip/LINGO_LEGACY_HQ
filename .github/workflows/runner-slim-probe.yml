@@ -1,8 +1,7 @@
 name: Runner Route Probe — Hosted Fleet
+
+# Hosted diagnostic: manual-only so failed dispatches are intentional and incident-correlated.
 on:
-  push:
-    branches:
-      - fix/runner-probe-label-and-sync-2026-09-21
   workflow_dispatch:
 
 permissions:
