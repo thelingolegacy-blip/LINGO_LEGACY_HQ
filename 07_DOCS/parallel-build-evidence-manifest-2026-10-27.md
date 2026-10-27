@@ -75,3 +75,23 @@ This is a real control-plane observation correlated to the commit, but it is not
 - Firebase: BLOCKED by source placeholders and missing authorized non-production validation.
 - Browser acceptance, accessibility, game/commerce integrations, backup/rollback drill, and release authorization: NOT QUALIFIED.
 - Production remains PROTECTED HOLD. No production configuration was changed by this verification.
+
+
+## Recovery action register — RESTORE / REPAIR / REFORM / REINITIATE / REPRODUCE / RENDER / REMATCH / REMOVE / REMEMBER / REMINDER
+
+### Completed in this pass
+- **REPAIR / REMOVE (isolated workflow only):** Repaired `.github/workflows/runner-slim-probe.yml` on branch `fix/runner-probe-label-and-sync-2026-09-21`. Removed the empty `hosted-runner-probe:` job definition; retained one explicit `ubuntu-latest` sentinel job; added least-privilege `contents: read`, a five-minute timeout, execution-context capture, and a 14-day artifact upload.
+- **REPAIR:** Corrected UTC timestamp command formatting in the sentinel.
+- **REINITIATE / REPRODUCE:** Both changes were committed to the isolated branch. Commits: `a1c92b9723afb2c57f65fda5d00c0a87cc9f4873` (workflow structure and evidence capture), then `93100cba108e71b26f9cfbbaee0409bc58760bfb` (timestamp correction). The second commit is the latest workflow source.
+- **REMEMBER:** This register preserves the action history and the acceptance limits. The corrected workflow source was re-fetched and verified at blob `a88bf4181cd862eaeba5371a45da336be4662a1b`.
+- **RENDER:** The workflow now emits a plain-text execution sentinel intended to become an inspectable artifact when a runner actually executes it. Artifact creation has not yet been proven.
+- **REMATCH:** Workflow remains explicitly configured for GitHub-hosted `ubuntu-latest`; it does not claim or substitute for the canonical self-hosted G02 identity gate.
+- **RESTORE / REFORM:** Continue from last-known-good, fail-closed state; reconcile source, route ownership, provider project identity, and accepted evidence before any release decision.
+
+### Still outstanding
+- No workflow run associated with the repair commits was returned by the PR-filtered commit-runs query; this is not proof the push-triggered workflow executed. Independently verify a new run, positive runner identity, instantiated steps, retrievable logs, and the exact-run artifact.
+- G02 remains BLOCKED until the canonical self-hosted runner acceptance predicate is met. This hosted probe is diagnostic only and cannot satisfy G02.
+- Cloudflare route/source parity, Vercel team/project/domain reconciliation, Firebase placeholders, accessibility/browser acceptance, and release certification remain unresolved.
+- **REMOVE boundary:** Only the malformed empty job was removed. No live routes, DNS records, production workers, credentials, app data, or deployments were removed.
+- **REMINDER:** No reminder has been scheduled yet because the requested reminder time or cadence was not specified.
+- Production disposition remains `PROTECTED HOLD`; no PR was merged and no production configuration or traffic was changed.
