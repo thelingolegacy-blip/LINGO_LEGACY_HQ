@@ -37,21 +37,21 @@ jobs:
           mkdir -p runner-evidence
           evidence="runner-evidence/g02-evidence-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}.txt"
           {
-            printf 'G02_EVIDENCE_SCHEMA=2\\n'
-            printf 'INCIDENT_REFERENCE=%s\\n' "${INCIDENT_REFERENCE}"
-            printf 'CONFIRM_CANARY=%s\\n' "${CONFIRM_CANARY}"
-            printf 'REPOSITORY=%s\\n' "${GITHUB_REPOSITORY}"
-            printf 'WORKFLOW=%s\\n' "${GITHUB_WORKFLOW}"
-            printf 'RUN_ID=%s\\n' "${GITHUB_RUN_ID}"
-            printf 'RUN_ATTEMPT=%s\\n' "${GITHUB_RUN_ATTEMPT}"
-            printf 'JOB=%s\\n' "${GITHUB_JOB}"
-            printf 'COMMIT=%s\\n' "${GITHUB_SHA}"
-            printf 'REF=%s\\n' "${GITHUB_REF}"
-            printf 'RUNNER_ID=%s\\n' "${RUNNER_ID:-unavailable}"
-            printf 'RUNNER_NAME=%s\\n' "${RUNNER_NAME:-unavailable}"
-            printf 'RUNNER_OS=%s\\n' "${RUNNER_OS:-unavailable}"
-            printf 'RUNNER_ARCH=%s\\n' "${RUNNER_ARCH:-unavailable}"
-            printf 'CAPTURED_AT_UTC=%s\\n' "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            printf 'G02_EVIDENCE_SCHEMA=2\n'
+            printf 'INCIDENT_REFERENCE=%s\n' "${INCIDENT_REFERENCE}"
+            printf 'CONFIRM_CANARY=%s\n' "${CONFIRM_CANARY}"
+            printf 'REPOSITORY=%s\n' "${GITHUB_REPOSITORY}"
+            printf 'WORKFLOW=%s\n' "${GITHUB_WORKFLOW}"
+            printf 'RUN_ID=%s\n' "${GITHUB_RUN_ID}"
+            printf 'RUN_ATTEMPT=%s\n' "${GITHUB_RUN_ATTEMPT}"
+            printf 'JOB=%s\n' "${GITHUB_JOB}"
+            printf 'COMMIT=%s\n' "${GITHUB_SHA}"
+            printf 'REF=%s\n' "${GITHUB_REF}"
+            printf 'RUNNER_ID=%s\n' "${RUNNER_ID:-unavailable}"
+            printf 'RUNNER_NAME=%s\n' "${RUNNER_NAME:-unavailable}"
+            printf 'RUNNER_OS=%s\n' "${RUNNER_OS:-unavailable}"
+            printf 'RUNNER_ARCH=%s\n' "${RUNNER_ARCH:-unavailable}"
+            printf 'CAPTURED_AT_UTC=%s\n' "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
           } | tee "$evidence"
 
           # Explicitly fail closed; a queued or hosted job cannot qualify G02.
@@ -65,8 +65,8 @@ jobs:
           test "${RUNNER_OS}" = "Linux"
           test "${RUNNER_ARCH}" = "X64"
 
-          printf 'G02_SENTINEL=PASS\\n' | tee -a "$evidence"
-          printf 'G02_EXIT=0\\n' | tee -a "$evidence"
+          printf 'G02_SENTINEL=PASS\n' | tee -a "$evidence"
+          printf 'G02_EXIT=0\n' | tee -a "$evidence"
           sha256sum "$evidence" | tee runner-evidence/SHA256SUMS
           echo "evidence_path=$evidence" >> "$GITHUB_OUTPUT"
 
@@ -78,15 +78,15 @@ jobs:
           mkdir -p runner-evidence
           if [ ! -f runner-evidence/g02-evidence-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}.txt ]; then
             {
-              printf 'G02_EVIDENCE_SCHEMA=2\\n'
-              printf 'INCIDENT_REFERENCE=%s\\n' "${INCIDENT_REFERENCE:-unavailable}"
-              printf 'REPOSITORY=%s\\n' "${GITHUB_REPOSITORY:-unavailable}"
-              printf 'RUN_ID=%s\\n' "${GITHUB_RUN_ID:-unavailable}"
-              printf 'RUN_ATTEMPT=%s\\n' "${GITHUB_RUN_ATTEMPT:-unavailable}"
-              printf 'COMMIT=%s\\n' "${GITHUB_SHA:-unavailable}"
-              printf 'RUNNER_ID=%s\\n' "${RUNNER_ID:-unavailable}"
-              printf 'RUNNER_NAME=%s\\n' "${RUNNER_NAME:-unavailable}"
-              printf 'EVIDENCE_STATUS=PRECHECK_OR_SENTINEL_FAILED\\n'
+              printf 'G02_EVIDENCE_SCHEMA=2\n'
+              printf 'INCIDENT_REFERENCE=%s\n' "${INCIDENT_REFERENCE:-unavailable}"
+              printf 'REPOSITORY=%s\n' "${GITHUB_REPOSITORY:-unavailable}"
+              printf 'RUN_ID=%s\n' "${GITHUB_RUN_ID:-unavailable}"
+              printf 'RUN_ATTEMPT=%s\n' "${GITHUB_RUN_ATTEMPT:-unavailable}"
+              printf 'COMMIT=%s\n' "${GITHUB_SHA:-unavailable}"
+              printf 'RUNNER_ID=%s\n' "${RUNNER_ID:-unavailable}"
+              printf 'RUNNER_NAME=%s\n' "${RUNNER_NAME:-unavailable}"
+              printf 'EVIDENCE_STATUS=PRECHECK_OR_SENTINEL_FAILED\n'
             } > runner-evidence/g02-evidence-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}.txt
           fi
           sha256sum runner-evidence/g02-evidence-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}.txt > runner-evidence/SHA256SUMS
