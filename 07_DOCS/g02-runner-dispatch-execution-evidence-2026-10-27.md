@@ -48,13 +48,13 @@ This is a fresh reproduction of pre-step dispatch failure on the main-based bran
 
 A repository Actions-run inventory for the diagnostic branch returned 22 workflow runs: **22 completed, 0 queued, 0 in progress, 0 waiting/requested/pending** at capture time. There are no active run/job allocations in this queried branch inventory to cancel. Completed runs and their audit history were preserved; they were not deleted.
 
-The three redundant exploratory probes below were changed to manual-only (`workflow_dispatch`) on this cleanup branch to reduce automatic PR/push dispatch noise while preserving their ability to be launched intentionally:
+The three redundant exploratory probes below and the hosted-fleet diagnostic were changed to manual-only (`workflow_dispatch`) on this recovery branch to reduce repeated automatic dispatch failures while preserving intentional incident-driven launches:
 
 - `.github/workflows/runner-control-plane-probe.yml`
 - `.github/workflows/runner-route-probe.yml`
 - `.github/workflows/runner-slim-control-plane-probe.yml`
 
-Each now has least-privilege `contents: read`, a bounded timeout, and a stable concurrency group. The canonical self-hosted G02 sentinel (`.github/workflows/g02-self-hosted-runner-sentinel.yml`) was preserved. The hosted-fleet diagnostic (`.github/workflows/runner-slim-probe.yml`) was preserved. No runner registration, runner group, secrets, production resources, DNS records, deployments, or credentials were changed.
+Each now has least-privilege `contents: read`, a bounded timeout, and a stable concurrency group. The canonical self-hosted G02 sentinel (`.github/workflows/g02-self-hosted-runner-sentinel.yml`) was preserved. The hosted-fleet diagnostic (`.github/workflows/runner-slim-probe.yml`) was preserved and changed to manual-only. No runner registration, runner group, secrets, production resources, DNS records, deployments, or credentials were changed.
 
 ## Canonical sentinel hardening added on the cleanup branch
 
