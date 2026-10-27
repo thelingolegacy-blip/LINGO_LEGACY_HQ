@@ -46,9 +46,9 @@ The canonical self-hosted sentinel was updated on this branch after the failed h
 
 - Workflow is manual-only and requires an incident reference plus explicit confirmation that the run is an isolated canary.
 - Target remains `[self-hosted, linux, x64, lingo-g02]`; concurrency is serialized; permissions remain `contents: read`.
-- The workflow now captures run ID, attempt, job, commit, ref, runner ID/name/OS/architecture, timestamp and incident reference.
+- The workflow captures run ID, attempt, job, commit, ref, available runner name/OS/architecture, timestamp and incident reference. Runner assignment ID is verified independently from the GitHub job metadata; the workflow does not rely on an undocumented runner-context ID.
 - It creates a run/attempt-correlated evidence artifact and SHA-256 checksum, including failure evidence when a job starts but sentinel checks fail.
-- Latest workflow-hardening commit at synchronization: `facef8afd94f1e9046ed572d1c56914516131b94`.
+- Latest workflow-hardening commit at synchronization: `ba0f2f1675342a2b18bcf8fd824c6814ff43e67a`.
 - Operations and acceptance runbook: [G02 Runner Operations and Acceptance](G02-RUNNER-OPERATIONS-AND-ACCEPTANCE-2026-10-27.md).
 
 These are configuration changes only. No canary has been executed against the dedicated runner from this update, so runner assignment, logs, artifact retrieval, digest verification, and G02 acceptance remain unverified.
