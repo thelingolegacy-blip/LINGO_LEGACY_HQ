@@ -62,7 +62,7 @@ If no runner is assigned, stop at the assignment boundary. Do not change labels 
 Before review or merge, synchronize these sources:
 
 - Canonical workflow: `.github/workflows/g02-self-hosted-runner-sentinel.yml`
-- Hosted diagnostic: `.github/workflows/runner-slim-probe.yml`
+- Hosted diagnostic, now manual-only: `.github/workflows/runner-slim-probe.yml`
 - Exploratory workflows made manual-only:
   - `.github/workflows/runner-control-plane-probe.yml`
   - `.github/workflows/runner-route-probe.yml`
@@ -85,7 +85,7 @@ Synchronization checks:
 
 Acceleration means reducing unnecessary dispatches and shortening diagnosis cycles, not weakening acceptance:
 
-- Three redundant exploratory probes are manual-only to reduce automatic PR/push dispatch noise.
+- Four runner diagnostics/probes (three exploratory control-plane probes plus the hosted-fleet diagnostic) are manual-only to reduce repeated automatic dispatch failures.
 - Canonical G02 is one serialized manual canary at a time.
 - The runbook orders checks from policy and host polling through assignment, execution, logs, and artifact verification, reducing repeated blind retries.
 - Keep completed runs and failed-run records for auditability.
