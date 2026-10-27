@@ -4,16 +4,44 @@ on:
     branches:
       - fix/runner-probe-label-and-sync-2026-09-21
   workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: runner-route-probe-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
-  hosted-runner-probe:
   slim-runner-probe:
+    name: Hosted runner assignment and evidence sentinel
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - name: Execution sentinel
+        shell: bash
         run: |
-          echo "RUNNER_OS=$RUNNER_OS"
-          echo "RUNNER_NAME=$RUNNER_NAME"
-          echo "RUNNER_ARCH=$RUNNER_ARCH"
-          echo "GITHUB_RUN_ID=$GITHUB_RUN_ID"
-          echo "SENTINEL_EXECUTED=true"
-          echo "PROBE_REVISION=2"
+          set -euo pipefail
+          mkdir -p runner-evidence
+          {
+            echo "RUNNER_OS=${RUNNER_OS:-unknown}"
+            echo "RUNNER_NAME=${RUNNER_NAME:-unknown}"
+            echo "RUNNER_ARCH=${RUNNER_ARCH:-unknown}"
+            echo "GITHUB_REPOSITORY=${GITHUB_REPOSITORY:-unknown}"
+            echo "GITHUB_REF=${GITHUB_REF:-unknown}"
+            echo "GITHUB_SHA=${GITHUB_SHA:-unknown}"
+            echo "GITHUB_RUN_ID=${GITHUB_RUN_ID:-unknown}"
+            echo "GITHUB_RUN_ATTEMPT=${GITHUB_RUN_ATTEMPT:-unknown}"
+            echo "SENTINEL_EXECUTED=true"
+            echo "PROBE_REVISION=3"
+            date -u + "CAPTURED_AT_UTC=%Y-%m-%dT%H:%M:%SZ"
+          } | tee runner-evidence/execution-sentinel.txt
+
+      - name: Upload independent probe evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: runner-route-probe-${{ github.run_id }}-${{ github.run_attempt }}
+          path: runner-evidence/execution-sentinel.txt
+          if-no-files-found: error
+          retention-days: 14
