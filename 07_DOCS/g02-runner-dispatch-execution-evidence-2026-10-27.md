@@ -40,6 +40,19 @@ The three redundant exploratory probes below were changed to manual-only (`workf
 
 Each now has least-privilege `contents: read`, a bounded timeout, and a stable concurrency group. The canonical self-hosted G02 sentinel (`.github/workflows/g02-self-hosted-runner-sentinel.yml`) was preserved. The hosted-fleet diagnostic (`.github/workflows/runner-slim-probe.yml`) was preserved. No runner registration, runner group, secrets, production resources, DNS records, deployments, or credentials were changed.
 
+## Canonical sentinel hardening added on the cleanup branch
+
+The canonical self-hosted sentinel was updated on this branch after the failed hosted diagnostic capture:
+
+- Workflow is manual-only and requires an incident reference plus explicit confirmation that the run is an isolated canary.
+- Target remains `[self-hosted, linux, x64, lingo-g02]`; concurrency is serialized; permissions remain `contents: read`.
+- The workflow now captures run ID, attempt, job, commit, ref, runner ID/name/OS/architecture, timestamp and incident reference.
+- It creates a run/attempt-correlated evidence artifact and SHA-256 checksum, including failure evidence when a job starts but sentinel checks fail.
+- Latest workflow-hardening commit: `105b7912cc78a2343116d892897d79c5f26642ea`.
+- Operations and acceptance runbook: [G02 Runner Operations and Acceptance](G02-RUNNER-OPERATIONS-AND-ACCEPTANCE-2026-10-27.md).
+
+These are configuration changes only. No canary has been executed against the dedicated runner from this update, so runner assignment, logs, artifact retrieval, digest verification, and G02 acceptance remain unverified.
+
 ## Acceptance result
 
 | Predicate | Result |
