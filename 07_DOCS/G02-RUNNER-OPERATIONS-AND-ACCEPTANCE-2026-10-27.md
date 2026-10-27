@@ -114,7 +114,7 @@ After merge (only after authorized approval), verify the merged commit and workf
 All conditions are mandatory:
 
 1. Correct repository, workflow, branch/ref, commit SHA, run ID and attempt recorded.
-2. Job is assigned to the dedicated runner with `runner_id > 0) and populated `runner_name`.
+2. Job is assigned to the dedicated runner with `runner_id > 0` and populated `runner_name`.
 3. Runner OS is Linux and architecture is x64.
 4. Required labels and runner-group access are confirmed.
 5. Sentinel checks complete successfully and the job has instantiated steps.
