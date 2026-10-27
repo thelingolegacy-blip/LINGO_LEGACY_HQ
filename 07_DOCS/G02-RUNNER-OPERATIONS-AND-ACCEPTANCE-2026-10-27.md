@@ -139,7 +139,11 @@ Current status:
 - Merge: **DRAFT / REVIEW REQUIRED**
 - Production and last-known-good: **PROTECTED HOLD**
 
-## 10. Operator handoff checklist
+## 10. Current execution blocker
+
+The main-based recovery branch triggered Jekyll site CI run `40598152899` / job `122519231221`; GitHub reported `runner_id=0`, empty runner name, zero steps, and log retrieval returned `BlobNotFound`. The runner dispatch/control-plane issue therefore reproduces on this branch. This run is not a validation of the modified workflow because no step executed.
+
+## 11. Operator handoff checklist
 
 - [ ] Confirm the dedicated host and daemon are running and actively polling.
 - [ ] Confirm runner-group access and required labels.
