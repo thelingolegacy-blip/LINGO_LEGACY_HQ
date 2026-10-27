@@ -22,7 +22,6 @@ concurrency:
 
 jobs:
   g02-runner-sentinel:
-    # Dedicated runner required: hosted runners cannot prove G02 host assignment.
     runs-on: [self-hosted, linux, x64, lingo-g02]
     timeout-minutes: 10
     env:
@@ -31,6 +30,8 @@ jobs:
     steps:
       - name: Generate and validate correlated G02 evidence
         id: sentinel
+        env:
+          RUNNER_ID_FROM_CONTEXT: ${{ runner.id }}
         shell: bash
         run: |
           set -euo pipefail
@@ -47,36 +48,36 @@ jobs:
             printf 'JOB=%s\n' "${GITHUB_JOB}"
             printf 'COMMIT=%s\n' "${GITHUB_SHA}"
             printf 'REF=%s\n' "${GITHUB_REF}"
-            printf 'RUNNER_ID=%s\n' "${RUNNER_ID:-unavailable}"
+            printf 'RUNNER_ID=%s\n' "${RUNNER_ID_FROM_CONTEXT:-unavailable}"
             printf 'RUNNER_NAME=%s\n' "${RUNNER_NAME:-unavailable}"
             printf 'RUNNER_OS=%s\n' "${RUNNER_OS:-unavailable}"
             printf 'RUNNER_ARCH=%s\n' "${RUNNER_ARCH:-unavailable}"
             printf 'CAPTURED_AT_UTC=%s\n' "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
           } | tee "$evidence"
 
-          # Explicitly fail closed; a queued or hosted job cannot qualify G02.
           test -n "${INCIDENT_REFERENCE}"
           test "${CONFIRM_CANARY}" = "true"
           test -n "${GITHUB_RUN_ID}"
           test -n "${GITHUB_SHA}"
-          test -n "${RUNNER_ID:-}"
-          test "${RUNNER_ID}" != "0"
+          test -n "${RUNNER_ID_FROM_CONTEXT:-}"
+          test "${RUNNER_ID_FROM_CONTEXT}" != "0"
           test -n "${RUNNER_NAME:-}"
           test "${RUNNER_OS}" = "Linux"
           test "${RUNNER_ARCH}" = "X64"
 
           printf 'G02_SENTINEL=PASS\n' | tee -a "$evidence"
           printf 'G02_EXIT=0\n' | tee -a "$evidence"
-          sha256sum "$evidence" | tee runner-evidence/SHA256SUMS
-          echo "evidence_path=$evidence" >> "$GITHUB_OUTPUT"
 
       - name: Preserve failure evidence and digest
         if: always()
+        env:
+          RUNNER_ID_FROM_CONTEXT: ${{ runner.id }}
         shell: bash
         run: |
           set -u
           mkdir -p runner-evidence
-          if [ ! -f runner-evidence/g02-evidence-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}.txt ]; then
+          evidence="runner-evidence/g02-evidence-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}.txt"
+          if [ ! -f "$evidence" ]; then
             {
               printf 'G02_EVIDENCE_SCHEMA=2\n'
               printf 'INCIDENT_REFERENCE=%s\n' "${INCIDENT_REFERENCE:-unavailable}"
@@ -84,23 +85,27 @@ jobs:
               printf 'RUN_ID=%s\n' "${GITHUB_RUN_ID:-unavailable}"
               printf 'RUN_ATTEMPT=%s\n' "${GITHUB_RUN_ATTEMPT:-unavailable}"
               printf 'COMMIT=%s\n' "${GITHUB_SHA:-unavailable}"
-              printf 'RUNNER_ID=%s\n' "${RUNNER_ID:-unavailable}"
+              printf 'RUNNER_ID=%s\n' "${RUNNER_ID_FROM_CONTEXT:-unavailable}"
               printf 'RUNNER_NAME=%s\n' "${RUNNER_NAME:-unavailable}"
-              printf 'EVIDENCE_STATUS=PRECHECK_OR_SENTINEL_FAILED\n'
-            } > runner-evidence/g02-evidence-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}.txt
+            } > "$evidence"
           fi
-          sha256sum runner-evidence/g02-evidence-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}.txt > runner-evidence/SHA256SUMS
+          if grep -q '^G02_SENTINEL=PASS$' "$evidence"; then
+            printf 'EVIDENCE_STATUS=PASS\n' >> "$evidence"
+          else
+            printf 'EVIDENCE_STATUS=CHECKS_FAILED_OR_SENTINEL_FAILED\n' >> "$evidence"
+          fi
+          sha256sum "$evidence" > runner-evidence/SHA256SUMS
           {
             echo '## G02 Runner Canary'
             echo
             echo "- Incident: ${INCIDENT_REFERENCE:-unavailable}"
             echo "- Run: ${GITHUB_RUN_ID:-unavailable} / attempt ${GITHUB_RUN_ATTEMPT:-unavailable}"
             echo "- Commit: ${GITHUB_SHA:-unavailable}"
-            echo "- Runner ID: ${RUNNER_ID:-unavailable}"
+            echo "- Runner ID: ${RUNNER_ID_FROM_CONTEXT:-unavailable}"
             echo "- Runner name: ${RUNNER_NAME:-unavailable}"
             echo "- Runner OS/architecture: ${RUNNER_OS:-unavailable}/${RUNNER_ARCH:-unavailable}"
             echo
-            echo 'G02 PASS requires an assigned dedicated runner, successful sentinel checks, retrievable logs, and a correlated artifact whose digest is independently verified.'
+            echo 'G02 PASS requires real runner assignment, successful sentinel checks, retrievable logs, and an independently verified correlated artifact.'
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload run-correlated evidence
