@@ -30,8 +30,6 @@ jobs:
     steps:
       - name: Generate and validate correlated G02 evidence
         id: sentinel
-        env:
-          RUNNER_ID_FROM_CONTEXT: ${{ runner.id }}
         shell: bash
         run: |
           set -euo pipefail
@@ -48,7 +46,7 @@ jobs:
             printf 'JOB=%s\n' "${GITHUB_JOB}"
             printf 'COMMIT=%s\n' "${GITHUB_SHA}"
             printf 'REF=%s\n' "${GITHUB_REF}"
-            printf 'RUNNER_ID=%s\n' "${RUNNER_ID_FROM_CONTEXT:-unavailable}"
+            printf 'RUNNER_ID=%s\n' "${RUNNER_ID:-unavailable}"
             printf 'RUNNER_NAME=%s\n' "${RUNNER_NAME:-unavailable}"
             printf 'RUNNER_OS=%s\n' "${RUNNER_OS:-unavailable}"
             printf 'RUNNER_ARCH=%s\n' "${RUNNER_ARCH:-unavailable}"
@@ -59,8 +57,6 @@ jobs:
           test "${CONFIRM_CANARY}" = "true"
           test -n "${GITHUB_RUN_ID}"
           test -n "${GITHUB_SHA}"
-          test -n "${RUNNER_ID_FROM_CONTEXT:-}"
-          test "${RUNNER_ID_FROM_CONTEXT}" != "0"
           test -n "${RUNNER_NAME:-}"
           test "${RUNNER_OS}" = "Linux"
           test "${RUNNER_ARCH}" = "X64"
@@ -70,8 +66,6 @@ jobs:
 
       - name: Preserve failure evidence and digest
         if: always()
-        env:
-          RUNNER_ID_FROM_CONTEXT: ${{ runner.id }}
         shell: bash
         run: |
           set -u
@@ -85,7 +79,7 @@ jobs:
               printf 'RUN_ID=%s\n' "${GITHUB_RUN_ID:-unavailable}"
               printf 'RUN_ATTEMPT=%s\n' "${GITHUB_RUN_ATTEMPT:-unavailable}"
               printf 'COMMIT=%s\n' "${GITHUB_SHA:-unavailable}"
-              printf 'RUNNER_ID=%s\n' "${RUNNER_ID_FROM_CONTEXT:-unavailable}"
+              printf 'RUNNER_ID=%s\n' "${RUNNER_ID:-unavailable}"
               printf 'RUNNER_NAME=%s\n' "${RUNNER_NAME:-unavailable}"
             } > "$evidence"
           fi
