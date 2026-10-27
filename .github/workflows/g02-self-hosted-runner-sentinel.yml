@@ -90,9 +90,9 @@ jobs:
             } > "$evidence"
           fi
           if grep -q '^G02_SENTINEL=PASS$' "$evidence"; then
-            printf 'EVIDENCE_STATUS=PASS\n' >> "$evidence"
+            printf 'SENTINEL_CHECKS=PASS\n' >> "$evidence"
           else
-            printf 'EVIDENCE_STATUS=CHECKS_FAILED_OR_SENTINEL_FAILED\n' >> "$evidence"
+            printf 'SENTINEL_CHECKS=FAIL\n' >> "$evidence"
           fi
           sha256sum "$evidence" > runner-evidence/SHA256SUMS
           {
