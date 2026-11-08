@@ -1,20 +1,46 @@
-name: Jekyll site CI
+name: HQ Static Site and Contract Checks
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
+    paths:
+      - "index.html"
+      - "README.md"
+      - "schemas/**"
+      - "tests/**"
+      - ".github/workflows/jekyll-docker.yml"
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
+    paths:
+      - "index.html"
+      - "README.md"
+      - "schemas/**"
+      - "tests/**"
+      - ".github/workflows/jekyll-docker.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: hq-static-ci-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  build:
-
+  static-contract-checks:
+    name: Validate HQ static site and JSON contracts
     runs-on: ubuntu-latest
-
+    timeout-minutes: 10
     steps:
-    - uses: actions/checkout@v4
-    - name: Build the site in the jekyll/builder container
-      run: |
-        docker run \
-        -v ${{ github.workspace }}:/srv/jekyll -v ${{ github.workspace }}/_site:/srv/jekyll/_site \
-        jekyll/builder:latest /bin/bash -c "chmod -R 777 /srv/jekyll && jekyll build --future"
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Run static site and schema tests
+        run: node --test tests/static-site.test.mjs
