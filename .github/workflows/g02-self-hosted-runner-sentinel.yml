@@ -95,7 +95,7 @@ jobs:
             echo "- Incident: ${INCIDENT_REFERENCE:-unavailable}"
             echo "- Run: ${GITHUB_RUN_ID:-unavailable} / attempt ${GITHUB_RUN_ATTEMPT:-unavailable}"
             echo "- Commit: ${GITHUB_SHA:-unavailable}"
-            echo "- Runner ID: ${RUNNER_ID_FROM_CONTEXT:-unavailable}"
+            echo "- Runner ID: ${RUNNER_ID:-unavailable}"
             echo "- Runner name: ${RUNNER_NAME:-unavailable}"
             echo "- Runner OS/architecture: ${RUNNER_OS:-unavailable}/${RUNNER_ARCH:-unavailable}"
             echo
