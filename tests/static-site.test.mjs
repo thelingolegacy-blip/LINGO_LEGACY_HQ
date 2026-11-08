@@ -16,9 +16,9 @@ test('HQ static entry point and operating README exist', () => {
 test('HQ entry point identifies the Lingo Legacy canonical site', () => {
   const html = fs.readFileSync(htmlPath, 'utf8');
   assert.match(html, /^<!doctype html>/i, 'entry point must be an HTML5 document');
-  assert.match(html, /<html\\s+lang=["']en["']/i, 'document language must be declared');
-  assert.match(html, /<title>[^<]*Lingo Legacy[^<]*<\\/title>/i, 'page title must identify Lingo Legacy');
-  assert.match(html, /<link\\s+rel=["']canonical["']\\s+href=["']https:\\/\\/thelingolegacy\\.com\\/?["']/i,
+  assert.ok(html.includes('<html lang="en"'), 'document language must be declared');
+  assert.ok(html.includes('<title>Lingo Legacy Studio'), 'page title must identify Lingo Legacy');
+  assert.ok(html.includes('<link rel="canonical" href="https://thelingolegacy.com"'),
     'canonical URL must point to the official Lingo Legacy domain');
 });
 
