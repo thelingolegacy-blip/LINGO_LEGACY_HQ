@@ -1,24 +1,25 @@
 name: Runner Route Probe — Alternate Hosted Fleet
 
+# Exploratory probe: manual-only to avoid duplicate push/PR dispatch noise.
 on:
-  push:
-    branches:
-      - main
-      - 'edge/**'
-  pull_request:
-    branches:
-      - main
+  workflow_dispatch:
 
 permissions:
   contents: read
 
+concurrency:
+  group: runner-route-probe-alternate
+  cancel-in-progress: false
+
 jobs:
   alternate-runner-probe:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - name: Runner dispatch sentinel
         shell: bash
         run: |
+          set -euo pipefail
           echo "RUNNER_ROUTE_PROBE=STARTED"
           echo "RUNNER_OS=$RUNNER_OS"
           echo "RUNNER_NAME=$RUNNER_NAME"
